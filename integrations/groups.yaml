@@ -1,0 +1,13 @@
+#
+# Group
+#
+# https://www.home-assistant.io/integrations/group/
+#
+
+group:
+  family:
+    name: Family
+    icon: mdi:home-heart
+    entities:
+      - person.denys
+      - person.marry
