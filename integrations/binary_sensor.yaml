@@ -1,0 +1,16 @@
+#
+# Binary Sensor
+#
+# https://www.home-assistant.io/integrations/binary_sensor/
+#
+
+binary_sensor:
+  # Workday
+  - platform: workday
+    country: UA
+  # Car Wash
+  - platform: car_wash
+    weather: weather.nyvky
+  # Winter Tires
+  - platform: snowtire
+    weather: weather.nyvky

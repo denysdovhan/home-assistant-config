@@ -1,0 +1,5 @@
+# Samsung TV
+media_player.samsung_tv:
+  friendly_name: Samsung TV
+  icon: mdi:youtube-tv
+  device_class: tv
