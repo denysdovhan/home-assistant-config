@@ -45,6 +45,6 @@ jobs:
       - name: Home Assistant Check
         uses: frenck/action-home-assistant@v1
         with:
-          path: home-assistant
+          path: .
           secrets: secrets.example.yaml
           version: '${{ matrix.version }}'
