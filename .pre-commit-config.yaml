@@ -11,4 +11,9 @@ repos:
     rev: 'v2.3.0'
     hooks:
       - id: check-json
+      - id: check-yaml
       - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
