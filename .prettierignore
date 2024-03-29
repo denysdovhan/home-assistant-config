@@ -1,0 +1,13 @@
+automations.yaml
+scripts.yaml
+blueprints
+custom_components
+www
+.cloud
+.ssh
+.storage
+deps
+
+*.db*
+*.conf
+*.log

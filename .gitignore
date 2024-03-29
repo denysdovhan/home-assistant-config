@@ -1,0 +1,51 @@
+# Generic ignores
+*.log*
+*.conf
+*.db
+*.db.corrupt.*
+*.db-shm
+*.db-wal
+*.pyc
+._*
+__pycache__
+.env
+*.DS_Store
+
+# Ignore folders
+.deleted
+.ssh
+.storage
+.cloud
+.google.token
+deps
+tts
+image
+
+# Home Assistant
+secrets.yaml
+ip_bans.yaml
+known_devices.yaml
+.homekit.state
+.ps4-games*.json
+GA_SERVICE_ACCOUNT.json
+www/community
+/custom_components/**
+!/custom_components/README.md
+watchman_report.txt
+token-*.txt
+
+# Zigbee2MQTT
+/zigbee2mqtt/secret.yaml
+/zigbee2mqtt/state.json
+/zigbee2mqtt/log
+/zigbee2mqtt/coordinator_backup.json
+
+# PlayStation to MQTT
+/ps5-mqtt/credentials.json
+
+# IDE
+.vscode
+.Trash*
+
+# Specific keeps
+!.gitkeep

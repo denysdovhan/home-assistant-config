@@ -28,10 +28,10 @@
       - Кінець тривоги!
     alias: Відбій тривоги у Києві
   condition:
-  - condition: numeric_state
-    entity_id: proximity.home
-    below: 20
-    alias: Хтось з сімʼї перебуває у Києві
+  - alias: Хтось з сімʼї перебуває у Києві
+    condition: numeric_state
+    entity_id: sensor.home_nearest_distance
+    below: 20000
     enabled: true
   action:
   - service: script.announcement
@@ -45,6 +45,7 @@
           sound:
             name: default
             critical: 1
+            volume: 0.75
     alias: Оголосити початок або відбій тривоги
   mode: single
 - id: alarm_triggering
@@ -104,6 +105,7 @@
   - condition: state
     entity_id: media_player.apple_tv
     state: standby
+    enabled: false
   - condition: state
     entity_id: media_player.playstation_5
     state: none
@@ -238,31 +240,33 @@
   alias: 'Alert: Home Assistant Release'
   description: Notify Denys about new Home Assistant releases
   trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.home_assistant_website_update_available
-    to: 'on'
+  - platform: device
+    type: turned_on
+    device_id: ef182182c3abe81e0d29b52dc5f4c649
+    entity_id: 0bd7f8b9585566e058244c17ca00aeca
+    domain: update
   action:
-  - service: script.announcement
+  - alias: Notify Denys about new HA release
+    service: script.announcement
     data:
       service: notify.denys
       title: "Оновлення Home Assistant \U0001F389"
       speak: false
       messages:
-      - 'Доступна нова версія Home Assistant: {{ states(''sensor.home_assistant_website'')
-        }}.'
-      - 'Реліз нової версії Home Assistant: {{ states(''sensor.home_assistant_website'')
-        }}.'
-      - Версія Home Assistant {{ states('sensor.home_assistant_website') }} вже доступна!
+      - 'Доступна нова версія Home Assistant: {{ state_attr(''update.home_assistant_core_update'',
+        ''latest_version'') }}.'
+      - 'Реліз нової версії Home Assistant: {{ state_attr(''update.home_assistant_core_update'',
+        ''latest_version'') }}.'
+      - Версія Home Assistant {{ state_attr('update.home_assistant_core_update', 'latest_version')
+        }} вже доступна!
       notify_data:
         url: /config/dashboard
         group: system
         actions:
         - action: RELEASE_NOTES
           title: Переглянути зміни
-          uri: '{{ state_attr(''sensor.home_assistant_website'', ''release_notes'')
+          uri: '{{ state_attr(''update.home_assistant_core_update'', ''release_url'')
             }}'
-    alias: Notify Denys about new HA release
 - id: hacs_releases_alert
   alias: 'Alert: HACS Releases'
   description: Notify when new HACS components are released
@@ -324,7 +328,8 @@
   description: Alerts for high server usage, overloading, overheating, disk space
   trigger:
   - platform: numeric_state
-    entity_id: sensor.processor_use
+    entity_id:
+    - sensor.system_monitor_processor_use
     above: 90
     for:
       minutes: 5
@@ -337,18 +342,8 @@
       - Складнощі з виконанням поточного завдання.
       - Аномально велике навантаження на процесор.
   - platform: numeric_state
-    entity_id: sensor.processor_temperature
-    above: 80
-    for:
-      minutes: 10
-    variables:
-      openings:
-      - Температура процесора {{ trigger.to_state.state }}°С.
-      - Процесор нагрівся до {{ trigger.to_state.state }}°С.
-      messages:
-      - Охолодження процесора не справляється з навантаженням.
-  - platform: numeric_state
-    entity_id: sensor.memory_use_percent
+    entity_id:
+    - sensor.system_monitor_memory_usage
     above: 90
     for:
       minutes: 1
@@ -361,7 +356,8 @@
       - Складнощі з виконанням поточного завдання.
       - Аномально велике навантаження на процесор.
   - platform: numeric_state
-    entity_id: sensor.disk_use_percent
+    entity_id:
+    - sensor.system_monitor_disk_usage
     above: 90
     for:
       minutes: 1
@@ -374,7 +370,8 @@
       - Аномально велике заповнення системної пам’яті.
   - platform: numeric_state
     id: media_disk
-    entity_id: sensor.disk_use_percent_media
+    entity_id:
+    - sensor.system_monitor_disk_usage_media_media
     above: 90
     for:
       minutes: 1
@@ -469,7 +466,7 @@
       - Негативні наслідки навіть під час легкої активності!
   condition:
   - condition: numeric_state
-    entity_id: proximity.home
+    entity_id: sensor.home_nearest_distance
     below: 20
     alias: Someone is in Kyiv
   action:
@@ -516,6 +513,9 @@
     entity_id:
     - binary_sensor.air_humidifier_water_tank_empty
     to: 'on'
+    not_from:
+    - unknown
+    - unavailable
   action:
   - service: script.announcement
     data:
@@ -773,6 +773,7 @@
     input:
       valve: climate.living_room_heater
       temp_sensor: sensor.living_room_temperature
+      ieee_address: '0x8cf681fffeab0589'
 - id: sync_bedroom_trv_temperature
   alias: 'Climate: Sync Bedroom TRV temperature'
   description: ''
@@ -781,6 +782,7 @@
     input:
       valve: climate.bedroom_heater
       temp_sensor: sensor.bedroom_temperature
+      ieee_address: '0x8cf681fffeb0dbd5'
 - id: switch_heaters_during_heating_season
   alias: 'Climate: Switch Heaters during Heating Season'
   description: Turn on/off heaters when Heating Season in on
@@ -1312,20 +1314,22 @@
   alias: 'Mode: Away on Leaving City'
   description: Toggle Away mode depending on proximity to the Kyiv city
   trigger:
-  - platform: numeric_state
-    entity_id: proximity.home
-    above: 20
+  - alias: Everyone leaves Kyiv
+    platform: numeric_state
+    entity_id:
+    - sensor.home_nearest_distance
+    above: 20000
     variables:
       service: input_boolean.turn_on
     enabled: true
-    alias: Everyone leaves Kyiv
-  - platform: numeric_state
-    entity_id: proximity.home
-    below: 20
+  - alias: Everyone arrives to Kyiv
+    platform: numeric_state
+    entity_id:
+    - sensor.home_nearest_distance
+    below: 20000
     variables:
       service: input_boolean.turn_off
     enabled: true
-    alias: Everyone arrives to Kyiv
   action:
   - alias: Switch Away mode depending on the travel direction
     service: '{{ service }}'
@@ -1542,7 +1546,7 @@
     state: 'on'
   - alias: We are not out of the city
     condition: numeric_state
-    entity_id: proximity.home
+    entity_id: sensor.home_nearest_distance
     below: 25
   action:
   - service: script.announcement
@@ -1628,8 +1632,11 @@
   trigger:
   - platform: state
     entity_id:
-    - vacuum.roborock
-    to: error
+    - sensor.roborock_vacuum_error
+    to:
+    not_from:
+    - unknown
+    - unavailable
   action:
   - service: script.announcement
     data:
@@ -1639,33 +1646,33 @@
       - Ой! Проблема з роботом!
       - Увага! Проблема з пилососом!
       - Халепа! Робот зіткнувся з помилкою!
-      - Виникла непередбачувана ситуація з роботом:
+      - Виникла непередбачувана ситуація з роботом!
       notify_data:
         group: vacuum
         url: /lovelace/vacuum
       messages:
-      - '{{ state_attr(''vacuum.roborock'', ''error'') }}'
+      - '{{ states(''sensor.roborock_vacuum_error'') }}'
 - id: vacuum_ask_maintenance
-  alias: 'Vacuum: Ask Maintenance'
+  alias: 'Vacuum: Ask for Maintenance'
   description: Send vacuum near trash bin and ask for maintenance
   trigger:
   - platform: state
     entity_id:
     - vacuum.roborock
     to: returning
+    enabled: false
+  - platform: numeric_state
+    entity_id:
+    - counter.vacuum_clean_count
+    above: 5
+    alias: After every 5th cleaning
   condition:
-  - alias: Every 5th cleaning
-    condition: template
-    value_template: '{{ states(''sensor.roborock_total_clean_count'') | int(1) % 5
-      == 0 }}
-
-      '
   - alias: And there was at least one cleaning after previous maintenance
     condition: template
     value_template: '{% set last_maintenance = as_timestamp(state_attr(''automation.vacuum_maintenance'',
       ''last_triggered''), 0) %}
 
-      {% set last_cleaning = as_timestamp(states(''sensor.roborock_last_clean_start''),
+      {% set last_cleaning = as_timestamp(states(''sensor.roborock_last_clean_begin''),
       0) %}
 
       {{ last_cleaning > last_maintenance }}
@@ -1704,12 +1711,18 @@
       seconds: 5
   - service: script.vacuum_maintenance
     data: {}
+  - service: counter.reset
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.vacuum_clean_count
 - id: vacuum_replacements
   alias: 'Vacuum: Replacements Alert'
   description: Notify when vacuum parts need to be replaced
   trigger:
   - platform: numeric_state
-    entity_id: sensor.roborock_main_brush_left
+    entity_id:
+    - sensor.roborock_main_brush_time_left
     below: 3600
     variables:
       openings:
@@ -1721,7 +1734,8 @@
       - Обнуліть лічильник після заміни та замовте нову щітку.
   - platform: numeric_state
     id: side_brush
-    entity_id: sensor.roborock_side_brush_left
+    entity_id:
+    - sensor.roborock_side_brush_time_left
     below: 3600
     variables:
       openings:
@@ -1733,7 +1747,8 @@
       - Обнуліть лічильник після заміни та замовте нову щітку.
   - platform: numeric_state
     id: filter
-    entity_id: sensor.roborock_filter_left
+    entity_id:
+    - sensor.roborock_filter_time_left
     below: 3600
     variables:
       openings:
@@ -1745,7 +1760,8 @@
       - Обнуліть лічильник після заміни та замовте новий фільтр.
   - platform: numeric_state
     id: sensor_dirty
-    entity_id: sensor.roborock_sensor_dirty_left
+    entity_id:
+    - sensor.roborock_sensor_time_left
     below: 3600
     variables:
       openings:
@@ -2155,6 +2171,10 @@
     - media_player.samsung_tv
     from: 'off'
     to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
   condition:
   - condition: state
     entity_id: media_player.playstation_5
@@ -2196,26 +2216,19 @@
     entity_id: be5073a0736345a2cc65a9aa9f6b53ba
     domain: switch
   mode: single
-- id: '1700772888411'
-  alias: 'Media: Plex item added'
-  description: ''
+- id: '1709041564532'
+  alias: 'Vacuum: Clean Counting'
+  description: Count cleanings via counter
   trigger:
   - platform: state
-    entity_id:
-    - sensor.smart_home_library_films
-    - sensor.smart_home_library_series
-  condition:
-  - condition: template
-    value_template: '{{ trigger.from_state.state | int < trigger.to_state.state |
-      int }}'
-    alias: Only for added items
+    entity_id: vacuum.roborock
+    from: cleaning
+    to: returning
+  condition: []
   action:
-  - service: script.announcement
-    data:
-      speak: false
-      notify: true
-      service: notify.denys
-      title: Plex
-      messages:
-      - '[object Object]':
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.vacuum_clean_count
   mode: single
