@@ -5,17 +5,6 @@
 #
 
 sensor:
-  # System Monitor
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /
-      - type: disk_use_percent
-        arg: /media
-      - type: processor_use
-      - type: memory_use_percent
-      - type: processor_temperature
-
   # Lun Misto
   - platform: rest
     name: Misto Lun

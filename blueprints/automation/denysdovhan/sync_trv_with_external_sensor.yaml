@@ -8,6 +8,10 @@ blueprint:
       selector:
         entity:
           domain: climate
+    ieee_address:
+      name: IEEE Address
+      selector:
+        text:
     temp_sensor:
       name: Temperature Sensor
       selector:
@@ -20,7 +24,7 @@ variables:
   valve: !input valve
   temp_sensor: !input temp_sensor
   external_temp: "{{ states(temp_sensor) | float(0) | round(1, 'half') }}"
-  device_addr: "{{ state_attr(valve, 'device').ieeeAddr }}"
+  device_addr: !input ieee_address
   current_temp: "{{ state_attr(valve, 'current_temperature') | float(0) | round(1, 'half') }}"
   local_calibration: "{{ state_attr(valve, 'local_temperature_calibration') | float(0) | round(1, 'half') }}"
 trigger:

@@ -1,0 +1,9 @@
+homeassistant: true
+devices: devices.yaml
+groups: groups.yaml
+advanced:
+  channel: 15
+  last_seen: ISO_8601_local
+  log_level: warn
+serial:
+  port: /dev/ttyUSB0
