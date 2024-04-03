@@ -37,11 +37,6 @@ jobs:
           git clone https://github.com/Limych/ha-snowtire.git
           mv -v ha-snowtire/custom_components/* custom_components
 
-      - name: 📥 Clone custom component - xiaomi_cloud_map_extractor
-        run: |
-          git clone https://github.com/PiotrMachowski/Home-Assistant-custom-components-Xiaomi-Cloud-Map-Extractor.git
-          mv -v Home-Assistant-custom-components-Xiaomi-Cloud-Map-Extractor/custom_components/* custom_components
-
       - name: Home Assistant Check
         uses: frenck/action-home-assistant@v1
         with:
