@@ -1651,7 +1651,7 @@
         group: vacuum
         url: /lovelace/vacuum
       messages:
-      - '{{ states(''sensor.roborock_vacuum_error'') }}'
+      - Помилка: '{{ states(''sensor.roborock_vacuum_error'') }}'
 - id: vacuum_ask_maintenance
   alias: 'Vacuum: Ask for Maintenance'
   description: Send vacuum near trash bin and ask for maintenance
@@ -2221,7 +2221,8 @@
   description: Count cleanings via counter
   trigger:
   - platform: state
-    entity_id: vacuum.roborock
+    entity_id:
+    - vacuum.roborock
     from: cleaning
     to: returning
   condition: []
