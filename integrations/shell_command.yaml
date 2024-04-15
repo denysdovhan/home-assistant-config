@@ -1,0 +1,8 @@
+#
+# Sensor
+#
+# https://www.home-assistant.io/integrations/shell_command/
+#
+
+shell_command:
+  chores: '/bin/bash /config/helpers/chores.sh'

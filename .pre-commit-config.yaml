@@ -21,4 +21,5 @@ repos:
         name: Update README.md
         entry: python helpers/update_readme.py
         language: python
+        files: ^automations\.yaml$
         additional_dependencies: [pyyaml]
