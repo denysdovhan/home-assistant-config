@@ -118,7 +118,7 @@ Total number of automations: **50**️
 
 - [Magic Cube Actions](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L118)
 - [Power Outage Recovery](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L1921)
-- [Run chores in /config folder](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L2219) – Run scripts for generating README, commiting regular updated, etc
+- [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L2219) – Run scripts for generating README, commiting regular updated, etc
 
 ### 🧹 Vacuum
 
