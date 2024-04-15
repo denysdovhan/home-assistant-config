@@ -6,7 +6,7 @@ import json
 import yaml
 from pathlib import Path
 
-README = Path("README.new.md")
+README = Path("README.md")
 AUTOMATIONS = Path("automations.yaml")
 URL = "https://github.com/denysdovhan/home-assistant-config/blob/{commit_hash}/{fname}"
 
@@ -19,6 +19,9 @@ def git_latest_edit_hash(filename):
 
 def slugify(s):
     return s.lower().strip().replace(" ", "-").encode("ascii", "ignore").decode("ascii")
+
+def to_file(lines):
+  return "".join(lines)
 
 def get_emoji(group):
   emojis = {
@@ -42,12 +45,53 @@ def read_file(fname):
 
 def write_file(fname, content):
   with open(fname, 'w') as file:
-    file.write("".join(content))
+    file.write(to_file(content))
 
 def read_yaml(fname):
   with fname.open() as file:
     # return sorted(yaml.safe_load(file), key=lambda automation: automation['alias'])
     return yaml.safe_load(file);
+
+def remove_text(content, start, end):
+  do_append = True
+  new = []
+  for line in content:
+      if end in line:
+          do_append = not do_append
+      if do_append:
+          new.append(line)
+      if start in line:
+          do_append = not do_append
+  return new
+
+def modify_lines(to_insert, lines, tag):
+  MARKDOWN_COMMENT = "<!-- {} -->"
+  start_tag = MARKDOWN_COMMENT.format(f"start-{tag}")
+  end_tag = MARKDOWN_COMMENT.format(f"end-{tag}")
+  
+  # Find indices of start and end comments
+  start_index, end_index = None, None
+  for i, line in enumerate(lines):
+    if start_tag in line:
+        start_index = i
+    elif end_tag in line:
+        end_index = i
+        break
+
+  if start_index is None or end_index is None:
+    print("Start or end tag not found. Text not inserted.")
+    return lines
+
+  # Remove existing text between start and end comments
+  lines[start_index + 1:end_index] = []
+  # Insert empty line after start comment
+  lines.insert(start_index + 1, '\n')
+
+  # Insert new text between start and end comments
+  insertion_index = start_index + 2
+  lines[insertion_index:insertion_index] = [line + '\n' for line in to_insert]
+
+  return lines
 
 def get_alias(automation):
   return automation['alias']
@@ -99,30 +143,10 @@ def render_automation_amount(amount):
 
 def render_automation(fname, commit_hash, title, line, description):
   href = permalink(fname, commit_hash) + f"#L{line}"
-  item = f"* [{title}]({href})"
+  item = f"- [{title}]({href})"
   if description:
     return f"{item} – {description}"
   return item 
-
-def remove_text(content, start, end):
-  do_append = True
-  new = []
-  for line in content:
-      if end in line:
-          do_append = not do_append
-      if do_append:
-          new.append(line)
-      if start in line:
-          do_append = not do_append
-  return new
-
-def modify_lines(to_insert, lines, tag):
-  MARKDOWN_COMMENT = "<!-- {} -->"
-  start = MARKDOWN_COMMENT.format(f"start-{tag}")
-  end = MARKDOWN_COMMENT.format(f"end-{tag}")
-  new_lines = remove_text(lines, start, end)
-  i = next((i for (i, line) in enumerate(new_lines) if start in line)) + 1
-  return new_lines[:i] + [s + "\n" for s in to_insert] + new_lines[i:]
 
 def render_automations_toc(grouped_automations):
   text = []
@@ -161,7 +185,7 @@ def render_addon(addon):
   version = addon["version"]
   url = addon["url"]
   description = addon["description"]
-  return f"* [{name}]({url}) v{version} – {description}"
+  return f"- [{name}]({url}) v{version} – {description}"
 
 def render_addons():
   text = []
@@ -171,12 +195,15 @@ def render_addons():
   return text
 
 def main():
-  readme = read_file(README)
-  automations = render_automations() 
-  addons = render_addons()
-  readme = modify_lines(automations, readme, "automations")
-  readme = modify_lines(addons, readme, "addons")
-  write_file(README, readme)
+  old_readme = read_file(README)
+  new_readme = old_readme.copy()
+
+  new_readme = modify_lines(render_addons(), new_readme, 'addons')
+  new_readme = modify_lines(render_automations(), new_readme, 'automations')
+
+  # Write only when changes applied
+  if to_file(new_readme) != to_file(old_readme):
+    write_file(README, new_readme)
 
 if __name__ == "__main__":
   main()

@@ -273,6 +273,7 @@
   trigger:
   - platform: state
     entity_id: sensor.hacs
+    to:
     variables:
       hacs_updates: '{% for repo in state_attr(''sensor.hacs'', ''repositories'')
         -%}
@@ -485,26 +486,6 @@
       milliseconds: 0
     alias: Wait for 3 hours before the next announcement
   mode: single
-- id: torrent_completed_notification
-  alias: 'Alert: Downloaded Torrents'
-  description: Notify about downloaded Transmission torrents
-  trigger:
-  - platform: event
-    event_type: transmission_downloaded_torrent
-  action:
-  - service: script.announcement
-    data:
-      title: Transmission ⬇️
-      speak: false
-      messages:
-      - Торрент {{ trigger.event.data.name }} завантажено!
-      - Завантажено торрент {{ trigger.event.data.name }}!
-      - Торрент {{ trigger.event.data.name }} викачаний!
-      - Торрент {{ trigger.event.data.name }} готовий!
-      notify_data:
-        url: /torrents
-        group: system
-    alias: Notify about completed torrent
 - id: humidifier_no_water
   alias: 'Alert: Humidifier No Water'
   description: Notify when humidifier's water tank is empty
@@ -1363,7 +1344,7 @@
       data: {}
     alias: Toggle presence simulation
 - id: everyone_is_arriving
-  alias: 'Flow: Everyone is Arriving'
+  alias: 'Presence: Everyone is Arriving'
   description: Turn on things when people are arriving
   trigger:
   - platform: state
@@ -1443,7 +1424,7 @@
     data: {}
   mode: restart
 - id: everyone_is_leaving
-  alias: 'Flow: Everyone is Leaving'
+  alias: 'Presence: Everyone is Leaving'
   description: Turn off things when people are leaving
   trigger:
   - platform: state
@@ -1544,10 +1525,9 @@
     condition: state
     entity_id: binary_sensor.time_to_clean
     state: 'on'
-  - alias: We are not out of the city
-    condition: numeric_state
-    entity_id: sensor.home_nearest_distance
-    below: 25
+  - condition: state
+    entity_id: input_boolean.away
+    state: 'off'
   action:
   - service: script.announcement
     data:
@@ -1589,10 +1569,10 @@
     entity_id: vacuum.roborock
     state: cleaning
   action:
-  - service: vacuum.return_to_base
-    data: {}
-    target:
-      entity_id: vacuum.roborock
+  - device_id: 88ae8bfa1cb56b3d6462805180f8af6f
+    domain: vacuum
+    entity_id: a57807c72667f32589b274e79f83b6a3
+    type: dock
 - id: vacuum_finish_notification
   alias: 'Vacuum: Finish Alert'
   description: Notify when vacuum finished cleaning and we are not home.
@@ -1633,7 +1613,9 @@
   - platform: state
     entity_id:
     - sensor.roborock_vacuum_error
-    to:
+    not_to:
+    - unavailable
+    - unknown
     not_from:
     - unknown
     - unavailable
