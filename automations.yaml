@@ -1,6 +1,7 @@
 - id: air_siren_kyiv
   alias: 'Alert: Air Siren in Kyiv'
-  description: Оголошення повітряної тривоги у Києві
+  description: Air Alert announcement when we are in Kyiv. Sends critical notifications
+    and announces on speakers.
   trigger:
   - platform: state
     entity_id: binary_sensor.alerts_kyiv_air
@@ -49,7 +50,7 @@
     alias: Оголосити початок або відбій тривоги
   mode: single
 - id: alarm_triggering
-  alias: 'Alarm: Triggering'
+  alias: 'Alarm: Triggering Alarm'
   description: ''
   trigger:
   - platform: state
@@ -2214,4 +2215,16 @@
     data: {}
     target:
       entity_id: counter.vacuum_clean_count
+  mode: single
+- id: '1713206119052'
+  alias: 'System: Run chores in /config folder'
+  description: Run scripts for generating README, commiting regular updated, etc
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition: []
+  action:
+  - service: shell_command.chores
+    metadata: {}
+    data: {}
   mode: single
