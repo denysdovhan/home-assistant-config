@@ -15,3 +15,10 @@ repos:
       - id: check-added-large-files
       - id: check-symlinks
       - id: detect-private-key
+  - repo: local
+    hooks:
+      - id: update-readme
+        name: Update README.md
+        entry: python helpers/update_readme.py
+        language: python
+        additional_dependencies: [pyyaml]

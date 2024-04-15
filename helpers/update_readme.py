@@ -126,7 +126,7 @@ def get_line(fname, text):
   with fname.open() as f:
     for num_line, line in enumerate(f):
       if text in line:
-        return num_line + 1
+        return num_line
 
 def permalink(fname, commit_hash):
   return URL.format(commit_hash=commit_hash, fname=fname)
@@ -190,6 +190,8 @@ def render_addon(addon):
 def render_addons():
   text = []
   addons = get_addons()
+  if addons is None:  
+    return None
   for addon in addons:
     text.append(render_addon(addon))
   return text
@@ -198,8 +200,13 @@ def main():
   old_readme = read_file(README)
   new_readme = old_readme.copy()
 
-  new_readme = modify_lines(render_addons(), new_readme, 'addons')
-  new_readme = modify_lines(render_automations(), new_readme, 'automations')
+  addons = render_addons()
+  automations = render_automations()
+
+  new_readme = modify_lines(automations, new_readme, 'automations')
+
+  if addons is not None:
+    new_readme = modify_lines(addons, new_readme, 'addons')
 
   # Write only when changes applied
   if to_file(new_readme) != to_file(old_readme):
