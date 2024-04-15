@@ -39,7 +39,7 @@ running these addons
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (11 automation)
+1. [🔔 Alert](#-alert) (12 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [⚡️ Energy](#-energy) (1 automation)
 1. [💡 Light](#-light) (6 automation)
@@ -50,7 +50,7 @@ running these addons
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (1 automation)
 
-Total number of automations: **49**️
+Total number of automations: **50**️
 
 ### 🚨 Alarm
 
@@ -62,6 +62,7 @@ Total number of automations: **49**️
 - [Air Siren in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L1) – Air Alert announcement when we are in Kyiv. Sends critical notifications and announces on speakers.
 - [Bad Air Quality](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L401) – Notify when the air quality is bad
 - [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L516) – Notify when it’s okay or not okay to wash a car
+- [Denys is leaving the office](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L2231) – Notify when Denys is leaving the office
 - [HACS Releases](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L271) – Notify when new HACS components are released
 - [Home Assistant Release](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L240) – Notify Denys about new Home Assistant releases
 - [Home Assistant Start](https://github.com/denysdovhan/home-assistant-config/blob/f33927f6e0fb41a6f5541f5aec9c0dea573cab04/automations.yaml#L308) – Notify Denys when Home Assistant starts
