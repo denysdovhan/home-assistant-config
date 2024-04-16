@@ -78,8 +78,6 @@ announcement:
       {% else %}
         Немає тексту для озвучення.
       {% endif %}
-    multiline: >-
-      {{ test_data }}
   sequence:
     - alias: Make an announcement on speakers
       choose:
