@@ -105,13 +105,6 @@ def group_and_title(automation):
 def get_group_name(group):
   return f"{get_emoji(group)} {group}"
 
-def git_latest_edit_hash(fname):
-    """Get the git hash to save with data to ensure reproducibility."""
-    git_output = subprocess.check_output(
-        ["git", "rev-list", "-1", "main", str(fname)]
-    )
-    return git_output.decode("utf-8").replace("\n", "")
-
 def get_addons():
   try:
     output = subprocess.check_output(["ha", "addons", "--raw-json"])
