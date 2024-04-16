@@ -1500,11 +1500,11 @@
   alias: 'Vacuum: Ask Regular Cleaning'
   description: Regular vacuum cleaning every two days
   trigger:
-  - platform: time_pattern
-    hours: /4
+  - alias: Every 4 hours
+    platform: time_pattern
+    hours: /6
     minutes: 0
     seconds: 0
-    alias: Every 4 hours
   condition:
   - alias: Robot is docked
     condition: state
@@ -2217,14 +2217,49 @@
       entity_id: counter.vacuum_clean_count
   mode: single
 - id: '1713206119052'
-  alias: 'System: Run chores in /config folder'
+  alias: 'System: Run chores in config folder'
   description: Run scripts for generating README, commiting regular updated, etc
   trigger:
   - platform: time_pattern
-    minutes: /5
+    hours: /12
   condition: []
   action:
   - service: shell_command.chores
     metadata: {}
     data: {}
+  mode: single
+- id: '1713211565263'
+  alias: 'Alert: Denys is leaving the office'
+  description: Notify when Denys is leaving the office
+  trigger:
+  - platform: state
+    entity_id:
+    - person.denys
+    from: Wix
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: person.marry
+    state: home
+  - condition: time
+    after: '17:00:00'
+    before: '22:00:00'
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - service: script.announcement
+    data:
+      service: notify.all
+      speak: false
+      notify: true
+      title: "\U0001F3C3 Денис "
+      messages:
+      - Денис вийшов з роботи.
+      - Денис їде додому.
+      - Денис виїхав з роботи.
+      notify_data: {}
   mode: single

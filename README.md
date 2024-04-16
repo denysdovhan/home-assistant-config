@@ -19,7 +19,7 @@ I also have a [public Notion board](https://www.notion.so/denysdovhan/f09ea06da5
 
 ## Addons
 
-running these addons
+I run Home Assistant OS with these addons:
 
 <!-- start-addons -->
 
@@ -35,6 +35,8 @@ running these addons
 <!-- end-addons -->
 
 ## Automation
+
+My home is awakened by these automations. You can browse them by categories. Links will guide you to the specific automation in `automations.yaml` file.
 
 <!-- start-automations -->
 
