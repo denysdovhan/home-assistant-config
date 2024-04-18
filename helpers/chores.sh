@@ -4,5 +4,7 @@
 git config user.name "Denys Dovhan"
 git config user.email "denysdovhan@gmail.com"
 
-python3 helpers/update_readme.py
+# Update content
+python3 helpers/update_content.py README.md
+python3 helpers/update_content.py custom_components/README.md
 python3 helpers/commit_updates.py

@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 
-from itertools import groupby
-import subprocess
+import os
 import json
 import yaml
-from pathlib import Path
+import argparse
+import subprocess
+# from pathlib import Path
+from itertools import groupby
 
-README = Path("README.md")
-AUTOMATIONS = Path("automations.yaml")
+README = "README.md"
+AUTOMATIONS = "automations.yaml"
+CUSTOM_COMPONENTS = "custom_components"
+MANIFEST = "manifest.json"
 URL = "https://github.com/denysdovhan/home-assistant-config/blob/{commit_hash}/{fname}"
 
 def git_latest_edit_hash(filename):
@@ -48,9 +52,13 @@ def write_file(fname, content):
     file.write(to_file(content))
 
 def read_yaml(fname):
-  with fname.open() as file:
+  with open(fname) as file:
     # return sorted(yaml.safe_load(file), key=lambda automation: automation['alias'])
     return yaml.safe_load(file);
+
+def read_json(fname):
+  with open(fname) as f:
+    return json.load(f)
 
 def remove_text(content, start, end):
   do_append = True
@@ -79,7 +87,7 @@ def modify_lines(to_insert, lines, tag):
         break
 
   if start_index is None or end_index is None:
-    print("Start or end tag not found. Text not inserted.")
+    print(f"Start or end tag not found ({tag}). Text not inserted.")
     return lines
 
   # Remove existing text between start and end comments
@@ -105,18 +113,9 @@ def group_and_title(automation):
 def get_group_name(group):
   return f"{get_emoji(group)} {group}"
 
-def get_addons():
-  try:
-    output = subprocess.check_output(["ha", "addons", "--raw-json"])
-    return json.loads(output.decode("utf-8"))["data"]["addons"]
-  except FileNotFoundError:
-    # the 'ha' program isn't available in the host image, I can only
-    # run it from the 'SSH & Web Terminal' Add-on.
-    return None
-
 def get_line(fname, text):
   assert isinstance(text, str)
-  with fname.open() as f:
+  with open(fname) as f:
     for num_line, line in enumerate(f):
       if text in line:
         return num_line
@@ -173,6 +172,15 @@ def render_automations():
   automations = {key: list(group) for key, group in grouped_automations}
   return render_automations_toc(automations) + render_automations_groups(automations)
 
+def get_addons():
+  try:
+    output = subprocess.check_output(["ha", "addons", "--raw-json"])
+    return json.loads(output.decode("utf-8"))["data"]["addons"]
+  except FileNotFoundError:
+    # the 'ha' program isn't available in the host image, I can only
+    # run it from the 'SSH & Web Terminal' Add-on.
+    return None
+
 def render_addon(addon):
   name = addon["name"]
   version = addon["version"]
@@ -189,21 +197,56 @@ def render_addons():
     text.append(render_addon(addon))
   return text
 
+def get_custom_components():
+  components = []
+  for component in os.listdir(CUSTOM_COMPONENTS):
+    if os.path.isfile(component):
+      continue
+    manifest = read_json(os.path.join(CUSTOM_COMPONENTS, component, MANIFEST))
+    components.append(manifest)
+  return sorted(components, key=lambda component: component['name'])
+
+def render_component(manifest):
+  name = manifest["name"]
+  version = manifest["version"]
+  url = manifest["documentation"]
+  return f"- [{name}]({url}) v{version}"
+
+def render_custom_components():
+  text = []
+  for component in get_custom_components():
+    text.append(render_component(component))
+  return text
+
 def main():
-  old_readme = read_file(README)
-  new_readme = old_readme.copy()
+  # Parse arguments
+  parser = argparse.ArgumentParser('Update content script')
+  parser.add_argument('filename', type=str, nargs='?', help='Filename to update')
+  filename = parser.parse_args().filename
+
+  if not filename:
+    filename = README
+    print(f"No filename specified. Use {README} instead.")
+
+  old_file = read_file(filename)
+  new_file = old_file.copy()
 
   addons = render_addons()
   automations = render_automations()
+  custom_components = render_custom_components()
 
-  new_readme = modify_lines(automations, new_readme, 'automations')
+  new_file = modify_lines(automations, new_file, 'automations')
+  new_file = modify_lines(custom_components, new_file, 'custom-components')
 
   if addons is not None:
-    new_readme = modify_lines(addons, new_readme, 'addons')
+    new_file = modify_lines(addons, new_file, 'addons')
 
   # Write only when changes applied
-  if to_file(new_readme) != to_file(old_readme):
-    write_file(README, new_readme)
+  if to_file(new_file) != to_file(old_file):
+    print(f"{filename} is updated with new content")
+    write_file(filename, new_file)
+  else:
+    print('No changes applied')
 
 if __name__ == "__main__":
   main()
