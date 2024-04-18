@@ -7,17 +7,6 @@ do_not_disturb_mode:
       entity_id: input_boolean.do_not_disturb
       state: 'on'
     then:
-    - service: fan.set_preset_mode
-      target:
-        entity_id: fan.air_purifier
-      data:
-        preset_mode: Silent
-      alias: Set Purifier to Silent
-    - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-      domain: select
-      entity_id: 406c298e910de0e503c7713710e9df20
-      type: select_option
-      option: dim
     - alias: Make Speakers to low volume
       service: media_player.volume_set
       data:
@@ -27,13 +16,18 @@ do_not_disturb_mode:
         - media_player.living_room_homepod
         - media_player.bedroom_homepod
         - media_player.all_speakers
-    else:
+    - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
+      domain: select
+      entity_id: 406c298e910de0e503c7713710e9df20
+      type: select_option
+      option: dim
     - service: fan.set_preset_mode
       target:
         entity_id: fan.air_purifier
       data:
-        preset_mode: Auto
-      alias: Set Purifier to Auto
+        preset_mode: Silent
+      alias: Set Purifier to Silent
+    else:
     - alias: Make Speakers to low volume
       service: media_player.volume_set
       data:
@@ -48,6 +42,12 @@ do_not_disturb_mode:
       entity_id: 406c298e910de0e503c7713710e9df20
       type: select_option
       option: bright
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.air_purifier
+      data:
+        preset_mode: Auto
+      alias: Set Purifier to Auto
   mode: single
   icon: mdi:bell-circle
 away_mode:
