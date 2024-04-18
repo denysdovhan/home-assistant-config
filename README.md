@@ -25,7 +25,7 @@ I run Home Assistant OS with these addons:
 
 - [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) v17.2.0 – A supercharged SSH & Web Terminal access to your Home Assistant instance
 - [File editor](https://github.com/home-assistant/addons/tree/master/configurator) v5.8.0 – Simple browser-based file editor for Home Assistant
-- [ESPHome](https://esphome.io/) v2024.3.2 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
+- [ESPHome](https://esphome.io/) v2024.4.0 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
 - [PS5 MQTT](https://github.com/FunkeyFlo/ps5-mqtt/tree/main/add-ons/ps5-mqtt) v1.3.3 – Control Sony PlayStation 5 devices via MQTT
 - [AirCast](https://github.com/hassio-addons/addon-aircast) v4.2.1 – AirPlay capabilities for your Chromecast devices.
 - [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) v0.112.1 – Automatically manage backups between Home Assistant and Google Drive
