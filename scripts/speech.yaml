@@ -40,6 +40,16 @@ announcement:
       advanced: true
       selector:
         boolean:
+    speaker:
+      name: Speaker
+      description: Target speaker to play an announcement (living_room by default)
+      default: media_player.living_room_homepod
+      advanced: true
+      selector:
+        entity:
+          include_entities:
+            - media_player.living_room_homepod
+            - media_player.bedroom_homepod
     notify:
       name: Send notification or not
       description: Optionally specify to make voice-only announcement (true by default)
@@ -65,6 +75,7 @@ announcement:
   variables:
     service: notify.all
     speak: true
+    speaker: media_player.living_room_homepod
     notify: true
     force_speak: false
     notify_data:
@@ -76,7 +87,6 @@ announcement:
       {% elif messages %}
         {{ (messages | random) }}
       {% else %}
-        Немає тексту для озвучення.
       {% endif %}
   sequence:
     - alias: Make an announcement on speakers
@@ -98,7 +108,7 @@ announcement:
           sequence:
             - service: tts.google_say
               data:
-                entity_id: media_player.living_room_homepod
+                entity_id: '{{ speaker }}'
                 message: '{{ message }}'
         - conditions:
             - '{{ speak is true }}'
@@ -109,7 +119,7 @@ announcement:
           sequence:
             - service: tts.google_say
               data:
-                entity_id: media_player.living_room_homepod
+                entity_id: '{{ speaker }}'
                 message: '{{ message }}'
     - alias: Send a notification
       choose:

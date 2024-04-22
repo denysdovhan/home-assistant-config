@@ -106,7 +106,11 @@
   - condition: state
     entity_id: media_player.apple_tv
     state: standby
-    enabled: false
+    enabled: true
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   - condition: state
     entity_id: media_player.playstation_5
     state: none
@@ -289,22 +293,28 @@
     above: 0
     alias: There are any updates for hacs
   action:
-  - service: script.announcement
+  - alias: Announce HACS updates for Denys
+    service: script.announcement
     data:
       service: notify.denys
       title: "Оновлення HACS \U0001F389"
       speak: false
-      openings:
-      - 'Доступні оновлення для {{ states(''sensor.hacs'') }} пакетів в HACS:'
-      - 'HACS має {{ states(''sensor.hacs'') }} оновлень:'
-      - 'Достуно {{ states(''sensor.hacs'') }} оновлень в HACS:'
       messages:
       - '{{ hacs_updates }}'
       notify_data:
         url: /hacs/entry
         group: system
         tag: hacs-updates
-    alias: Announce HACS updates for Denys
+      openings:
+      - 'Доступні оновлення для {{ states(''sensor.hacs'') }} пакетів в HACS:
+
+        '
+      - 'HACS має {{ states(''sensor.hacs'') }} оновлень:
+
+        '
+      - 'Достуно {{ states(''sensor.hacs'') }} оновлень в HACS:
+
+        '
 - id: home_assistant_start
   alias: 'Alert: Home Assistant Start'
   description: Notify Denys when Home Assistant starts
@@ -326,75 +336,28 @@
         tag: ha-start
     alias: Notify Denys about HA starts
 - id: system_peaks
-  alias: 'Alert: System Peaks '
-  description: Alerts for high server usage, overloading, overheating, disk space
+  alias: 'System: Notify when Media disk is full'
+  description: Notify when Media drive is 90% full for some time.
   trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_processor_use
-    above: 90
-    for:
-      minutes: 5
-    variables:
-      openings:
-      - Процесор навантажений на {{ trigger.to_state.state }}%.
-      - Навантаження на процесор {{ trigger.to_state.state }}%.
-      - 'CPU: {{ trigger.to_state.state | int(0) }}%.'
-      messages:
-      - Складнощі з виконанням поточного завдання.
-      - Аномально велике навантаження на процесор.
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_memory_usage
-    above: 90
-    for:
-      minutes: 1
-    variables:
-      openings:
-      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
-      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
-      - 'RAM: {{ trigger.to_state.state }}%.'
-      messages:
-      - Складнощі з виконанням поточного завдання.
-      - Аномально велике навантаження на процесор.
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_disk_usage
-    above: 90
-    for:
-      minutes: 1
-    variables:
-      openings:
-      - Системний диск заповнений на {{ trigger.to_state.state }}%.
-      - Заповнення системного диску {{ trigger.to_state.state }}%.
-      messages:
-      - Системний диск заповнюється. Потрібно видалити застарілі файли.
-      - Аномально велике заповнення системної пам’яті.
   - platform: numeric_state
     id: media_disk
     entity_id:
     - sensor.system_monitor_disk_usage_media_media
     above: 90
     for:
-      minutes: 1
-    variables:
-      openings:
-      - Диск медіа заповнений на {{ trigger.to_state.state }}%.
-      - Заповнення диску медіа {{ trigger.to_state.state }}%.
-      messages:
-      - Диск для медіа заповнюється. Потрібно видалити застарілі файли.
-      - Занадто багато файлів на диску медіа.
+      hours: 1
   action:
   - service: script.announcement
     data:
-      title: "Системний пік \U0001F525"
-      openings: '{{ openings }}'
-      messages: '{{ messages }}'
+      title: "Диск медіа \U0001F4BF"
+      messages:
+      - Диск медіа заповнений на {{ trigger.to_state.state }}%.
+      - Заповнення диску медіа {{ trigger.to_state.state }}%.
       speak: false
       notify_data:
         url: /lovelace/system
         group: system
-    alias: Notify about system peak
+      openings: {}
   - delay:
       minutes: 10
     alias: Don't send notification too often
@@ -403,69 +366,11 @@
   description: Notify when the air quality is bad
   trigger:
   - platform: numeric_state
-    entity_id: sensor.outdoor_aqi
+    entity_id:
+    - sensor.outdoor_aqi
     above: 150
-    below: 200
     for:
-      hours: 0
       minutes: 10
-      seconds: 0
-    variables:
-      title: "Шкідливе повітря \U0001F974"
-      openings:
-      - 'Рівень якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Шкідливе повітря надворі: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Шкідливе повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - '{{ trigger.to_state.state | int(0) }} AQI.'
-      messages:
-      - Може викликати дискомфорт при диханні.
-      - Спричиняє дискомфорт при диханні у здорових людей.
-      - Людям із захворюваннями категорично заборонено перебувати на вулиці.
-      - Заняття спортом на вулиці заборонені.
-  - platform: numeric_state
-    entity_id: sensor.outdoor_aqi
-    above: 200
-    below: 300
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    variables:
-      title: "Дуже шкідливе повітря \U0001F637"
-      openings:
-      - 'Рівень якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Надворі дуже шкідливе повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Дуже шкідливе повітря: {{ states(''sensor.outdoor_aqi'') | int(0) }} AQI'
-      - '{{ trigger.to_state.state | int(0) }} AQI.'
-      messages:
-      - Може викликати захворювання у здорових людей при тривалому впливі.
-      - Людям із захворюваннями категорично заборонено перебувати на вулиці.
-      - Ризик інсульту та інфаркту у людей похилого віку.
-      - Заняття спортом на вулиці заборонені.
-  - platform: numeric_state
-    entity_id: sensor.outdoor_aqi
-    above: 300
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    variables:
-      title: Небезпечне повітря ☠️
-      openings:
-      - 'Рівень якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Надворі небезпечне повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Небезпечне повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - '{{ trigger.to_state.state | int(0) }} AQI.'
-      messages:
-      - Це небезпечно для здоров’я!
-      - Залишайтесь вдома!
-      - Не виходьте на вулицю!
-      - Зачиніть вікна!
-      - Серйозний вплив навіть на здорових людей!
-      - Може спричинити серйозні наслідки для здоров’я!
-      - Людям із захворюваннями категорично заборонено перебувати на вулиці.
-      - Існує ризик інсульту та інфаркту!
-      - Негативні наслідки навіть під час легкої активності!
   condition:
   - condition: numeric_state
     entity_id: sensor.home_nearest_distance
@@ -474,8 +379,11 @@
   action:
   - service: script.announcement
     data:
-      title: '{{ title }}'
-      openings: '{{ openings }}'
+      title: "Шкідливе повітря \U0001F974"
+      openings:
+      - 'Рівень якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
+      - 'Шкідливе повітря надворі: {{ trigger.to_state.state | int(0) }} AQI'
+      - 'Індекс якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
       messages: '{{ messages }}'
       notify_data:
         url: /lovelace/city
@@ -636,117 +544,6 @@
             group: car
         alias: Announce summer tires
     alias: Announce winter or summer tires
-- id: monthly_energy_alert
-  alias: 'Alert: Monthly Energy Usage'
-  description: Switch energy tariff and notify about the consumption
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.energy_monthly_total
-    below: 0.01
-    variables:
-      openings:
-      - Минулого місяця спожито {{ trigger.from_state.state }}kWh
-      - Минулого періоду ви спожили {{ trigger.from_state.state }}kWh
-      - Попереднього місяця використано {{ trigger.from_state.state }}kWh
-      - Попереднього періоду використано {{ trigger.from_state.state }}kWh
-      messages:
-      - на {{ state_attr('sensor.monthly_energy_cost', 'last_period') | float(0) |
-        round(2) }}₴.
-      - за {{ state_attr('sensor.monthly_energy_cost', 'last_period') | float(0) |
-        round(2) }}₴.
-  - platform: numeric_state
-    entity_id: sensor.energy_monthly_total
-    above: 250
-    variables:
-      openings:
-      - Спожито понад 250kWh за місяць.
-      - Використано більше 250kWh за місяць.
-      - Ви використали електрику більше 250kWh за місяць.
-      messages:
-      - Надалі застосовується вищий тариф.
-      - Далі застосовується підвищений тариф.
-  action:
-  - service: script.announcement
-    data:
-      title: Електрика ⚡️
-      speak: false
-      service: notify.denys
-      openings: '{{ openings }}'
-      messages: '{{ messages }}'
-      notify_data:
-        url: /energy
-    alias: Announce consumed energy
-- id: electricity_meter
-  alias: 'Energy: Electricity Meter'
-  description: Switch tarrifs for energy utility meter
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.night_energy_tariff
-  - platform: numeric_state
-    id: period_start
-    entity_id: sensor.energy_monthly_total
-    below: 0.01
-    alias: When Energy Monthly Total resets to 0
-  - platform: numeric_state
-    id: period_finish
-    entity_id: sensor.energy_monthly_total
-    above: 250
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.night_energy_tariff
-        state: 'off'
-      - condition: numeric_state
-        entity_id: sensor.energy_monthly_total
-        below: 250
-      sequence:
-      - service: select.select_option
-        data:
-          entity_id: select.energy_monthly
-          option: peak
-        alias: Select peak tariff
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.night_energy_tariff
-        state: 'on'
-      - condition: numeric_state
-        entity_id: sensor.energy_monthly_total
-        below: 250
-      sequence:
-      - service: select.select_option
-        data:
-          entity_id: select.energy_monthly
-          option: offpeak
-        alias: Select offpeak
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.night_energy_tariff
-        state: 'off'
-      - condition: numeric_state
-        entity_id: sensor.energy_monthly_total
-        above: 250
-      sequence:
-      - service: select.select_option
-        data:
-          entity_id: select.energy_monthly
-          option: peak_overlimit
-        alias: Select peak overlimit
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.night_energy_tariff
-        state: 'on'
-      - condition: numeric_state
-        entity_id: sensor.energy_monthly_total
-        above: 250
-      sequence:
-      - service: select.select_option
-        data:
-          entity_id: select.energy_monthly
-          option: offpeak_overlimit
-        alias: Select offpeak overlimit
-    alias: Choose Electricity tariff
 - id: sync_living_room_trv_temperature
   alias: 'Climate: Sync Living Room TRV temperature'
   description: ''
@@ -1851,7 +1648,7 @@
       - service: script.vacuum_maintenance
         data: {}
 - id: '1664661503248'
-  alias: 'Alert: Water is Heated'
+  alias: 'Water: Notify when water is heated'
   description: When we ask to let us know when the boiler has done heating, it should
     notify about that.
   trigger:
@@ -2162,9 +1959,17 @@
   - condition: state
     entity_id: media_player.playstation_5
     state: none
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   - condition: state
     entity_id: media_player.apple_tv
     state: standby
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   action:
   - service: media_player.turn_on
     data: {}
@@ -2256,10 +2061,212 @@
       service: notify.all
       speak: false
       notify: true
-      title: "\U0001F3C3 Денис "
+      title: "Денис \U0001F3C3"
       messages:
       - Денис вийшов з роботи.
-      - Денис їде додому.
       - Денис виїхав з роботи.
       notify_data: {}
+  mode: single
+- id: '1713463091070'
+  alias: 'System: Notify about high CPU usage'
+  description: Send alert when HA has a high CPU usage
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.system_monitor_processor_use
+    above: 75
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition: []
+  action:
+  - service: script.announcement
+    data:
+      title: "Системний пік \U0001F525"
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+      messages:
+      - Процесор навантажений на {{ trigger.to_state.state }}%.
+      - Навантаження на процесор {{ trigger.to_state.state }}%.
+  - alias: Don't send notification too often
+    delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1713463417722'
+  alias: 'System: Notify about high RAM usage'
+  description: Notify when RAM usage is high for some time.
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.system_monitor_memory_usage
+    above: 75
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    variables:
+      openings:
+      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
+      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
+      - 'RAM: {{ trigger.to_state.state }}%.'
+      messages:
+      - Складнощі з виконанням поточного завдання.
+      - Аномально велике навантаження на процесор.
+  condition: []
+  action:
+  - service: script.announcement
+    data:
+      title: "Системний пік \U0001F525"
+      messages:
+      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
+      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
+      - 'RAM: {{ trigger.to_state.state }}%.'
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+  - delay:
+      minutes: 10
+    alias: Don't send notification too often
+  mode: single
+- id: '1713463662581'
+  alias: 'System: Notify when System disk is full'
+  description: Send a notification when system disk is 90% full.
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.system_monitor_disk_usage
+    above: 90
+    for:
+      hours: 1
+  condition: []
+  action:
+  - service: script.announcement
+    data:
+      title: "Системний пік \U0001F525"
+      messages:
+      - Системний диск заповнений на {{ trigger.to_state.state }}%.
+      - Заповнення системного диску {{ trigger.to_state.state }}%.
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+      openings: {}
+  - alias: Don't send notification too often
+    delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1713536348962'
+  alias: 'Alert: Danger in Kyiv'
+  description: 'Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to
+    hide immediately. '
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.danger_in_war_monitor
+    - binary_sensor.danger_in_operinform
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - alias: Send a critical notification
+    service: script.announcement
+    metadata: {}
+    data:
+      service: notify.all
+      speak: false
+      notify: true
+      title: "Пряма загроза \U0001F4A5"
+      messages:
+      - '{{ trigger.to_state.attributes.latest_message }}'
+      notify_data:
+        group: air-alerts
+        push:
+          sound:
+            name: default
+            critical: 1
+            volume: 1
+  - variables:
+      messages:
+      - Увага! Пряма загроза удару!
+      - Увага загроза удару по Києву!
+      - Увага! Негайно перейдіть до сховку!
+      - Увага! Негайно сховайтесь!
+      - Увага! Пряма загроза!
+      - Увага! Негайно сховайтесь!
+      - Увага! Атака на Київ!
+  - alias: Day or Night
+    if:
+    - condition: state
+      entity_id: binary_sensor.sleeping_time
+      state: 'on'
+    then:
+    - service: media_player.volume_set
+      metadata: {}
+      data:
+        volume_level: 0.6
+      target:
+        entity_id:
+        - media_player.bedroom_homepod
+    - alias: Speak in Bedroom
+      service: script.announcement
+      data:
+        speak: true
+        speaker: media_player.bedroom_homepod
+        notify: false
+        force_speak: true
+        messages: '{{ messages }}'
+    else:
+    - service: media_player.volume_set
+      metadata: {}
+      data:
+        volume_level: 0.6
+      target:
+        entity_id:
+        - media_player.living_room_homepod
+    - alias: Speak in Living Room
+      service: script.announcement
+      data:
+        speak: true
+        speaker: media_player.living_room_homepod
+        notify: false
+        force_speak: true
+        messages: '{{ messages }}'
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1713537519721'
+  alias: 'Alert: Imminent Attack by Strategic Bombers'
+  description: Send a notification when Tu-95 strategic bombers take off from Russian
+    airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.imminent_attack_in_war_monitor
+    - binary_sensor.imminent_attack_in_operinform
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: script.announcement
+    data:
+      service: notify.all
+      speak: false
+      notify: true
+      title: "Зліт бомбардувальників \U0001F6EB"
+      messages:
+      - '{{ trigger.to_state.attributes.latest_message }}'
+    alias: Send a notification
   mode: single
