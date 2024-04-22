@@ -1,0 +1,81 @@
+#
+# Multiscrape
+#
+# https://github.com/danieldotnl/ha-multiscrape
+#
+
+multiscrape:
+  - name: War Monitor
+    resource: https://t.me/s/war_monitor
+    scan_interval: 5
+    list_separator: '|||'
+    binary_sensor:
+      - unique_id: danger_in_war_monitor
+        name: Danger in War Monitor
+        icon: mdi:rocket-launch
+        device_class: safety
+        select_list: '.js-message_text'
+        value_template: >-
+          {% set message = value.split("|||") | last | lower %}
+          {% set in_kyiv = "київ" in message or "святошин" in message %}
+          {% set danger_now = "уважно" in message
+              or "швидкісна ціль" in message
+              or "подалі від зовнішніх стін" in message
+              or "безпечних місцях" in message
+          %}
+          {{ danger_now and in_kyiv }}
+        attributes:
+          - name: latest_message
+            select_list: '.js-message_text'
+            value_template: "{{ value.split('|||') | last }}"
+      - unique_id: imminent_attack_in_war_monitor
+        name: Imminent Attack in War Monitor
+        icon: mdi:airplane-clock
+        device_class: safety
+        select_list: '.js-message_text'
+        value_template: >-
+          {% set message = value.split("|||") | last | lower %}
+          {{ "зліт" in message and "бортів" in message and "ту-95" in message }}
+        attributes:
+          - name: latest_message
+            select_list: '.js-message_text'
+            value_template: "{{ value.split('|||') | last }}"
+
+  - name: Operinform
+    resource: https://t.me/s/operinform
+    scan_interval: 5
+    list_separator: '|||'
+    binary_sensor:
+      - unique_id: danger_in_operinform
+        name: Danger in Operinform
+        icon: mdi:rocket-launch
+        device_class: safety
+        select_list: '.js-message_text'
+        value_template: >
+          {% set message = value.split("|||") | last | lower %}
+          {% set in_kyiv = "київ" in message or "святошин" in message %}
+          {% set danger_indicator = "🔴" in message %}
+          {% set danger_now = "київ!" in message
+              or "буде гучно" in message
+              or "бути гучно" in message
+              or "кинджал на" in message
+              or "балістика на" in message
+          %}
+          {{ danger_indicator and danger_now and in_kyiv }}
+        attributes:
+          - name: latest_message
+            select_list: '.js-message_text'
+            value_template: "{{ value.split('|||') | last }}"
+
+      - unique_id: imminent_attack_in_operinform
+        name: Imminent Attack in Operinform
+        icon: mdi:airplane-clock
+        device_class: safety
+        select_list: '.js-message_text'
+        value_template: >-
+          {% set message = value.split("|||") | last | lower %}
+          {{ "зліт" in message and "бортів" in message and "ту-95" in message }}
+        attributes:
+          - name: latest_message
+            select_list: '.js-message_text'
+            value_template: "{{ value.split('|||') | last }}"
