@@ -22,11 +22,11 @@ do_not_disturb_mode:
       type: select_option
       option: dim
     - service: fan.set_preset_mode
-      target:
-        entity_id: fan.air_purifier
+      metadata: {}
       data:
         preset_mode: Silent
-      alias: Set Purifier to Silent
+      target:
+        entity_id: fan.air_purifier
     else:
     - alias: Make Speakers to low volume
       service: media_player.volume_set
@@ -43,11 +43,12 @@ do_not_disturb_mode:
       type: select_option
       option: bright
     - service: fan.set_preset_mode
-      target:
-        entity_id: fan.air_purifier
+      metadata: {}
       data:
         preset_mode: Auto
-      alias: Set Purifier to Auto
+      target:
+        entity_id:
+        - fan.air_purifier
   mode: single
   icon: mdi:bell-circle
 away_mode:
