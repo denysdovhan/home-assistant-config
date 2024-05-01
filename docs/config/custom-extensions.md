@@ -40,10 +40,17 @@ Here's a list of extensions developed by other developers.
 
 ### Integrations
 
-- [HACS (Home Assistant Community Store)](//hacs.xyz) — A store for easier management of `custom_components`.
-- [Xiaomi Cloud Map Extractor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Xiaomi-Cloud-Map-Extractor) — This custom integration provides a way to present a live view of a map for a Xiaomi (and Roborock) vacuums.
-- [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting) — Adaptive Lighting slowly synchronizes your color-changing lights with the regular naturally occurring color temperature of the sky throughout the day. This gives your environment a more natural feel, with cooler hues during the midday and warmer tints near twilight and dawn. Built-in `flux` integration is very limited and bold.
-- [Car Wash](https://github.com/Limych/ha-car_wash) — This component checks the weather forecast for several days in advance and concludes whether it is worth washing the car now.
-- [Snowtire](https://github.com/Limych/ha-snowtire) — This component checks the weather forecast for several days in advance and concludes whether it is time to change car tires from summer to winter and vice versa.
-- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) — This component calculates estimated power consumption of lights and other appliances. This allows to make use of Energy dashboard even when you don't have smart electricity meters.
-- [Presence Simulation](https://github.com/slashback100/presence_simulation) — This component looks for history of devices and simulates the history with a random shift. Very useful to simulate presence at home when we are away.
+<!-- start-custom-components -->
+
+- [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) v1.21.1
+- [Car Wash](https://github.com/Limych/ha-car_wash) v1.5.5
+- [HACS](https://hacs.xyz/docs/configuration/start) v1.34.0
+- [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) v7.0.0
+- [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) v1.1.0
+- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) vv1.11.7
+- [Presence Simulation](https://github.com/slashback100/presence_simulation) v4.5
+- [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) v3.4.1
+- [Snowtire Sensor](https://github.com/Limych/ha-snowtire) v1.4.6
+- [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) v2.2.2
+- [Watchman](https://github.com/dummylabs/thewatchman) v0.5.1
+<!-- end-custom-components -->
