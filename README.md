@@ -36,7 +36,7 @@ I run Home Assistant OS with these addons:
 
 ## Automation
 
-My home is awakened by these automations. You can browse them by categories. Links will guide you to the specific automation in `automations.yaml` file.
+My home is awakened by these automations. The list is automatically and regularly updated. You can browse them by categories. Links will guide you to the specific automation in `automations.yaml` file.
 
 <!-- start-automations -->
 

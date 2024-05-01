@@ -1,21 +1,39 @@
 # Configuration
 
-## Addons
+I use [Home Assistant][ha] as my primary smart home software. It allows me to tied down every separate ecosystem, every device, and every service together.
 
-<!-- start-addons -->
+This is a very powerful tool, allowing to built complex and smart automation based on multiple triggers and conditions, performing different actions.
 
-- [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) v17.2.0 – A supercharged SSH & Web Terminal access to your Home Assistant instance
-- [File editor](https://github.com/home-assistant/addons/tree/master/configurator) v5.8.0 – Simple browser-based file editor for Home Assistant
-- [ESPHome](https://esphome.io/) v2024.4.0 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
-- [PS5 MQTT](https://github.com/FunkeyFlo/ps5-mqtt/tree/main/add-ons/ps5-mqtt) v1.3.3 – Control Sony PlayStation 5 devices via MQTT
-- [AirCast](https://github.com/hassio-addons/addon-aircast) v4.2.1 – AirPlay capabilities for your Chromecast devices.
-- [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) v0.112.1 – Automatically manage backups between Home Assistant and Google Drive
-- [Samba share](https://github.com/home-assistant/addons/tree/master/samba) v12.3.1 – Expose Home Assistant folders with SMB/CIFS
-- [Mosquitto broker](https://github.com/home-assistant/addons/tree/master/mosquitto) v6.4.0 – An Open Source MQTT broker
-- [Zigbee2MQTT](https://github.com/zigbee2mqtt/hassio-zigbee2mqtt/tree/master/zigbee2mqtt) v1.36.1-1 – Use your ZigBee devices without the vendor's bridge or gateway
-<!-- end-addons -->
+So far, I'm happy with [Home Assistant][ha] and strongly recommend trying it if you are a smart home enthusiast.
+
+## Prior Art
+
+I began my smart home journey with an [Aqara Hub](https://www.aliexpress.com/item/32910909157.html) and a few bulbs.
+
+In the beginning, I was hoping to consolidate my smart home over HomeKit, because I'd already had a few Apple devices. Shortly after, I run into multiple limitations. After a year of using Aqara setup, I decided to switch to the more universal and powerful solution — [Home Assistant][ha].
+
+Now I easily pass my devices to the HomeKit as well as to the Google Home app.
+
+## How I make my automations
+
+<!-- prettier-ignore -->
+!!! tip
+    I highly suggest reading a blog post called [Perfect Home Automation](https://www.home-assistant.io/blog/2016/01/19/perfect-home-automation/) written by Home Assistant creator Paulus Schoutsen.
+
+    This article contains valid points about developing home automation. This will help you develop the right mindset while building your smart home.
+
+There are a few rules I use while building my smart home:
+
+- **You should not adapt to technologies.** Things should _just work_. You shouldn't break your own daily routines in order to adapt to your home. Home automation should blend with your current workflow, not replace it.
+- **You are not the only user of your home automation.** Even when you live alone, you may have guests. Think about how they're going to use your home.
+- **Limit the impact of failures.** Smart homes are complex: eventually, things will go wrong. Make sure things will have a limited impact when they fail. Ideally, devices should fall back to a pre-smart home experience.
+- **Automations must be seamless.** Nobody controls lights from the phone except for showing off. This means that everything you automate has to work flawlessly. Even when automation works perfectly 90% of the time, the rest 10% will ruin the whole positive experience.
+
+That's what I keep in mind. This helps a lot.
 
 ## Automations
+
+Here you can discover all of the automations powering my home. The list is automatically and regularly updated.
 
 <!-- start-automations -->
 
@@ -115,3 +133,26 @@ Total number of automations: **53**️
 - [Keep Water Heater turned On](https://github.com/denysdovhan/home-assistant-config/blob/a607f4151f0e739b78f5f908d8aaa354bd7760db/automations.yaml#L1980) – When Water Heater was accidentally turned off, automatically turn in on
 - [Notify when water is heated](https://github.com/denysdovhan/home-assistant-config/blob/a607f4151f0e739b78f5f908d8aaa354bd7760db/automations.yaml#L1650) – When we ask to let us know when the boiler has done heating, it should notify about that.
 <!-- end-automations -->
+
+## Addons
+
+These addons provide additional functionality for my Home Assistant instance.
+
+<!-- start-addons -->
+
+- [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) v17.2.0 – A supercharged SSH & Web Terminal access to your Home Assistant instance
+- [File editor](https://github.com/home-assistant/addons/tree/master/configurator) v5.8.0 – Simple browser-based file editor for Home Assistant
+- [ESPHome](https://esphome.io/) v2024.4.0 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
+- [PS5 MQTT](https://github.com/FunkeyFlo/ps5-mqtt/tree/main/add-ons/ps5-mqtt) v1.3.3 – Control Sony PlayStation 5 devices via MQTT
+- [AirCast](https://github.com/hassio-addons/addon-aircast) v4.2.1 – AirPlay capabilities for your Chromecast devices.
+- [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) v0.112.1 – Automatically manage backups between Home Assistant and Google Drive
+- [Samba share](https://github.com/home-assistant/addons/tree/master/samba) v12.3.1 – Expose Home Assistant folders with SMB/CIFS
+- [Mosquitto broker](https://github.com/home-assistant/addons/tree/master/mosquitto) v6.4.0 – An Open Source MQTT broker
+- [Zigbee2MQTT](https://github.com/zigbee2mqtt/hassio-zigbee2mqtt/tree/master/zigbee2mqtt) v1.36.1-1 – Use your ZigBee devices without the vendor's bridge or gateway
+<!-- end-addons -->
+
+<!-- References -->
+
+[ha]: https://www.home-assistant.io/
+[asuswrt]: https://www.home-assistant.io/integrations/asuswrt
+[mobile_app]: https://www.home-assistant.io/integrations/mobile_app/
