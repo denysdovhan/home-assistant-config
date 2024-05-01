@@ -1,0 +1,87 @@
+site_name: Home Assistant Config by Denys Dovhan
+site_author: Denys Dovhan
+site_url: https://denysdovhan.com/home-assistant-config
+site_description: 🏡 My home automation setup built with Home Assistant
+
+copyright: 'Copyright &copy; 2024 Denys Dovhan'
+
+repo_url: https://github.com/denysdovhan/home-assistant-config
+repo_name: home-assistant-config
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  icon:
+    logo: material/home-assistant
+    repo: fontawesome/brands/github
+  palette:
+    # Palette toggle for automatic mode
+    - media: '(prefers-color-scheme)'
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Light mode
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: light-blue
+      accent: light-blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    # Dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: light-blue
+      accent: light-blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - toc.integrate
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.footer
+    - content.action.edit
+    - content.action.view
+
+nav:
+  - Home: index.md # TODO
+  - Hardware: hardware.md
+  - Configuration:
+      - config/index.md # TODO
+      - config/dashboards.md # TODO
+      - config/custom-extensions.md # TODO
+      - config/speech.md # TODO
+      - config/vacuum.md # TODO
+      - config/war.md
+      - config/monitoring.md # TODO
+  - Inspiration: resources.md
+  # Link to my smart-home setup
+  # Ref: https://github.com/denysdovhan/smart-home
+  - Smart Home: https://denysdovhan.com/smart-home
+
+markdown_extensions:
+  - meta
+  - toc:
+      permalink: true
+  - attr_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  analytics:
+    provider: google
+    property: G-696LRW7ET5
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/denysdovhan/smart-home
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/denysdovhan
+    - icon: fontawesome/solid/globe
+      link: https://denysdovhan.com
