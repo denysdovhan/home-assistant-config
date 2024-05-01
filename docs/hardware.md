@@ -130,8 +130,8 @@ Below you will find a list of my devices connected to the local network. Most of
 | [Roborock S5 Max][roborock]                  | `192.168.50.186`   | [Xiaomi Miio][xiaomi-miio]    |
 | [Deerma Humidifier (mjjsq)][humidifier]      | `192.168.50.187`   | [xiaomi_airpurifier]\*\*      |
 | [Xiaomi Air Purifier 3H][air-purifier]       | `192.168.50.188`   | [Xiaomi Miio][xiaomi-miio]    |
-| [Google Home Mini][google-home-mini]         | `192.168.50.220`   | [Google Cast][cast]           |
-| [Google Nest Mini][google-nest-mini]         | `192.168.50.221`   | [Google Cast][cast]           |
+| [Bedroom HomePod Mini][homepod-mini]         | `192.168.50.x`     | [Apple TV][ha-apple-tv]       |
+| [Living Room HomePod Mini][homepod-mini]     | `192.168.50.x`     | [Apple TV][ha-apple-tv]       |
 | [living-room-ac](#esp-devices)               | `192.168.50.x`     | [ESPHome][esphome]            |
 | [bedroom-ac](#esp-devices)                   | `192.168.50.x`     | [ESPHome][esphome]            |
 
@@ -158,8 +158,7 @@ I use two ESP8266 devices based on [iot-uni-dongle](https://github.com/dudanov/i
 [roborock]: https://us.roborock.com/pages/roborock-s5-max
 [humidifier]: https://www.aliexpress.com/item/4000056420604.html
 [air-purifier]: https://www.mi.com/global/mi-air-purifier-3H
-[google-home-mini]: https://store.google.com/us/product/google_home_mini_first_gen
-[google-nest-mini]: https://store.google.com/us/product/google_nest_mini
+[homepod-mini]: https://www.apple.com/homepod-mini/
 
 <!-- Integrations -->
 
