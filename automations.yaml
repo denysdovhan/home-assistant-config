@@ -1441,11 +1441,16 @@
     - vacuum.roborock
     to: returning
     enabled: false
-  - platform: numeric_state
+  - alias: After every 5th cleaning
+    platform: numeric_state
     entity_id:
     - counter.vacuum_clean_count
-    above: 5
-    alias: After every 5th cleaning
+    above: 3
+  - platform: state
+    entity_id:
+    - counter.vacuum_clean_count
+    to: '3'
+    enabled: false
   condition:
   - alias: And there was at least one cleaning after previous maintenance
     condition: template
@@ -2167,8 +2172,8 @@
   mode: single
 - id: '1713536348962'
   alias: 'Alert: Danger in Kyiv'
-  description: 'Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to
-    hide immediately. '
+  description: Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to
+    hide immediately.
   trigger:
   - platform: state
     entity_id:
@@ -2176,7 +2181,10 @@
     - binary_sensor.danger_in_operinform
     from: 'off'
     to: 'on'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: binary_sensor.alerts_kyiv_air
+    state: 'on'
   action:
   - alias: Send a critical notification
     service: script.announcement
