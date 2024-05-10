@@ -6,21 +6,33 @@ I do most of the interactions with my smart home using my voice. This page descr
 
 None of the existing smart speakers supports the Ukrainian language (my native and primary language). I used English (US) for my devices.
 
-I have two Google smart speakers. I've decided to go with Google because Google Assistant is smart enough and well-integrated with different accessories.
+My current smart speaker setup consists of two HomePod Minis. I've migrate to Apple speakers from Google ones, because of a better sound and tighter integration with Apple devices, specifically:
 
-We use these speakers all the time, mostly asking to turn devices, activate scenes, start or stop vacuum, set timers or reminders. Besides, lack of Ukrainian language support, I'm pretty happy with these speakers. Sometimes I need to repeat my command twice for the speaker to pick up, but I consider it acceptable.
+- [Intercom feature](https://support.apple.com/uk-ua/guide/homepod/apdc2e0b5480/homepod) is great. When I leave my home I can send a quick voice message for anyone who stay at home.
+- HomeKit works locally, without Internet access. I also means that voice requests work faster.
+- Sound is significantly better that on Google speakers. Listening to music is much enjoyable, the bass is more punchy.
+- [Find My feature](https://support.apple.com/find-my) is also great. I can ask "Where is my phone?" and the phone will ring.
+- Handoff is nice, though it doesn't work well in Ukraine.
 
-=== "Google Home Mini"
+There's also a downside of using HomePods: I still can't sync audio for Home Assistant voice announcements between speakers.
 
-    I got this one as a gift for New Year 2020.
+<!-- prettier-ignore -->
+??? note "Previous setup with Google speakers"
+    I have two Google smart speakers. I've decided to go with Google because Google Assistant is smart enough and well-integrated with different accessories.
 
-    ![IMG_0194](https://user-images.githubusercontent.com/3459374/109870391-b59ccc00-7c72-11eb-8aeb-e1dd411eac0d.JPG){: width=50% }
+    We use these speakers all the time, mostly asking to turn devices, activate scenes, start or stop vacuum, set timers or reminders. Besides, lack of Ukrainian language support, I'm pretty happy with these speakers. Sometimes I need to repeat my command twice for the speaker to pick up, but I consider it acceptable.
 
-=== "Google Nest Mini"
+    === "Google Home Mini"
 
-    This one I got as a gift for my birthday.
+        I got this one as a gift for New Year 2020.
 
-    ![IMG_5508](https://user-images.githubusercontent.com/3459374/109870407-ba618000-7c72-11eb-9071-6c1f197d4bef.jpeg){: width=50% }
+        ![IMG_0194](https://user-images.githubusercontent.com/3459374/109870391-b59ccc00-7c72-11eb-8aeb-e1dd411eac0d.JPG){: width=50% }
+
+    === "Google Nest Mini"
+
+        This one I got as a gift for my birthday.
+
+        ![IMG_5508](https://user-images.githubusercontent.com/3459374/109870407-ba618000-7c72-11eb-9071-6c1f197d4bef.jpeg){: width=50% }
 
 ## Text to Speech
 
@@ -64,13 +76,11 @@ data:
     url: /lovelace/car
 ```
 
-This script will generate a unique announcement using random phrases from `greetings` and `messages`.
+This script will generate a unique announcement using random phrases from `openings` and `messages`.
 
 The generated phrase will be spoken on smart speakers and sent as a notification to the phones. I can avoid speaking or notifying via `speak` and `notify` flags accordingly.
 
 `notify_data` helps to pass notification categories for actionable notifications or `url` to open when I click on this notification.
-
-[Speech Scripts](https://github.com/denysdovhan/smart-home/blob/master/scripts/speech.yaml){: .md-button }
 
 ## Do Not Disturb Flow
 
@@ -84,5 +94,3 @@ It would be annoying to get a speech announcement in the middle of the night or 
 - Stops/starts voice announcements
 
 … based on the current time of day (sleeping or activity time) and a switch, I can toggle whenever I want.
-
-[Do Not Disturb Automations](https://github.com/denysdovhan/smart-home/blob/master/automations/do-not-disturb.yaml){: .md-button }
