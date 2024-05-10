@@ -32,11 +32,6 @@ Here's a list of extensions developed by other developers.
 
 - [`mini-media-player`](https://github.com/kalkih/mini-media-player) — The default one looks not so elegant and has way fewer options to display.
 - [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) — This one has a ton of different options. The killer feature for me: the ability to animate and display multiple graphs.
-- [`mini-humidifier`](https://github.com/artem-sedykh/mini-humidifier) — Simple and minimalistic. Default humidifier card allows displaying humidifiers only from `humidifier` domain, whereas my humidifier is available under `fan` domain. I don't actually like this card and plan to make my own to match the design of vacuum and purifier cards.
-- [`lovelace-xiaomi-vacuum-map-card`](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card) — This card enables you to specify a target or start a zoned cleanup using a live or static map, just like in Xiaomi Home app. Additionally you can define a list of zones and choose the ones to be cleaned.
-- [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) — This card is like a usual conditional card, but allows to make conditions based on the current user. I used this only to display appropriate Spotify player in Lovelace.
-- [`bar-card`](https://github.com/custom-cards/bar-card) — This card is design to display progress bars.
-- [`transmission-card`](https://github.com/amaximus/transmission-card) — This card is for displaying controls over Transmission torrent client.
 
 ### Integrations
 

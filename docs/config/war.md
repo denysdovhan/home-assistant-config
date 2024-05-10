@@ -1,6 +1,6 @@
 # War Safety
 
-[russia launched full-scale invasion of Ukraine](https://en.wikipedia.org/wiki/Russo-Ukrainian_War) and wages a genocidal war against my country. Ukraine is being hit by all types of weapons (except only nuclear) on daily basis. Home Assistant helps me stay safe and notifies my about incoming threats.
+In 2022 [russia launched full-scale invasion of Ukraine](https://en.wikipedia.org/wiki/Russo-Ukrainian_War) and wages a genocidal war against my country. Ukraine is being hit by all types of weapons (except only nuclear) on daily basis. Home Assistant helps me stay safe and notifies my about incoming threats.
 
 We hear the siren a few times a day. The life would completely stop if we would go to the shelter every time the siren goes off. So people adapt.
 
