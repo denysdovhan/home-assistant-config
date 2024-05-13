@@ -64,7 +64,7 @@ Total number of automations: **53**️
 - [Bad Air Quality](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L364) – Notify when the air quality is bad
 - [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L424) – Notify when it’s okay or not okay to wash a car
 - [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2172) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
-- [Denys is leaving the office](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2040) – Notify when Denys is leaving the office
+- [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2040) – Notify when Denys is leaving the office
 - [HACS Releases](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L275) – Notify when new HACS components are released
 - [Home Assistant Release](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L244) – Notify Denys about new Home Assistant releases
 - [Home Assistant Start](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L318) – Notify Denys when Home Assistant starts
@@ -144,14 +144,14 @@ Here is a list of all custom components I use:
 <!-- start-custom-components -->
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) v1.21.1
-- [Car Wash](https://github.com/Limych/ha-car_wash) v1.5.5
+- [Car Wash](https://github.com/Limych/ha-car_wash) v1.5.7
 - [HACS](https://hacs.xyz/docs/configuration/start) v1.34.0
 - [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) v7.0.0
 - [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) v1.1.0
-- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) vv1.11.7
-- [Presence Simulation](https://github.com/slashback100/presence_simulation) v4.5
+- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) vv1.12.1
+- [Presence Simulation](https://github.com/slashback100/presence_simulation) v4.8
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) v3.4.1
-- [Snowtire Sensor](https://github.com/Limych/ha-snowtire) v1.4.6
+- [Snowtire Sensor](https://github.com/Limych/ha-snowtire) v1.4.9
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) v2.2.2
 - [Watchman](https://github.com/dummylabs/thewatchman) v0.5.1
 <!-- end-custom-components -->
