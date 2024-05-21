@@ -242,7 +242,7 @@
             group: system
     alias: Perform an action
 - id: home_assistant_release_alert
-  alias: 'Alert: Home Assistant Release'
+  alias: 'System: Home Assistant Release'
   description: Notify Denys about new Home Assistant releases
   trigger:
   - platform: device
@@ -273,26 +273,21 @@
           uri: '{{ state_attr(''update.home_assistant_core_update'', ''release_url'')
             }}'
 - id: hacs_releases_alert
-  alias: 'Alert: HACS Releases'
+  alias: 'System: Notify about HACS updates'
   description: Notify when new HACS components are released
   trigger:
-  - platform: state
-    entity_id: sensor.hacs
-    to:
-    variables:
-      hacs_updates: '{% for repo in state_attr(''sensor.hacs'', ''repositories'')
-        -%}
-
-        • {{ repo.display_name }}: {{ repo.installed_version }} → {{ repo.available_version
-        }}
-
-        {% endfor %}'
+  - platform: time
+    at: '21:00:00'
   condition:
   - condition: numeric_state
     entity_id: sensor.hacs
     above: 0
     alias: There are any updates for hacs
   action:
+  - variables:
+      hacs_updates: '{% for repo in state_attr(''sensor.hacs'', ''repositories'')
+        -%} • {{ repo.display_name }}: {{ repo.installed_version }} → {{ repo.available_version
+        }} {% endfor %}'
   - alias: Announce HACS updates for Denys
     service: script.announcement
     data:
@@ -316,7 +311,7 @@
 
         '
 - id: home_assistant_start
-  alias: 'Alert: Home Assistant Start'
+  alias: 'System: Home Assistant Start'
   description: Notify Denys when Home Assistant starts
   trigger:
   - platform: homeassistant
@@ -1440,18 +1435,12 @@
     entity_id:
     - vacuum.roborock
     to: returning
-    enabled: false
-  - alias: After every 5th cleaning
-    platform: numeric_state
-    entity_id:
-    - counter.vacuum_clean_count
-    above: 3
-  - platform: state
-    entity_id:
-    - counter.vacuum_clean_count
-    to: '3'
-    enabled: false
+    enabled: true
   condition:
+  - alias: After every 5th cleaning
+    condition: numeric_state
+    entity_id: counter.vacuum_clean_count
+    above: 5
   - alias: And there was at least one cleaning after previous maintenance
     condition: template
     value_template: '{% set last_maintenance = as_timestamp(state_attr(''automation.vacuum_maintenance'',
@@ -1492,6 +1481,11 @@
           destructive: true
       speak: false
     alias: Announce vacuum maintenance
+  - service: vacuum.stop
+    metadata: {}
+    data: {}
+    target:
+      device_id: 88ae8bfa1cb56b3d6462805180f8af6f
   - delay:
       seconds: 5
   - service: script.vacuum_maintenance
@@ -1724,14 +1718,17 @@
   alias: 'System: Power Outage Recovery'
   description: ''
   trigger:
-  - platform: homeassistant
-    event: start
+  - platform: state
+    entity_id:
+    - binary_sensor.electricity
+    to: 'on'
+    from: 'off'
   condition: []
   action:
   - delay:
       hours: 0
-      minutes: 2
-      seconds: 0
+      minutes: 0
+      seconds: 15
       milliseconds: 0
   - if:
     - condition: or
@@ -1749,11 +1746,6 @@
       metadata: {}
     else: []
     alias: Recover lights
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 0
-      milliseconds: 0
   - if:
     - condition: state
       entity_id: binary_sensor.uptime_home_assistant
@@ -1777,6 +1769,7 @@
       data: {}
       alias: Perform Docker Restart via SSH
     alias: Perform full restart when server still has not Internet connection
+    enabled: false
   mode: single
 - id: '1686063093337'
   alias: 'Climate: Turn on Humidifier only during sleep time'
@@ -2039,7 +2032,7 @@
     data: {}
   mode: single
 - id: '1713211565263'
-  alias: 'Alert: Denys is leaving the office'
+  alias: 'Alert: Denys left the Office'
   description: Notify when Denys is leaving the office
   trigger:
   - platform: state
@@ -2056,7 +2049,7 @@
     state: home
   - condition: time
     after: '17:00:00'
-    before: '22:00:00'
+    before: '21:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
@@ -2278,3 +2271,99 @@
       - '{{ trigger.to_state.attributes.latest_message }}'
     alias: Send a notification
   mode: single
+- id: '1716236885504'
+  alias: 'Alert: Electricity Outage Notification'
+  description: Notify everyone when there is no electricity at home.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.electricity
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.electricity
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.electricity
+      state: 'on'
+    then:
+    - alias: Notify electricity if on
+      service: script.announcement
+      metadata: {}
+      data:
+        service: notify.all
+        speak: false
+        notify: true
+        title: Електрика ⚡️
+        messages:
+        - Вдома зʼявилось світло.
+        - Вдома зʼявилась електрики.
+        - Вдома знову є світло.
+        - Вдома увімкнули світло.
+        - Вдома увімкнули електрику.
+        notify_data:
+          url: /localave/home
+          tag: electricity
+    else:
+    - alias: Notify electricity is off
+      service: script.announcement
+      metadata: {}
+      data:
+        service: notify.all
+        speak: false
+        notify: true
+        title: Електрика ⚡️
+        messages:
+        - Відключення електроенергії.
+        - Вдома зникло світло.
+        - Вдома немає електрики.
+        - Відключення електроенергії вдома.
+        - Вдома вимкнули світло.
+        - Вдома вимкнули електрику.
+        notify_data:
+          url: /localave/home
+          tag: electricity
+  mode: single
+- id: '1716315229743'
+  alias: 'Alert: Low Battery Notification'
+  description: Notify when battery is low on devices, so we could buy a replacements.
+  use_blueprint:
+    path: Blackshome/low-battery-notifications-and-actions.yaml
+    input:
+      include_time: time_enabled
+      time: '12:00:00'
+      weekday_options:
+      - mon
+      - wed
+      - fri
+      - sat
+      - sun
+      exclude_sensors:
+        entity_id:
+        - sensor.denyss_ipad_battery_level
+        - sensor.iphone_maria_battery_level
+        - sensor.denyss_iphone_battery_level
+        - sensor.marry_macbook_pro_internal_battery_level
+        - sensor.wix_macbook_pro_internal_battery_level
+      custom_actions:
+      - service: script.announcement
+        metadata: {}
+        data:
+          service: notify.denys
+          speak: false
+          notify: true
+          notify_data: {}
+          title: "Батарейки \U0001FAAB"
+          messages:
+          - '{{ sensors_names }}'
+          openings:
+          - 'Низький заряд батарейки: '
+          - 'Пристрої розряджаються: '
+          - 'Потрібно замінити батарейки у: '
+        alias: Send notification to Denys
+      include_custom_actions: enable_custom_actions
+      battery_level: 10
