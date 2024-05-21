@@ -41,101 +41,102 @@ My home is awakened by these automations. The list is automatically and regularl
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (12 automation)
+1. [🔔 Alert](#-alert) (10 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [💡 Light](#-light) (6 automation)
 1. [🎵 Media](#-media) (3 automation)
 1. [🚦 Mode](#-mode) (4 automation)
 1. [🔘 Presence](#-presence) (2 automation)
-1. [🖥️ System](#-system) (7 automation)
+1. [🖥️ System](#-system) (10 automation)
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **54**️
+Total number of automations: **55**️
 
 ### 🚨 Alarm
 
-- [Notification for Triggered](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L75) – Make an announcement when Alarm is getting triggered
-- [Triggering Alarm](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L52)
+- [Notification for Triggered](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L75) – Make an announcement when Alarm is getting triggered
+- [Triggering Alarm](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L52)
 
 ### 🔔 Alert
 
-- [Air Siren in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1) – Air Alert announcement when we are in Kyiv. Sends critical notifications and announces on speakers.
-- [Bad Air Quality](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L364) – Notify when the air quality is bad
-- [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L424) – Notify when it’s okay or not okay to wash a car
-- [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2171) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
-- [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2039) – Notify when Denys is leaving the office
-- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2279) – Notify everyone when there is no electricity at home.
-- [HACS Releases](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L275) – Notify when new HACS components are released
-- [Home Assistant Release](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L244) – Notify Denys about new Home Assistant releases
-- [Home Assistant Start](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L318) – Notify Denys when Home Assistant starts
-- [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L398) – Notify when humidifier's water tank is empty
-- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2256) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
-- [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L474) – Notify when it's time to change car tires
+- [Air Siren in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1) – Air Alert announcement when we are in Kyiv. Sends critical notifications and announces on speakers.
+- [Bad Air Quality](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L359) – Notify when the air quality is bad
+- [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L419) – Notify when it’s okay or not okay to wash a car
+- [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2166) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
+- [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2034) – Notify when Denys is leaving the office
+- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2274) – Notify everyone when there is no electricity at home.
+- [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L393) – Notify when humidifier's water tank is empty
+- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2251) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
+- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2331) – Notify when battery is low on devices, so we could buy a replacements.
+- [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
 
-- [Preheat Balcony for a Workday](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L730) – When Denys wakes up, ask if he is going to work on balcony, start heating and notify when temperature is comfortable.
-- [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
-- [Switch Heaters during Heating Season](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L565) – Turn on/off heaters when Heating Season in on
-- [Sync Bedroom TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L556)
-- [Sync Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L547)
-- [Turn off Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L678) – Turn off Balcony Heater when the working display or desk lamp are off for some time
-- [Turn on Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L638) – Turn on Balcony Heater when it's cold and Desk Lamp or Working Display are turned on
-- [Turn on Humidifier only during sleep time](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1779)
+- [Preheat Balcony for a Workday](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L725) – When Denys wakes up, ask if he is going to work on balcony, start heating and notify when temperature is comfortable.
+- [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
+- [Switch Heaters during Heating Season](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L560) – Turn on/off heaters when Heating Season in on
+- [Sync Bedroom TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L551)
+- [Sync Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L542)
+- [Turn off Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L673) – Turn off Balcony Heater when the working display or desk lamp are off for some time
+- [Turn on Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L633) – Turn on Balcony Heater when it's cold and Desk Lamp or Working Display are turned on
+- [Turn on Humidifier only during sleep time](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1774)
 
 ### 💡 Light
 
-- [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1116) – Toggle Presence Simulation during Night in Away Mode
-- [Toggle Desk Lamp with Working Display](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1031) – Sync Desk lamp with Working Display
-- [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L955) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
-- [Turn on Corridor Light when Door is open](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L932) – Turn on Corridor Light when Front Door opens and then turn it off after a few minutes
-- [Turn on lights on Sunset](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L824) – Turn on lights when sun goes below the horizon
-- [Turn on lights on low illuminance](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L873) – Turn on lights on low illuminance
+- [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1111) – Toggle Presence Simulation during Night in Away Mode
+- [Toggle Desk Lamp with Working Display](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1026) – Sync Desk lamp with Working Display
+- [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L950) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
+- [Turn on Corridor Light when Door is open](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L927) – Turn on Corridor Light when Front Door opens and then turn it off after a few minutes
+- [Turn on lights on Sunset](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L819) – Turn on lights when sun goes below the horizon
+- [Turn on lights on low illuminance](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L868) – Turn on lights on low illuminance
 
 ### 🎵 Media
 
-- [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
-- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1948) – Turn on Apple TV when Samsung TV turns on and PS5 is off
-- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1948) – Turn on Apple TV when Samsung TV turns on and PS5 is off
+- [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
+- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1943) – Turn on Apple TV when Samsung TV turns on and PS5 is off
+- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1943) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 
 ### 🚦 Mode
 
-- [Away Flow](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1082) – Toggle Away mode depending on the Away input boolean
-- [Away on Leaving City](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1092) – Toggle Away mode depending on proximity to the Kyiv city
-- [Do Not Disturb Activation](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1047) – Adjust devices to Do Not Disturb mode
-- [Do Not Disturb on Focus](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1064) – Switch Do Not Disturb while camera, mic or focus are on
+- [Away Flow](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1077) – Toggle Away mode depending on the Away input boolean
+- [Away on Leaving City](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1087) – Toggle Away mode depending on proximity to the Kyiv city
+- [Do Not Disturb Activation](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1042) – Adjust devices to Do Not Disturb mode
+- [Do Not Disturb on Focus](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1059) – Switch Do Not Disturb while camera, mic or focus are on
 
 ### 🔘 Presence
 
-- [Everyone is Arriving](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1144) – Turn on things when people are arriving
-- [Everyone is Leaving](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1224) – Turn off things when people are leaving
+- [Everyone is Arriving](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1139) – Turn on things when people are arriving
+- [Everyone is Leaving](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1219) – Turn off things when people are leaving
 
 ### 🖥️ System
 
-- [Magic Cube Actions](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L122)
-- [Notify about high CPU usage](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2073) – Send alert when HA has a high CPU usage
-- [Notify about high RAM usage](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2104) – Notify when RAM usage is high for some time.
-- [Notify when Media disk is full](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L338) – Notify when Media drive is 90% full for some time.
-- [Notify when System disk is full](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2141) – Send a notification when system disk is 90% full.
-- [Power Outage Recovery](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1722)
-- [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2027) – Run scripts for generating README, commiting regular updated, etc
+- [Home Assistant Release](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L244) – Notify Denys about new Home Assistant releases
+- [Home Assistant Start](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L313) – Notify Denys when Home Assistant starts
+- [Magic Cube Actions](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L122)
+- [Notify about HACS updates](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L275) – Notify when new HACS components are released
+- [Notify about high CPU usage](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2068) – Send alert when HA has a high CPU usage
+- [Notify about high RAM usage](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2099) – Notify when RAM usage is high for some time.
+- [Notify when Media disk is full](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L333) – Notify when Media drive is 90% full for some time.
+- [Notify when System disk is full](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2136) – Send a notification when system disk is 90% full.
+- [Power Outage Recovery](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1717)
+- [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2022) – Run scripts for generating README, commiting regular updated, etc
 
 ### 🧹 Vacuum
 
-- [Ask Regular Cleaning](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1296) – Regular vacuum cleaning every two days
-- [Ask for Maintenance](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1435) – Send vacuum near trash bin and ask for maintenance
-- [Clean Counting](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L2010) – Count cleanings via counter
-- [Error Alert](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1407) – Notify when error with vacuum occured
-- [Finish Alert](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1374) – Notify when vacuum finished cleaning and we are not home.
-- [Replacements Alert](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1503) – Notify when vacuum parts need to be replaced
-- [Stop cleaning when we return home](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1356) – Send vacuum home when somebody comes home
-- [iOS Actions](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1583) – Handle iOS actions for vacuum cleaner
+- [Ask Regular Cleaning](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1291) – Regular vacuum cleaning every two days
+- [Ask for Maintenance](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1430) – Send vacuum near trash bin and ask for maintenance
+- [Clean Counting](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L2005) – Count cleanings via counter
+- [Error Alert](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1402) – Notify when error with vacuum occured
+- [Finish Alert](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1369) – Notify when vacuum finished cleaning and we are not home.
+- [Replacements Alert](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1498) – Notify when vacuum parts need to be replaced
+- [Stop cleaning when we return home](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1351) – Send vacuum home when somebody comes home
+- [iOS Actions](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1578) – Handle iOS actions for vacuum cleaner
 
 ### 💦 Water
 
-- [Keep Water Heater turned On](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1983) – When Water Heater was accidentally turned off, automatically turn in on
-- [Notify when water is heated](https://github.com/denysdovhan/home-assistant-config/blob/cf4c5bd4276397ba20b9f15def64135e42112414/automations.yaml#L1654) – When we ask to let us know when the boiler has done heating, it should notify about that.
+- [Keep Water Heater turned On](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1978) – When Water Heater was accidentally turned off, automatically turn in on
+- [Notify when water is heated](https://github.com/denysdovhan/home-assistant-config/blob/a4c0c5d8fe9289ebde2830efa7734e31f6929ba7/automations.yaml#L1649) – When we ask to let us know when the boiler has done heating, it should notify about that.
 <!-- end-automations -->
 
 ## Custom Components
