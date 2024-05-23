@@ -49,9 +49,9 @@ blueprint:
             value: enable_button_trigger
           - label: Dont use a button trigger
             value: disable_button_trigger
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     button_entity:
       name: Button Helper
       description: Input your button helper.
@@ -75,9 +75,9 @@ blueprint:
             value: time_enabled
           - label: Disable the time options
             value: time_disabled
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     time:
       name: Time
       description: Set the time you would like to run the automation.
@@ -195,9 +195,9 @@ blueprint:
             value: enable_easy_okay_notify
           - label: Disable Device Notification
             value: disabled_easy_notify
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     include_persistent_notification:
       name: Use The Easy Notify - UI Notification Options (Optional)
       description: Enabling this option will display notifications directly within
@@ -217,9 +217,9 @@ blueprint:
             value: enable_persistent_okay_notification
           - label: Disable UI Notification
             value: disabled_persistent_notification
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     sensor_selection:
       name: Easy Notify - Sensor Selection
       description: Please select which sensors you would like to include in your notifications.
@@ -234,9 +234,9 @@ blueprint:
           - label: Use All Battery Sensors Minus Excluded Battery Sensors + Custom
               Group
             value: enable_all_and_custom_group_sensors
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     notify_device:
       name: Easy Notify - Devices Notified (Optional)
       description: If you've enabled device notifications above, please select the
@@ -274,9 +274,9 @@ blueprint:
             value: sensors
           - label: Unavailable sensors
             value: unavailable_sensors
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     notify_okay_message:
       name: Easy Notify - Okay Confirmation Message
       description: Enter in the notification message you would like to receive when
@@ -301,9 +301,9 @@ blueprint:
             value: enable_to_do_list_button_and_confirmation
           - label: Disable Action Buttons
             value: disabled_notify_action_buttons
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     to_do_list:
       name: Easy Notify Action Buttons - To-Do List Selection
       description: 'Choose the To-Do list where you''d like to add your task.
@@ -373,9 +373,9 @@ blueprint:
             value: enable_custom_actions
           - label: Disable Custom Actions
             value: disabled_custom_actions
-          multiple: false
           custom_value: false
           sort: false
+          multiple: false
     custom_actions:
       name: Custom Actions
       description: 'Add your custom actions that you''d like to run when the automation
