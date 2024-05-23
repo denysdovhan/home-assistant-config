@@ -40,7 +40,7 @@ The best way to discover new ideas and inspire is by [reading the code][github-u
 Read this documentation to see the bigger picture:
 
 [Hardware](./hardware){: .md-button }
-[Home Assistant](./config){: .md-button }
+[Configuration](./config){: .md-button }
 [Inspiration](./resources){: .md-button }
 
 Documentation for the rest of the stuff that I run on my smart home server can be found here:
