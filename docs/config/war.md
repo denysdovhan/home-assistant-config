@@ -81,6 +81,11 @@ Cruise missiles are usually carried and launched by [Tu-95 bombers](https://en.w
 
 They fly to the missile launch sites for about 3 hours, launch their missiles, then it takes about 1-2 hours for missiles to fly to Kyiv. So there's some time to prepare a hideout (in my case, it's the bathroom), gather documents, and sleep for a few hours before the "show" begins.
 
+<figure markdown="span">
+  ![Tu-95 takes off notification](https://github.com/denysdovhan/home-assistant-config/assets/3459374/eb24f547-8ef6-47b4-a60c-97995dfaf02c)
+  <figcaption>Notification about Tu-95 bombers taking off</figcaption>
+</figure>
+
 Usually, it happens in the evening and means tonight will be a massive missile attack.
 
 I have a sensor that checks the Telegram channels, scrapes the list of messages every 5 seconds, and checks if the latest message contains a specific set of words, like _"take off" **and** "plane" **and** "tu-95"_. It also stores the latest message as an attribute.
@@ -134,6 +139,11 @@ action:
 ## Direct Danger Alert
 
 This is the most interesting sensor, which notifies me right when there's a direct threat to my location.
+
+<figure markdown="span">
+  ![Direct danger notification](https://github.com/denysdovhan/home-assistant-config/assets/3459374/05f1821c-89f5-474e-bf95-fffb3ea459d8)
+  <figcaption>Notification about direct danger</figcaption>
+</figure>
 
 When an attack happens at night, you need to decide:
 
