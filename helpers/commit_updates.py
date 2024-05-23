@@ -4,6 +4,7 @@ import subprocess
 
 STATUS_CMD = "git status --porcelain"
 README = "README.md"
+DOCS = "docs"
 HA_VERSION = ".HA_VERSION"
 
 def main():
@@ -11,6 +12,10 @@ def main():
   
   for line in output.split('\n'):
     path = line[3:]
+
+    if path.startswith(DOCS):
+      subprocess.run(["git", "add", path])
+      subprocess.run(["git", "commit", "-m", f"docs: Update docs"])
 
     if path == README:
       subprocess.run(["git", "add", README])
