@@ -1,17 +1,15 @@
 # Vacuum Setup
 
-![Vacuum](https://user-images.githubusercontent.com/3459374/109431769-d9f96e00-7a10-11eb-8ea5-04d1d0a79521.png)
+![Vacuum](https://github.com/denysdovhan/home-assistant-config/assets/3459374/5eaa469d-39d4-485a-acdf-77695da4d5aa)
 
-I have a Roborock S5 Max vacuum robot. It's paired with Home Assistant using built-in [Xiaomi Miio integration](https://www.home-assistant.io/integrations/xiaomi_miio/).
-
-In order to get this device working with Home Assistant, you must obtain an access token, which is a bit tricky. Fortunately, there's [a guide on how to get this token](https://www.home-assistant.io/integrations/xiaomi_miio/#retrieving-the-access-token).
+I have a Roborock S5 Max vacuum robot. It's paired with Home Assistant using built-in [Roborock](https://www.home-assistant.io/integrations/roborock/) integration.
 
 I used a [`vacuum-card`](https://github.com/denysdovhan/purifier-card) I built myself for controlling my vacuum and [`lovelace-xiaomi-vacuum-map-card`](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card) for displaying a live map.
 
 You can find the latest state of my vacuum setup here:
 
-[Automations](https://github.com/denysdovhan/smart-home/blob/master/automations/vacuum.yaml){: .md-button }
-[Scripts](https://github.com/denysdovhan/smart-home/blob/master/scripts/vacuum.yaml){: .md-button }
+[Automations](https://github.com/denysdovhan/home-assistant-config/blob/master/automations/vacuum.yaml){: .md-button }
+[Scripts](https://github.com/denysdovhan/home-assistant-config/blob/master/scripts/vacuum.yaml){: .md-button }
 
 ## Asking to start cleaning
 
@@ -61,18 +59,21 @@ vacuum_maintenance:
 
 ## Cleaning the specific room
 
-I made shortcuts for cleaning rooms separately. Here's a guide how to retrieve valid room number: [Retrieving room numbers](https://www.home-assistant.io/integrations/xiaomi_miio/#retrieving-room-numbers).
+I made shortcuts for cleaning rooms separately. Here's a guide how to retrieve valid room number: [Retrieving room numbers](https://www.home-assistant.io/integrations/roborock/#how-can-i-clean-a-specific-room).
 
 Here are mine:
 
-```js
-[
-  [16, '350001002902'], // Living Room
-  [17, '350001004993'], // Bedroom
-  [18, '350001010484'], // Corridor
-  [19, '350001010483'], // Bathroom
-  [20, '350001010672'], // Kitchen
-];
+```yaml
+vacuum.roborock:
+  maps:
+    - flag: 0
+      name: Kyiv Home
+      rooms:
+        '16': Living Room
+        '17': Bedroom
+        '18': Corridor
+        '19': Bathroom
+        '20': Kitchen
 ```
 
 Using the first number in these tuples, I can send a vacuum to clean a specific room like this:
