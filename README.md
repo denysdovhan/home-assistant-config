@@ -23,15 +23,15 @@ I run Home Assistant OS with these addons:
 
 <!-- start-addons -->
 
-- [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) v17.2.0 – A supercharged SSH & Web Terminal access to your Home Assistant instance
+- [Advanced SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) v17.3.0 – A supercharged SSH & Web Terminal access to your Home Assistant instance
 - [File editor](https://github.com/home-assistant/addons/tree/master/configurator) v5.8.0 – Simple browser-based file editor for Home Assistant
-- [ESPHome](https://esphome.io/) v2024.4.2 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
+- [ESPHome](https://esphome.io/) v2024.5.2 – ESPHome add-on for intelligently managing all your ESP8266/ESP32 devices
 - [PS5 MQTT](https://github.com/FunkeyFlo/ps5-mqtt/tree/main/add-ons/ps5-mqtt) v1.3.3 – Control Sony PlayStation 5 devices via MQTT
 - [AirCast](https://github.com/hassio-addons/addon-aircast) v4.2.1 – AirPlay capabilities for your Chromecast devices.
 - [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) v0.112.1 – Automatically manage backups between Home Assistant and Google Drive
 - [Samba share](https://github.com/home-assistant/addons/tree/master/samba) v12.3.1 – Expose Home Assistant folders with SMB/CIFS
 - [Mosquitto broker](https://github.com/home-assistant/addons/tree/master/mosquitto) v6.4.0 – An Open Source MQTT broker
-- [Zigbee2MQTT](https://github.com/zigbee2mqtt/hassio-zigbee2mqtt/tree/master/zigbee2mqtt) v1.36.1-1 – Use your ZigBee devices without the vendor's bridge or gateway
+- [Zigbee2MQTT](https://github.com/zigbee2mqtt/hassio-zigbee2mqtt/tree/master/zigbee2mqtt) v1.37.1-1 – Use your ZigBee devices without the vendor's bridge or gateway
 <!-- end-addons -->
 
 ## Automation
