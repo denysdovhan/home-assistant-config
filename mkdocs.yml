@@ -48,16 +48,16 @@ theme:
     - content.action.view
 
 nav:
-  - Home: index.md # TODO
+  - Home: index.md
   - Hardware: hardware.md
   - Configuration:
-      - config/index.md # TODO
-      - config/dashboards.md # TODO
-      - config/custom-extensions.md # TODO
-      - config/speech.md # TODO
-      - config/vacuum.md # TODO
+      - config/index.md
+      - config/dashboards.md
+      - config/custom-extensions.md
+      - config/speech.md
+      - config/vacuum.md
       - config/war.md
-      - config/monitoring.md # TODO
+      - config/monitoring.md
   - Inspiration: resources.md
   # Link to my smart-home setup
   # Ref: https://github.com/denysdovhan/smart-home
