@@ -11,6 +11,7 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  custom_dir: docs/overrides
   icon:
     logo: material/home-assistant
     repo: fontawesome/brands/github
