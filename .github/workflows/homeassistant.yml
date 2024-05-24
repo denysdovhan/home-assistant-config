@@ -3,7 +3,7 @@ name: Home Assistant CI
 on:
   push:
     branches:
-      - main
+      - [$default-branch]
   pull_request:
   schedule:
     - cron: 0 12 * * *
