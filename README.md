@@ -68,7 +68,7 @@ Total number of automations: **55**️
 - [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L2276) – Notify everyone when there is no electricity at home.
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L393) – Notify when humidifier's water tank is empty
 - [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L2253) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
-- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L2333) – Notify when battery is low on devices, so we could buy a replacements.
+- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L2331) – Notify when battery is low on devices, so we could buy a replacements.
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/2118e3654039407ca1d6759e4037608f855d849d/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
