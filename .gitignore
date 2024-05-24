@@ -20,6 +20,7 @@ __pycache__
 deps
 tts
 image
+site
 
 # Home Assistant
 secrets.yaml
