@@ -24,58 +24,6 @@ I use [Seagate Barracuda 2TB 5400rpm 128MB](https://www.amazon.com/Seagate-Barra
 
 ![Opened mini PC with HDD within](https://github.com/denysdovhan/home-assistant-config/assets/3459374/975dfa43-878d-4dec-8987-6f981a6bc814)
 
-<!-- prettier-ignore -->
-??? note "Previous setup with Raspberry Pi 4B"
-    The heart of my smart home is a home server based on [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) with 4GB of RAM onboard. It's a small, affordable, but nonetheless a very capable device. It's held within an [aluminum alloy case](https://www.aliexpress.com/item/4000039821460.html?spm=a2g0s.9042311.0.0.27424c4dyqD1Vd) I bought on AliExpress. The aluminum case itself helps to disperse heat. Additionally, it came with a heat sink set and a tiny cooling fan.
-
-    I use official [Raspberry Pi 15W USB-C Power Supply](https://www.raspberrypi.org/products/type-c-power-supply/) for powering my smart home server. It is important to get enough power for Raspberry Pi to work properly. Home Assistant requires at least 3A power and this power supply cable handles it just right.
-
-    === "Home Server Hardware"
-
-        Here's a photo of my home server hardware, right after I received it:
-
-        ![My home server hardware](https://user-images.githubusercontent.com/3459374/108915547-b3fd5380-7635-11eb-8b3f-2826d6d2bc54.jpeg)
-
-    === "Alluminium Case Assembling"
-
-        A photo of the aluminum case when I was assembling it:
-
-        ![An aluminum case for my Raspberry Pi](https://user-images.githubusercontent.com/3459374/108916909-9cbf6580-7637-11eb-844e-a701bc01dec7.jpeg)
-
-    === "Assembled and Connected"
-
-        Here's a whole kit assembled and connected to power:
-
-        ![A whole kit assembled and connected to power](https://user-images.githubusercontent.com/3459374/108917386-50c0f080-7638-11eb-9ae2-7bfc379b04d7.jpeg)
-
-    ### Storage
-
-    I use [Kingston SSDNow A400 240GB 2.5"](https://www.kingston.com/en/ssd/a400-solid-state-drive) as a system data storage. It's connected to Raspberry Pi via Ugreen US221 USB 3.0 case adapter. As a media storage I use [Transcend StoreJet 25M3 2TB](https://www.transcend-info.com/Products/No-284) hard drive (which I got from my dad as my birthday present in 2020). Both storages are connecterd via USB 3.0 interface on Raspberry to allow high speed reading, so I can easily stream my media using [Plex](https://plex.tv).
-
-    Media is downloaded directly to my HDD using [Transmission](https://hub.docker.com/r/linuxserver/transmission) container.
-
-    === "SSD and HDD Assembled and Connected"
-
-        ![Assembled Storage and Raspberry Pi](https://user-images.githubusercontent.com/3459374/181816177-1f5a1954-845f-4da3-a3e2-fdc2917474bd.jpeg)
-
-    === "SSD whithin a Case"
-
-        ![Kingston SSD in a case](https://user-images.githubusercontent.com/3459374/181772178-48d26d58-8e62-4522-a452-c3b4832da175.jpeg)
-
-    === "HDD Connected"
-
-        ![HDD connected to Raspberry Pi](https://user-images.githubusercontent.com/3459374/115119826-0eba8800-9fb3-11eb-9b54-ddbe2ea732fb.jpeg)
-
-<!-- prettier-ignore -->
-??? note "Previous media storage solution with external HDD"
-    ![Transcend volume connected to my Raspberry Pi](https://user-images.githubusercontent.com/3459374/115119826-0eba8800-9fb3-11eb-9b54-ddbe2ea732fb.jpeg)
-
-    I've got a [Transcend StoreJet 25M3 2TB](https://www.transcend-info.com/Products/No-284) hard drive from my dad as my birthday present in 2020.
-
-    I have this HDD connected to my Raspberry Pi. It is used as a storage for my media files (primarly movies and TV-series). USB 3.0 interface on Raspberry allows high speed reading, so I can easily stream my media using [Plex](https://plex.tv).
-
-    Media is downloaded directly to my HDD using [Transmission](https://hub.docker.com/r/linuxserver/transmission) container.
-
 ### Installation
 
 A few words on how Home Assistant is run on my homelab server.
