@@ -2242,6 +2242,7 @@
         notify: false
         force_speak: true
         messages: '{{ messages }}'
+    enabled: true
   - delay:
       hours: 2
       minutes: 0
@@ -2307,7 +2308,6 @@
         - Вдома увімкнули електрику.
         notify_data:
           url: /localave/home
-          tag: electricity
     else:
     - alias: Notify electricity is off
       service: script.announcement
@@ -2326,7 +2326,6 @@
         - Вдома вимкнули електрику.
         notify_data:
           url: /localave/home
-          tag: electricity
   mode: single
 - id: '1716315229743'
   alias: 'Alert: Low Battery Notification'
