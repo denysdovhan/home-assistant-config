@@ -49,4 +49,5 @@ Here's a list of extensions developed by other developers.
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) v1.4.9
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) v2.2.2
 - [Watchman](https://github.com/dummylabs/thewatchman) v0.5.1
+- [ics Calendar](https://github.com/franc6/ics_calendar) v4.2.0
 <!-- end-custom-components -->
