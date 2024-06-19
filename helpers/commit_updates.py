@@ -4,6 +4,7 @@ import subprocess
 
 STATUS_CMD = "git status --porcelain"
 README = "README.md"
+CUSTOM_COMPONENTS_README = "custom_components/README.md"
 DOCS = "docs"
 HA_VERSION = ".HA_VERSION"
 
@@ -20,6 +21,10 @@ def main():
     if path == README:
       subprocess.run(["git", "add", README])
       subprocess.run(["git", "commit", "-m", f"docs: Update README.md"])
+    
+    if path == CUSTOM_COMPONENTS_README:
+      subprocess.run(["git", "add", CUSTOM_COMPONENTS_README])
+      subprocess.run(["git", "commit", "-m", f"docs: Update README.md for custom_components"])
 
     if path == HA_VERSION:
       with open(HA_VERSION) as file:
