@@ -1145,11 +1145,6 @@
     from: not_home
     to: home
   condition:
-  - alias: Do not turn on when the lights are on
-    condition: state
-    entity_id: light.lights
-    state: 'off'
-    enabled: false
   - alias: No motion detected home
     condition: state
     entity_id: binary_sensor.home_occupancy
@@ -1185,11 +1180,17 @@
         entity_id: scene.evening_lights
         transition: 5
     alias: Turn on Lights when its dark
-  - alias: Turn on Air Purifier
-    service: fan.turn_on
-    data: {}
-    target:
+  - alias: Turn on Purifier when it's on
+    if:
+    - condition: state
       entity_id: fan.air_purifier
+      state: 'off'
+    then:
+    - alias: Turn on Air Purifier
+      service: fan.turn_on
+      data: {}
+      target:
+        entity_id: fan.air_purifier
   - if:
     - condition: state
       entity_id: binary_sensor.sleeping_time
@@ -1236,9 +1237,15 @@
       minutes: 0
       seconds: 0
   action:
-  - alias: Turn off Air Pufirier
-    service: fan.turn_off
-    entity_id: fan.air_purifier
+  - if:
+    - condition: state
+      entity_id: fan.air_purifier
+      state: 'on'
+    then:
+    - alias: Turn off Air Pufirier
+      service: fan.turn_off
+      entity_id: fan.air_purifier
+    alias: Turn off Purifier when it's on
   - alias: Turn off Air Humidifier
     service: humidifier.turn_off
     entity_id: humidifier.air_humidifier
@@ -1541,7 +1548,7 @@
     id: sensor_dirty
     entity_id:
     - sensor.roborock_sensor_time_left
-    below: 3600
+    below: 60
     variables:
       openings:
       - Сенсори орієнтації пилососа забруднились.
@@ -1728,9 +1735,11 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: 15
+      seconds: 30
       milliseconds: 0
-  - if:
+    enabled: false
+  - alias: Turn off lights at night or when away
+    if:
     - condition: or
       conditions:
       - condition: state
@@ -1740,12 +1749,86 @@
         entity_id: binary_sensor.sleeping_time
         state: 'on'
     then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - light.kitchen_lightstrip
+        - light.kitchen_spotlights
+        from: unavailable
+      - platform: state
+        entity_id:
+        - light.living_room_tv_lights
+        - light.bedroom_bed_lights
+        from: unavailable
+      timeout:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+      alias: Wait for lights to become online
     - service: scene.turn_on
       target:
         entity_id: scene.lights_out
       metadata: {}
     else: []
-    alias: Recover lights
+  - alias: Turn on Air Humidifier when needed
+    sequence:
+    - wait_for_trigger:
+      - platform: device
+        type: changed_states
+        device_id: 0166e2ff4273cd202346ea34f12cb10c
+        entity_id: 497c964ada69bb35eec1b18d0c001130
+        domain: humidifier
+      timeout:
+        hours: 0
+        minutes: 5
+        seconds: 0
+        milliseconds: 0
+      alias: Wait for Air Humidifier to come online
+    - alias: Turn off Humidifier's buzzer and light
+      service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.air_humidifier_buzzer
+        - switch.air_humidifier_led
+    - if:
+      - condition: state
+        entity_id: binary_sensor.sleeping_time
+        state: 'on'
+      then:
+      - service: humidifier.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: humidifier.air_humidifier
+      alias: Turn on Humidifier during the Sleeping Time
+  - sequence:
+    - wait_for_trigger:
+      - platform: device
+        type: changed_states
+        device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
+        entity_id: 068282794a42c142ea2b6ec9efe1b368
+        domain: switch
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      alias: Wait for Air Purifier to become online
+    - service: fan.turn_on
+      metadata: {}
+      data: {}
+      target:
+        device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
+    alias: Turn on Air Purifier when needed
+  - alias: Turn on HomePods
+    service: remote.turn_on
+    target:
+      device_id:
+      - 4a9dd68b66671255057452cd1ce81ffe
+      - 05af1b6a4c1338aa1857801f3d2b27a4
+    data: {}
   - if:
     - condition: state
       entity_id: binary_sensor.uptime_home_assistant
@@ -1816,14 +1899,17 @@
     for turning on ACs
   trigger:
   - platform: numeric_state
-    entity_id: sensor.home_temperature
-    above: 26.5
+    entity_id:
+    - sensor.home_temperature
+    above: 27
   - platform: numeric_state
-    entity_id: climate.living_room_ac
-    above: 26.5
+    entity_id:
+    - climate.living_room_ac
+    above: 27
   - platform: numeric_state
-    entity_id: climate.bedroom_ac
-    above: 26.5
+    entity_id:
+    - climate.bedroom_ac
+    above: 27
   condition:
   - condition: state
     entity_id: group.family
@@ -2307,7 +2393,7 @@
         - Вдома увімкнули світло.
         - Вдома увімкнули електрику.
         notify_data:
-          url: /localave/home
+          url: /localave/electricity
     else:
     - alias: Notify electricity is off
       service: script.announcement
@@ -2317,6 +2403,8 @@
         speak: false
         notify: true
         title: Електрика ⚡️
+        notify_data:
+          url: /localave/electricity
         messages:
         - Відключення електроенергії.
         - Вдома зникло світло.
@@ -2324,8 +2412,6 @@
         - Відключення електроенергії вдома.
         - Вдома вимкнули світло.
         - Вдома вимкнули електрику.
-        notify_data:
-          url: /localave/home
   mode: single
 - id: '1716315229743'
   alias: 'Alert: Low Battery Notification'
@@ -2348,6 +2434,8 @@
         - sensor.denyss_iphone_battery_level
         - sensor.marry_macbook_pro_internal_battery_level
         - sensor.wix_macbook_pro_internal_battery_level
+        - sensor.denyss_iphone_battery
+        - sensor.icloud_maria_iphone_battery
       custom_actions:
       - service: script.announcement
         metadata: {}
@@ -2366,3 +2454,31 @@
         alias: Send notification to Denys
       include_custom_actions: enable_custom_actions
       battery_level: 10
+- id: '1718745814577'
+  alias: 'Media: Plex Disk Optimization'
+  description: Optimise disk operations by enabling Turtle mode on Transmission when
+    someone is watching Plex.
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.plex
+  condition: []
+  action:
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.plex
+      above: 0
+      alias: When someone is watching
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.transmission_turtle_mode
+    else:
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.transmission_turtle_mode
+  mode: single

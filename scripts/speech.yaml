@@ -7,15 +7,15 @@ announcement:
       description: A title for a push-notification
       selector:
         text:
-    messages:
-      name: Messages
-      description: One of these messages will be randomly picked for announcement
-      selector:
-        object:
     openings:
       name: Opening messages
       description: One of these greetings will be randomly picked for announcement
       advanced: true
+      selector:
+        object:
+    messages:
+      name: Messages
+      description: One of these messages will be randomly picked for announcement
       selector:
         object:
     service:

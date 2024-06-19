@@ -16,17 +16,23 @@ do_not_disturb_mode:
         - media_player.living_room_homepod
         - media_player.bedroom_homepod
         - media_player.all_speakers
-    - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-      domain: select
-      entity_id: 406c298e910de0e503c7713710e9df20
-      type: select_option
-      option: dim
-    - service: fan.set_preset_mode
-      metadata: {}
-      data:
-        preset_mode: Silent
-      target:
+    - if:
+      - condition: state
         entity_id: fan.air_purifier
+        state: 'on'
+      then:
+      - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
+        domain: select
+        entity_id: 406c298e910de0e503c7713710e9df20
+        type: select_option
+        option: dim
+      - service: fan.set_preset_mode
+        metadata: {}
+        data:
+          preset_mode: Silent
+        target:
+          entity_id: fan.air_purifier
+      alias: Adjust Air Purifier when it's on
     else:
     - alias: Make Speakers to low volume
       service: media_player.volume_set
@@ -37,18 +43,24 @@ do_not_disturb_mode:
         - media_player.living_room_homepod
         - media_player.bedroom_homepod
         - media_player.all_speakers
-    - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-      domain: select
-      entity_id: 406c298e910de0e503c7713710e9df20
-      type: select_option
-      option: bright
-    - service: fan.set_preset_mode
-      metadata: {}
-      data:
-        preset_mode: Auto
-      target:
-        entity_id:
-        - fan.air_purifier
+    - if:
+      - condition: state
+        entity_id: fan.air_purifier
+        state: 'on'
+      then:
+      - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
+        domain: select
+        entity_id: 406c298e910de0e503c7713710e9df20
+        type: select_option
+        option: bright
+      - service: fan.set_preset_mode
+        metadata: {}
+        data:
+          preset_mode: Auto
+        target:
+          entity_id:
+          - fan.air_purifier
+      alias: Adjust Air Purifier when it's on
   mode: single
   icon: mdi:bell-circle
 away_mode:
