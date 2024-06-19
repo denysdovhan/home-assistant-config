@@ -37,17 +37,17 @@ Here's a list of extensions developed by other developers.
 
 <!-- start-custom-components -->
 
-- [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0` by [@basnijholt](https://github.com/basnijholt), [@RubenKelevra](https://github.com/RubenKelevra), [@th3w1zard1](https://github.com/th3w1zard1), [@protyposis](https://github.com/protyposis)
-- [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7` by [@Limych](https://github.com/Limych)
-- [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.3` by [@tolwi](https://github.com/tolwi)
-- [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0` by [@ludeeus](https://github.com/ludeeus)
-- [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0` by [@danieldotnl](https://github.com/danieldotnl)
-- [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) `v1.1.0` by [@krasnoukhov](https://github.com/krasnoukhov)
-- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) `vv1.12.10` by [@bramstroker](https://github.com/bramstroker)
-- [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.8` by [@slashback100](https://github.com/slashback100)
-- [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.1` by [@dougiteixeira](https://github.com/dougiteixeira)
-- [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9` by [@limych](https://github.com/limych)
-- [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) `v2.2.2` by [@dolezsa](https://github.com/dolezsa)
-- [Watchman](https://github.com/dummylabs/thewatchman) `v0.5.1` by [@dummylabs](https://github.com/dummylabs)
-- [ics Calendar](https://github.com/franc6/ics_calendar) `v4.2.0` by [@franc6](https://github.com/franc6)
+- [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0`
+- [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7`
+- [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.3`
+- [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0`
+- [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0`
+- [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) `v1.1.0`
+- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) `vv1.12.10`
+- [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.8`
+- [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.1`
+- [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
+- [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) `v2.2.2`
+- [Watchman](https://github.com/dummylabs/thewatchman) `v0.5.1`
+- [ics Calendar](https://github.com/franc6/ics_calendar) `v4.2.0`
 <!-- end-custom-components -->
