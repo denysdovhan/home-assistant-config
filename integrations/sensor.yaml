@@ -23,7 +23,7 @@ sensor:
     device_class: aqi
     resource: https://misto.lun.ua/api/air/v1/public/data/
     value_template: >-
-      {% set station = '125' %}
+      {% set station = '301' %}
       {# #}
       {% macro aqi(aqihigh, aqilow, conchigh, conclow, conc) -%}
         {{ (aqilow + (conc - conclow) * (aqihigh - aqilow) / (conchigh - conclow)) | round }}
@@ -57,3 +57,21 @@ sensor:
       - pm25
       - pm10
       - pm100
+
+  # Electricity Outages Stats
+  - platform: history_stats
+    name: No Electricity Today
+    entity_id: binary_sensor.electricity
+    state: 'off'
+    type: time
+    end: '{{ now() }}'
+    duration:
+      hours: 24
+  - platform: history_stats
+    name: No Electricity Today Percent
+    entity_id: binary_sensor.electricity
+    state: 'off'
+    type: ratio
+    end: '{{ now() }}'
+    duration:
+      hours: 24
