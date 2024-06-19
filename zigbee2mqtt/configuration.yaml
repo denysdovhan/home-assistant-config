@@ -7,3 +7,10 @@ advanced:
   log_level: warn
 serial:
   port: /dev/ttyUSB0
+frontend:
+  port: 8099
+availability:
+  active:
+    timeout: 10
+  passive:
+    timeout: 720
