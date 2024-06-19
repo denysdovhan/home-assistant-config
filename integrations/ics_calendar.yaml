@@ -1,0 +1,10 @@
+#
+# Logger
+#
+# https://www.home-assistant.io/integrations/logger/
+#
+
+ics_calendar:
+  calendars:
+    - name: Electricity Outages
+      url: !secret outages_calendar_ics
