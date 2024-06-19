@@ -186,7 +186,7 @@ def render_addon(addon):
   version = addon["version"]
   url = addon["url"]
   description = addon["description"]
-  return f"- [{name}]({url}) v{version} – {description}"
+  return f"- [{name}]({url}) `v{version}` – {description}"
 
 def render_addons():
   text = []
@@ -210,7 +210,7 @@ def render_component(manifest):
   name = manifest["name"]
   version = manifest["version"]
   url = manifest["documentation"]
-  return f"- [{name}]({url}) v{version}"
+  return f"- [{name}]({url}) `v{version}`"
 
 def render_custom_components():
   text = []
