@@ -23,9 +23,12 @@ multiscrape:
               or "київ, укриття" in message
               or "київ, уважно" in message
               or "київ укриття не лишає" in message
+              or "київ — будьте в укриттях" in message
               or "швидкісна ціль" in message
               or "подалі від зовнішніх стін" in message
               or "безпечних місцях" in message
+              or "кинджал у напрямку" in message
+              or "кинджал на" in message
           %}
           {{ danger_now and in_kyiv }}
         attributes:
@@ -57,13 +60,15 @@ multiscrape:
         select_list: '.js-message_text'
         value_template: >
           {% set message = value.split("|||") | last | lower %}
-          {% set in_kyiv = "київ" in message or "святошин" in message %}
           {% set danger_indicator = "🔴" in message %}
+          {% set in_kyiv = "київ" in message or "святошин" in message %}
           {% set danger_now = "київ!" in message
               or "буде гучно" in message
               or "бути гучно" in message
+              or "в укриття" in message
               or "кинджал на" in message
               or "балістика на" in message
+              or "київ ракета" in message
               or "на київ заходять ракети" in message
           %}
           {{ danger_indicator and danger_now and in_kyiv }}
