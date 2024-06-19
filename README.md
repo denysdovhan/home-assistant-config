@@ -2,7 +2,7 @@
 
 # Denys Dovhan's Home Assistant Config
 
-![Home](https://user-images.githubusercontent.com/3459374/152371766-1d2a1e17-34d3-4fe6-9e6d-aded02f14de1.png)
+![Home](https://github.com/denysdovhan/smart-home/assets/3459374/6085c456-0842-4313-934b-44245888c59f)
 
 [![GitHub Workflow Status][github-img]][github-url]
 [![Last Commit][last-commit-img]][github-url]
