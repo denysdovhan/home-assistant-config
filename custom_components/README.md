@@ -8,6 +8,7 @@ Here is a list of all custom components I use:
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0`
 - [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7`
+- [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v0.0.0`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.3`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0`
 - [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0`
