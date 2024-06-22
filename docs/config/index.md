@@ -90,7 +90,7 @@ Total number of automations: **56**️
 
 ### 🎵 Media
 
-- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2440) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
+- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2442) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
 - [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2012) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2012) – Turn on Apple TV when Samsung TV turns on and PS5 is off
