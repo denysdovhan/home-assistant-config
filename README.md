@@ -63,12 +63,12 @@ Total number of automations: **56**️
 - [Air Siren in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1) – Air Alert announcement when we are in Kyiv. Sends critical notifications and announces on speakers.
 - [Bad Air Quality](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L359) – Notify when the air quality is bad
 - [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L419) – Notify when it’s okay or not okay to wash a car
-- [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2236) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
-- [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2104) – Notify when Denys is leaving the office
-- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2345) – Notify everyone when there is no electricity at home.
+- [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2248) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
+- [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2116) – Notify when Denys is leaving the office
+- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2357) – Notify everyone when there is no electricity at home.
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
-- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2322) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
-- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2400) – Notify when battery is low on devices, so we could buy a replacements.
+- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2334) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
+- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2412) – Notify when battery is low on devices, so we could buy a replacements.
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
@@ -80,7 +80,7 @@ Total number of automations: **56**️
 - [Sync Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L542)
 - [Turn off Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L673) – Turn off Balcony Heater when the working display or desk lamp are off for some time
 - [Turn on Balcony Heater](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L633) – Turn on Balcony Heater when it's cold and Desk Lamp or Working Display are turned on
-- [Turn on Humidifier only during sleep time](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1841)
+- [Turn on Humidifier only during sleep time](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1853)
 
 ### 💡 Light
 
@@ -93,10 +93,10 @@ Total number of automations: **56**️
 
 ### 🎵 Media
 
-- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2450) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
+- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2462) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
 - [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
-- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2013) – Turn on Apple TV when Samsung TV turns on and PS5 is off
-- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2013) – Turn on Apple TV when Samsung TV turns on and PS5 is off
+- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
+- [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 
 ### 🚦 Mode
 
@@ -116,18 +116,18 @@ Total number of automations: **56**️
 - [Home Assistant Start](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L313) – Notify Denys when Home Assistant starts
 - [Magic Cube Actions](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L122)
 - [Notify about HACS updates](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L275) – Notify when new HACS components are released
-- [Notify about high CPU usage](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2138) – Send alert when HA has a high CPU usage
-- [Notify about high RAM usage](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2169) – Notify when RAM usage is high for some time.
+- [Notify about high CPU usage](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2150) – Send alert when HA has a high CPU usage
+- [Notify about high RAM usage](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2181) – Notify when RAM usage is high for some time.
 - [Notify when Media disk is full](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L333) – Notify when Media drive is 90% full for some time.
-- [Notify when System disk is full](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2206) – Send a notification when system disk is 90% full.
+- [Notify when System disk is full](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2218) – Send a notification when system disk is 90% full.
 - [Power Outage Recovery](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1724)
-- [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2092) – Run scripts for generating README, commiting regular updated, etc
+- [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2104) – Run scripts for generating README, commiting regular updated, etc
 
 ### 🧹 Vacuum
 
 - [Ask Regular Cleaning](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1298) – Regular vacuum cleaning every two days
 - [Ask for Maintenance](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1437) – Send vacuum near trash bin and ask for maintenance
-- [Clean Counting](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2075) – Count cleanings via counter
+- [Clean Counting](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2087) – Count cleanings via counter
 - [Error Alert](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1409) – Notify when error with vacuum occured
 - [Finish Alert](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1376) – Notify when vacuum finished cleaning and we are not home.
 - [Replacements Alert](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1505) – Notify when vacuum parts need to be replaced
@@ -136,7 +136,7 @@ Total number of automations: **56**️
 
 ### 💦 Water
 
-- [Keep Water Heater turned On](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2048) – When Water Heater was accidentally turned off, automatically turn in on
+- [Keep Water Heater turned On](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2060) – When Water Heater was accidentally turned off, automatically turn in on
 - [Notify when water is heated](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L1656) – When we ask to let us know when the boiler has done heating, it should notify about that.
 <!-- end-automations -->
 
@@ -148,8 +148,8 @@ Here is a list of all custom components I use:
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0`
 - [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7`
-- [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v0.3.0`
-- [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.3`
+- [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v0.3.1`
+- [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.4`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0`
 - [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0`
 - [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) `v1.1.0`
@@ -158,7 +158,8 @@ Here is a list of all custom components I use:
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.4`
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort/blob/master/README.md) `v2.2.2`
-- [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.2`
+- [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.1.1`
 - [ics Calendar](https://github.com/franc6/ics_calendar) `v4.2.0`
 <!-- end-custom-components -->
 
