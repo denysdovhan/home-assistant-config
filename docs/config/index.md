@@ -62,10 +62,10 @@ Total number of automations: **56**️
 - [Car Washing](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L419) – Notify when it’s okay or not okay to wash a car
 - [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2248) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
 - [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2116) – Notify when Denys is leaving the office
-- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2357) – Notify everyone when there is no electricity at home.
+- [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2372) – Notify everyone when there is no electricity at home.
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
-- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2334) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
-- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2412) – Notify when battery is low on devices, so we could buy a replacements.
+- [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2349) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
+- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2427) – Notify when battery is low on devices, so we could buy a replacements.
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
@@ -90,7 +90,7 @@ Total number of automations: **56**️
 
 ### 🎵 Media
 
-- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2462) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
+- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2477) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
 - [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
