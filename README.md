@@ -41,7 +41,7 @@ My home is awakened by these automations. The list is automatically and regularl
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (10 automation)
+1. [🔔 Alert](#-alert) (11 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [💡 Light](#-light) (6 automation)
 1. [🎵 Media](#-media) (4 automation)
@@ -51,7 +51,7 @@ My home is awakened by these automations. The list is automatically and regularl
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **56**️
+Total number of automations: **57**️
 
 ### 🚨 Alarm
 
@@ -69,6 +69,7 @@ Total number of automations: **56**️
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
 - [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2349) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
 - [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2427) – Notify when battery is low on devices, so we could buy a replacements.
+- [No light soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2510)
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
@@ -158,7 +159,7 @@ Here is a list of all custom components I use:
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.4`
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.2.0`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.2.2`
 - [ics Calendar](https://github.com/franc6/ics_calendar) `v4.2.0`
 <!-- end-custom-components -->
 
