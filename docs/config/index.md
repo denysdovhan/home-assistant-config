@@ -38,7 +38,7 @@ Here you can discover all of the automations powering my home. The list is autom
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (10 automation)
+1. [🔔 Alert](#-alert) (11 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [💡 Light](#-light) (6 automation)
 1. [🎵 Media](#-media) (4 automation)
@@ -48,7 +48,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **56**️
+Total number of automations: **57**️
 
 ### 🚨 Alarm
 
@@ -66,6 +66,7 @@ Total number of automations: **56**️
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
 - [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2349) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
 - [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2427) – Notify when battery is low on devices, so we could buy a replacements.
+- [No light soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2510)
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
