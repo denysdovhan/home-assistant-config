@@ -41,7 +41,7 @@ My home is awakened by these automations. The list is automatically and regularl
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (11 automation)
+1. [🔔 Alert](#-alert) (12 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [💡 Light](#-light) (6 automation)
 1. [🎵 Media](#-media) (4 automation)
@@ -51,7 +51,7 @@ My home is awakened by these automations. The list is automatically and regularl
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **57**️
+Total number of automations: **58**️
 
 ### 🚨 Alarm
 
@@ -66,10 +66,11 @@ Total number of automations: **57**️
 - [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2247) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
 - [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2116) – Notify when Denys is leaving the office
 - [Electricity Outage Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2371) – Notify everyone when there is no electricity at home.
+- [Electricity will turn on soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2538) – Notify 1 hours in advance before the electricity turns on
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
 - [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2348) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
-- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2426) – Notify when battery is low on devices, so we could buy a replacements.
-- [No light soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2509)
+- [Low Battery Notification](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2428) – Notify when battery is low on devices, so we could buy a replacements.
+- [No Electricity Soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2511) – Notify 30 minutes in advance before the electricity turns off
 - [Snow/Winter Tires](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L469) – Notify when it's time to change car tires
 
 ### 🌡️ Climate
@@ -94,7 +95,7 @@ Total number of automations: **57**️
 
 ### 🎵 Media
 
-- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2476) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
+- [Plex Disk Optimization](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2478) – Optimise disk operations by enabling Turtle mode on Transmission when someone is watching Plex.
 - [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L95) – Turn off Samsung TV when PS5 goes to sleep mode
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2025) – Turn on Apple TV when Samsung TV turns on and PS5 is off
@@ -154,13 +155,12 @@ Here is a list of all custom components I use:
 - [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0`
 - [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0`
 - [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) `v1.1.0`
-- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) `vv1.13.1`
+- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) `vv1.13.2`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.9`
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.4`
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
 - [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.2.2`
-- [ics Calendar](https://github.com/franc6/ics_calendar) `v4.2.0`
 <!-- end-custom-components -->
 
 Custom components are managed by [HACS](https://hacs.xyz/).
