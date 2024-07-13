@@ -49,5 +49,5 @@ Here's a list of extensions developed by other developers.
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.4`
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.2.2`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.2.4`
 <!-- end-custom-components -->
