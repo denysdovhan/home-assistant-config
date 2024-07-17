@@ -41,7 +41,7 @@ My home is awakened by these automations. The list is automatically and regularl
 <!-- start-automations -->
 
 1. [🚨 Alarm](#-alarm) (2 automation)
-1. [🔔 Alert](#-alert) (12 automation)
+1. [🔔 Alert](#-alert) (13 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [💡 Light](#-light) (6 automation)
 1. [🎵 Media](#-media) (4 automation)
@@ -51,7 +51,7 @@ My home is awakened by these automations. The list is automatically and regularl
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **58**️
+Total number of automations: **59**️
 
 ### 🚨 Alarm
 
@@ -66,6 +66,7 @@ Total number of automations: **58**️
 - [Danger in Kyiv](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2247) – Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to hide immediately.
 - [Denys left the Office](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2116) – Notify when Denys is leaving the office
 - [Electricity Outage](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2371) – Notify everyone when there is no electricity at home.
+- [Electricity Outage at Fayna Town](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2585) – Notify everyone when there is no electricity at Fayna Town.
 - [Electricity will turn on soon](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2555) – Notify 1 hours in advance before the electricity turns on
 - [Humidifier No Water](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L393) – Notify when humidifier's water tank is empty
 - [Imminent Attack by Strategic Bombers](https://github.com/denysdovhan/home-assistant-config/blob/76abb5d0e89160ccc80955a28fca1386cb6d6712/automations.yaml#L2348) – Send a notification when Tu-95 strategic bombers take off from Russian airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
