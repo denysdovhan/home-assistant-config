@@ -17,6 +17,7 @@ uart:
 api:
 
 ota:
+  platform: esphome
 
 wifi:
   ssid: !secret wifi_ssid
@@ -33,6 +34,7 @@ climate:
   - platform: midea
     name: Living Room AC
     autoconf: true
+    beeper: true
     visual:
       min_temperature: 17 °C
       max_temperature: 30 °C
@@ -40,6 +42,8 @@ climate:
     custom_fan_modes:
       - SILENT
       - TURBO
+    supported_swing_modes:
+      - VERTICAL
 
 # Beeper Control
 switch:
