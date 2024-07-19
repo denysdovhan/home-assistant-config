@@ -1,1 +1,62 @@
-[]
+- id: '1721153644932'
+  name: Outage Light
+  entities:
+    light.bedroom_floor_lamp:
+      min_color_temp_kelvin: 1700
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+        - Strobe color
+        - Police
+        - Christmas
+        - RGB
+        - Random Loop
+        - Fast Random Loop
+        - LSD
+        - Slowdown
+        - Night Mode
+        - Date Night
+        - Movie
+        - Sunrise
+        - Sunset
+        - Romance
+        - Happy Birthday
+        - Disco
+        - Strobe epilepsy!
+        - Alarm
+        - Police2
+        - WhatsApp
+        - Facebook
+        - Twitter
+        - Home
+        - Candle Flicker
+        - Tea Time
+        - Slow Temp
+        - Stop
+      supported_color_modes:
+        - color_temp
+        - hs
+        - rgb
+      icon: mdi:floor-lamp
+      friendly_name: Floor Lamp
+      supported_features: 44
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 3968
+      color_temp: 252
+      hs_color:
+        - 26.827
+        - 35.453
+      rgb_color:
+        - 255
+        - 205
+        - 164
+      xy_color:
+        - 0.422
+        - 0.366
+      flowing: 0
+      music_mode: false
+      state: 'on'
+  icon: mdi:lightning-bolt
+  metadata: {}
