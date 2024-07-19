@@ -150,6 +150,7 @@ Here is a list of all custom components I use:
 <!-- start-custom-components -->
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0`
+- [Battery Notes](https://andrew-codechimp.github.io/HA-Battery-Notes/) `v2.3.13`
 - [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7`
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v0.3.1`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.4`
