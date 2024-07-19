@@ -7,9 +7,6 @@
   description: Conditions sensor in a Living Room providing data for Home Temperature
 '0x00158d0002d6f60b':
   friendly_name: Bedroom Ceiling Light
-  optimistic: false
-  retain: false
-  homeassistant: {}
   description: A ceiling light in a Bedroom
 '0x00158d0002e9f771':
   friendly_name: Living Room Movement Sensor

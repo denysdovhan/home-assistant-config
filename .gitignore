@@ -36,6 +36,7 @@ watchman_report.txt
 token-*.txt
 
 # Zigbee2MQTT
+/zigbee2mqtt/configuration.yaml
 /zigbee2mqtt/secret.yaml
 /zigbee2mqtt/state.json
 /zigbee2mqtt/log
