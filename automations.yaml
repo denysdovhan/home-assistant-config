@@ -1735,9 +1735,9 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: 30
+      seconds: 10
       milliseconds: 0
-    enabled: false
+    enabled: true
   - alias: Turn off lights at night or when away
     if:
     - condition: or
@@ -1749,28 +1749,12 @@
         entity_id: binary_sensor.sleeping_time
         state: 'on'
     then:
-    - wait_for_trigger:
-      - platform: state
-        entity_id:
-        - light.kitchen_lightstrip
-        - light.kitchen_spotlights
-        from: unavailable
-      - platform: state
-        entity_id:
-        - light.living_room_tv_lights
-        - light.bedroom_bed_lights
-        from: unavailable
-      timeout:
-        hours: 0
-        minutes: 1
-        seconds: 0
-        milliseconds: 0
-      alias: Wait for lights to become online
     - service: scene.turn_on
       target:
         entity_id: scene.lights_out
       metadata: {}
     else: []
+    enabled: true
   - alias: Turn on Air Humidifier when needed
     sequence:
     - wait_for_trigger:
@@ -1785,6 +1769,12 @@
         seconds: 0
         milliseconds: 0
       alias: Wait for Air Humidifier to come online
+      enabled: true
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 30
+        milliseconds: 0
     - alias: Turn off Humidifier's buzzer and light
       service: switch.turn_off
       metadata: {}
@@ -1829,30 +1819,6 @@
       - 4a9dd68b66671255057452cd1ce81ffe
       - 05af1b6a4c1338aa1857801f3d2b27a4
     data: {}
-  - if:
-    - condition: state
-      entity_id: binary_sensor.uptime_home_assistant
-      state: unavailable
-    - condition: state
-      entity_id: binary_sensor.uptime_home_router
-      state: unavailable
-    - condition: state
-      entity_id: weather.nyvky
-      state: unavailable
-    - condition: template
-      value_template: '{% set last_recovery = as_timestamp(state_attr(''automation.hacs_releases_alert'',
-        ''last_triggered''), 0) %}
-
-        {% set current_recovery = as_timestamp(now(), 0) %}
-
-        {{ current_recovery - last_recovery > 60 * 10 }}'
-      alias: Ensure at least 10 min between restarts
-    then:
-    - service: shell_command.docker_restart
-      data: {}
-      alias: Perform Docker Restart via SSH
-    alias: Perform full restart when server still has not Internet connection
-    enabled: false
   mode: single
 - id: '1686063093337'
   alias: 'Climate: Turn on Humidifier only during sleep time'
@@ -2149,7 +2115,6 @@
       messages:
       - Денис вийшов з роботи.
       - Денис виїхав з роботи.
-      notify_data: {}
   mode: single
 - id: '1713463091070'
   alias: 'System: Notify about high CPU usage'
@@ -2328,9 +2293,24 @@
         notify: false
         force_speak: true
         messages: '{{ messages }}'
-    enabled: true
+    enabled: false
+  - service: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0.8
+    target:
+      entity_id:
+      - media_player.living_room_homepod
+  - alias: Speak in Living Room
+    service: script.announcement
+    data:
+      speak: true
+      speaker: media_player.living_room_homepod
+      notify: false
+      force_speak: true
+      messages: '{{ messages }}'
   - delay:
-      hours: 2
+      hours: 1
       minutes: 0
       seconds: 0
       milliseconds: 0
@@ -2359,7 +2339,7 @@
     alias: Send a notification
   mode: single
 - id: '1716236885504'
-  alias: 'Alert: Electricity Outage Notification'
+  alias: 'Alert: Electricity Outage'
   description: Notify everyone when there is no electricity at home.
   trigger:
   - platform: state
@@ -2373,6 +2353,13 @@
     to: 'off'
   condition: []
   action:
+  - variables:
+      next_connectivity: '{{ states(''sensor.yasno_grupa_5_next_connectivity'') |
+        as_timestamp | timestamp_custom(''%H:%M'') }}'
+      next_outage: '{{ states(''sensor.yasno_grupa_5_next_outage'') | as_timestamp
+        | timestamp_custom(''%H:%M'') }}'
+      next_possible_outage: '{{ states(''sensor.yasno_grupa_5_next_possible_outage'')
+        | as_timestamp | timestamp_custom(''%H:%M'') }}'
   - if:
     - condition: state
       entity_id: binary_sensor.electricity
@@ -2386,14 +2373,20 @@
         speak: false
         notify: true
         title: Електрика ⚡️
-        messages:
+        notify_data:
+          url: /localave/electricity
+          group: electricity
+        openings:
         - Вдома зʼявилось світло.
         - Вдома зʼявилась електрика.
         - Вдома знову є світло.
         - Вдома увімкнули світло.
         - Вдома увімкнули електрику.
-        notify_data:
-          url: /localave/electricity
+        messages:
+        - Вимкнення світла за планом о {{ next_outage }}.
+        - Наступне вимкнення о {{ next_outage }}.
+        - Відключення о {{ next_outage }}.
+        - О {{ next_outage }} наступне відключення.
     else:
     - alias: Notify electricity is off
       service: script.announcement
@@ -2405,13 +2398,19 @@
         title: Електрика ⚡️
         notify_data:
           url: /localave/electricity
-        messages:
+          group: electricity
+        openings:
         - Відключення електроенергії.
         - Вдома зникло світло.
         - Вдома немає електрики.
         - Відключення електроенергії вдома.
         - Вдома вимкнули світло.
         - Вдома вимкнули електрику.
+        messages:
+        - Сіра зона о {{ next_possible_outage }}. Увімкрення о {{ next_connectivity
+          }}.
+        - Можливе увімкнення о {{ next_possible_outage }}. Гарантовано о {{ next_connectivity
+          }}.
   mode: single
 - id: '1716315229743'
   alias: 'Alert: Low Battery Notification'
@@ -2436,22 +2435,31 @@
         - sensor.wix_macbook_pro_internal_battery_level
         - sensor.denyss_iphone_battery
         - sensor.icloud_maria_iphone_battery
+        - sensor.mariias_ipad_battery
+        - sensor.denyss_ipad_battery
       custom_actions:
-      - service: script.announcement
-        metadata: {}
-        data:
-          service: notify.denys
-          speak: false
-          notify: true
-          notify_data: {}
-          title: "Батарейки \U0001FAAB"
-          messages:
-          - '{{ sensors_names }}'
-          openings:
-          - 'Низький заряд батарейки: '
-          - 'Пристрої розряджаються: '
-          - 'Потрібно замінити батарейки у: '
-        alias: Send notification to Denys
+      - alias: Check if there are low batteries
+        if:
+        - condition: template
+          value_template: '{{ sensor_names.length > 0 }}'
+          enabled: true
+          alias: There are more that 0 sensors
+        then:
+        - service: script.announcement
+          metadata: {}
+          data:
+            service: notify.denys
+            speak: false
+            notify: true
+            notify_data: {}
+            title: "Батарейки \U0001FAAB"
+            messages:
+            - '{{ sensors_names }}'
+            openings:
+            - 'Низький заряд батарейки: '
+            - 'Пристрої розряджаються: '
+            - 'Потрібно замінити батарейки у: '
+          alias: Send notification to Denys
       include_custom_actions: enable_custom_actions
       battery_level: 10
 - id: '1718745814577'
@@ -2476,9 +2484,146 @@
       target:
         entity_id: switch.transmission_turtle_mode
     else:
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
     - service: switch.turn_off
       metadata: {}
       data: {}
       target:
         entity_id: switch.transmission_turtle_mode
+  mode: restart
+- id: '1720730698977'
+  alias: 'Alert: No Electricity Soon'
+  description: Notify 30 minutes in advance before the electricity turns off
+  trigger:
+  - platform: template
+    value_template: '{{ now() >= states(''sensor.yasno_grupa_5_next_outage'') | as_datetime
+      - timedelta(minutes=30) }}'
+    alias: 30 minutes before outage
+  condition: []
+  action:
+  - service: script.announcement
+    metadata: {}
+    data:
+      speak: true
+      notify: true
+      notify_data:
+        url: /localave/electricity
+        group: electricity
+      messages:
+      - Планове відключення світла за 30 хвилин.
+      - За 30 хвилин відключення світла.
+      - Через півгодини вимкнуть світло.
+      - Відключення світла за півгодини.
+      title: Електрика ⚡️
+      service: notify.all
+      speaker: media_player.living_room_homepod
+  mode: single
+- id: '1720793735241'
+  alias: 'Alert: Electricity will turn on soon'
+  description: Notify 1 hours in advance before the electricity turns on
+  trigger:
+  - alias: 60 minutes before outage
+    platform: template
+    value_template: '{{ now() >= states(''sensor.yasno_grupa_5_next_connectivity'')
+      | as_datetime - timedelta(minutes=60) }}'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.electricity
+    state: 'off'
+  action:
+  - service: script.announcement
+    metadata: {}
+    data:
+      speak: true
+      notify: true
+      notify_data:
+        url: /localave/electricity
+        group: electricity
+      messages:
+      - Світло гарантовано увімкнуть за годину.
+      - Одна година до увімкнення світла за графіком.
+      - За графіком через годину увімкнуть світло.
+      - Планове увімкнення світла за годину.
+      title: Електрика ⚡️
+      service: notify.all
+      speaker: media_player.living_room_homepod
+  mode: single
+- id: '1721218137430'
+  alias: 'Alert: Electricity Outage at Fayna Town'
+  description: Notify everyone when there is no electricity at Fayna Town.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.fayna_electricity
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.fayna_electricity
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - variables:
+      next_connectivity: '{{ states(''sensor.yasno_grupa_4_next_connectivity'') |
+        as_timestamp | timestamp_custom(''%H:%M'') }}'
+      next_outage: '{{ states(''sensor.yasno_grupa_4_next_outage'') | as_timestamp
+        | timestamp_custom(''%H:%M'') }}'
+      next_possible_outage: '{{ states(''sensor.yasno_grupa_4_next_possible_outage'')
+        | as_timestamp | timestamp_custom(''%H:%M'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.fayna_electricity
+      state: 'on'
+    then:
+    - alias: Notify electricity if on
+      service: script.announcement
+      metadata: {}
+      data:
+        service: notify.all
+        speak: false
+        notify: true
+        title: Електрика (Файна Таун) ⚡️
+        notify_data:
+          url: /localave/electricity
+          group: electricity
+        openings:
+        - На Файні зʼявилось світло.
+        - На Файні зʼявилась електрика.
+        - На Файні знову є світло.
+        - Файна зі світлом.
+        - На Файні увімкнули електрику.
+        messages:
+        - Вимкнення світла за планом о {{ next_outage }}.
+        - Наступне вимкнення о {{ next_outage }}.
+        - Відключення о {{ next_outage }}.
+        - О {{ next_outage }} наступне відключення.
+    else:
+    - alias: Notify electricity is off
+      service: script.announcement
+      metadata: {}
+      data:
+        service: notify.all
+        speak: false
+        notify: true
+        title: Електрика (Файна Таун) ⚡️
+        notify_data:
+          url: /localave/electricity
+          group: electricity
+        openings:
+        - Відключення електроенергії на Файні.
+        - На Файні зникло світло.
+        - На Файні немає електрики.
+        - Відключення електроенергії на Файні.
+        - На Файні вимкнули світло.
+        - На Файні вимкнули електрику.
+        messages:
+        - Сіра зона о {{ next_possible_outage }}. Увімкрення о {{ next_connectivity
+          }}.
+        - Можливе увімкнення о {{ next_possible_outage }}. Гарантовано о {{ next_connectivity
+          }}.
   mode: single
