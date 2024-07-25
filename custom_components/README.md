@@ -19,7 +19,7 @@ Here is a list of all custom components I use:
 - [Proxmox VE](https://github.com/dougiteixeira/proxmoxve) `v3.4.4`
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.1`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.2`
 <!-- end-custom-components -->
 
 Custom components are managed by [HACS](https://hacs.xyz/).
