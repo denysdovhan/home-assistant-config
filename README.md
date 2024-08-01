@@ -157,6 +157,7 @@ Here is a list of all custom components I use:
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v0.13.4`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v1.34.0`
+- [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape) `v7.0.0`
 - [Nova Poshta](https://github.com/krasnoukhov/homeassistant-nova-poshta) `v1.1.0`
 - [Powercalc](https://github.com/bramstroker/homeassistant-powercalc) `vv1.13.4`
