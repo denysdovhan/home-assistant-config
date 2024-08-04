@@ -151,7 +151,6 @@ Here is a list of all custom components I use:
 <!-- start-custom-components -->
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting#readme) `v1.22.0`
-- [Anniversaries](https://github.com/pinkywafer/Anniversaries) `v5.2.0`
 - [Battery Notes](https://andrew-codechimp.github.io/HA-Battery-Notes/) `v2.3.13`
 - [Car Wash](https://github.com/Limych/ha-car_wash) `v1.5.7`
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
@@ -166,7 +165,7 @@ Here is a list of all custom components I use:
 - [Snowtire Sensor](https://github.com/Limych/ha-snowtire) `v1.4.9`
 - [Spook](https://spook.boo) `v3.0.1`
 - [Watchman](https://github.com/dummylabs/thewatchman) `v0.6.3`
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.3`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.4`
 <!-- end-custom-components -->
 
 Custom components are managed by [HACS](https://hacs.xyz/).
