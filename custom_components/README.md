@@ -16,7 +16,7 @@ Here is a list of all custom components I use:
 - [Powercalc](https://docs.powercalc.nl) `vv1.14.4`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.1`
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.5`
+- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.6`
 <!-- end-custom-components -->
 
 Custom components are managed by [HACS](https://hacs.xyz/).
