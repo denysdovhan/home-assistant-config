@@ -86,7 +86,7 @@ Total number of automations: **44**️
 ### 💡 Light
 
 - [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1680) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
-- [Turn off lights/fans when Bathroom is empty](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1806) – When no one is in Bathroom, but the light or fan are still on, then turn them off.
+- [Turn off lights when Bathroom is empty](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1806) – When no one is in Bathroom, but the light or fan are still on, then turn them off.
 - [Turn on Corridor Light when Door is open](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1654) – Turn on Corridor Light when Front Door opens and then turn it off after a few minutes
 
 ### 🎵 Media
