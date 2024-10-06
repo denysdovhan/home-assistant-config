@@ -69,7 +69,7 @@ Total number of automations: **61**️
 - [Calibrate Cabinet Right TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1553) – Calibrate TRV temperature with external sensor.
 - [Calibrate Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1526) – Calibrate TRV temperature with external sensor.
 - [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
-- [Turn on Bathroom fan when humidity is rising](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2500) – Turn on Bathroom fan when humidity is rapidly rising. Turn it off when humidity was decreasing for some time.
+- [Turn on Bathroom fan when humidity is rising](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2503) – Turn on Bathroom fan when humidity is rapidly rising. Turn it off when humidity was decreasing for some time.
 - [Turn on fan when someone is on the toilet](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1036) – When someone sits in the toilet, then turn on the fan. Turn off fan when person leaves.
 - [Turn on heaters during heating season](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L541) – Turn on/off heaters when weather is getting cold/warm
 
@@ -82,13 +82,13 @@ Total number of automations: **61**️
 ### 💡 Light
 
 - [Activate Evening Lights in the evening](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2189) – When it's getting dark, or sun sets, or indoor illuminance is too low, then activate Evening Lights.
-- [Motion-activated lights in Bedroom](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2347) – Turn on Lights in Bedroom based on presence and current activated light mode.
-- [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2287) – Turn on Lights in Cabinet based on presence and current activated light mode.
+- [Motion-activated lights in Bedroom](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2350) – Turn on Lights in Bedroom based on presence and current activated light mode.
+- [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2290) – Turn on Lights in Cabinet based on presence and current activated light mode.
 - [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1971) – Toggle Presence Simulation during Night in Away Mode
-- [Suggest to activate Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2407) – At the deep evening, send a notification suggesting to activate Night Lights mode.
+- [Suggest to activate Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2410) – At the deep evening, send a notification suggesting to activate Night Lights mode.
 - [Turn off Bathroom lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1852) – When no one is in Bathroom, but the lights are still on, then turn them off.
-- [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2383) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
-- [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2323) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
+- [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2386) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
+- [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2326) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1726) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
 - [Turn on Bathroom Ceiling Light](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2090) – When it's bright in the living room, turn on Bathroom Ceiling Light to match brightness in Living Room.
 - [Turn on Bathroom Lightstrip](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2001) – Turn on Bathroom Lightstrip when someone walk in.
@@ -104,9 +104,9 @@ Total number of automations: **61**️
 - [Away Flow](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1804) – Toggle Away mode depending on the Away input boolean
 - [Away on Leaving City](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1814) – Toggle Away mode depending on proximity to the Kyiv city
 - [Do Not Disturb on Focus](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L1509) – Switch Do Not Disturb while camera, mic or focus are on
-- [Evening Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2245) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
+- [Evening Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2248) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 - [Low Power Mode](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L459) – Minimise electricity consumption during the outage, when on reserve power supply.
-- [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2266) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
+- [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2269) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 
 ### 🔘 Presence
 
@@ -142,7 +142,7 @@ Total number of automations: **61**️
 
 ### ⚙️ WIP
 
-- [Open Living Room Curtains in the morning.](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2468)
+- [Open Living Room Curtains in the morning.](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2471)
 <!-- end-automations -->
 
 ## Addons
