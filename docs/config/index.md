@@ -42,13 +42,13 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🌆 Curtains](#-curtains) (3 automation)
 1. [💡 Light](#-light) (11 automation)
 1. [🎵 Media](#-media) (2 automation)
-1. [🚦 Mode](#-mode) (8 automation)
+1. [🚦 Mode](#-mode) (9 automation)
 1. [🔘 Presence](#-presence) (2 automation)
 1. [🖥️ System](#-system) (10 automation)
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [⚙️ WIP](#-wip) (1 automation)
 
-Total number of automations: **62**️
+Total number of automations: **63**️
 
 ### 🔔 Alert
 
@@ -108,6 +108,7 @@ Total number of automations: **62**️
 - [Low Power Mode](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L474) – Minimise electricity consumption during the outage, when on reserve power supply.
 - [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2265) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 - [Sleeping Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2520) – The activation flow for a Sleeping Lights mode. Enables turns on corresponding lights.
+- [Turn off light modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/e721533aca75b44f1110e09a348419de9d25031d/automations.yaml#L2570) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
 
 ### 🔘 Presence
 
