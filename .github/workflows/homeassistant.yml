@@ -19,9 +19,6 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - name: Prepare Stubs
-        run: cp -R ./stubs/* .
-
       - name: 📥 Clone custom component - Powercalc
         run: |
           git clone https://github.com/bramstroker/homeassistant-powercalc.git
