@@ -159,7 +159,7 @@ Here is a list of all custom components I use:
 
 - [Better Thermostat](https://github.com/KartoffelToby/better_thermostat) `v1.6.0`
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
-- [Chime TTS](https://nimroddolev.github.io/chime_tts) `vv1.1.4`
+- [Chime TTS](https://nimroddolev.github.io/chime_tts) `vv1.1.5`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v2.0.1`
 - [Hik-Connect](https://github.com/tomasbedrich/home-assistant-hikconnect) `v2.4.0`
