@@ -1,68 +1,268 @@
-do_not_disturb_mode:
-  alias: Do Not Disturb Mode
-  description: A flow for switching home into DND mode and back to normal
+announcement:
+  alias: Announcement
+  use_blueprint:
+    path: denysdovhan/announcement.yaml
+    input:
+      default_notifier: notify.notify
+      default_tts: tts.google_translate_uk
+      default_speaker:
+      - media_player.living_room_homepod
+      speaker_conditions:
+      - condition: state
+        entity_id: binary_sensor.someone_is_home
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.do_not_disturb_family
+        state: 'off'
+      force_to_speak_conditions:
+      - condition: state
+        entity_id: binary_sensor.someone_is_home
+        state: 'on'
+  description: Generate random phrase, send notification and speak it out loud on
+    speakers
+  icon: mdi:bell
+greeting:
+  alias: Greeting
+  sequence:
+  - action: media_player.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.living_room_homepod
+  - action: conversation.process
+    data:
+      agent_id: conversation.ai_greeting
+      text: "Використовуй такі дані для персоналізації вітання: Денис знаходиться:
+        {{ states('person.denys') }}. {%- if states('sensor.home_denys_distance')
+        | int > 100  %}\n  Денис за {{ states('sensor.home_denys_distance') }} метрів
+        від дому.\n{%- endif %}\nМаша знаходиться: home. {%- if states('sensor.home_maria_distance')
+        | int > 100  %}\n  Маша за {{ states('sensor.home_maria_distance') }} метрів
+        від дому.\n{%- endif %} Кількість людей вдома: {{ states('zone.home') }}.
+        Сьогодні: {{ now() }}. Час: {{ now().time }}. Погода: {{ states('weather.forecast_fayna_town')
+        }}. Температура на вулиці: {{ state_attr('weather.forecast_fayna_town', 'temperature')
+        }}. Температура вдома: {{ states('sensor.home_temperature') }}. Електрика:
+        {{ states('binary_sensor.electricity') }} Повітряна тривога: {{ states('binary_sensor.alerts_kyiv_air')
+        }}\n"
+    response_variable: greeting
+    alias: Pass environment data-points to OpenAI agent
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      media_player_entity_id: media_player.living_room_homepod
+      message: '{{ greeting.response.speech.plain.speech }}'
+    target:
+      entity_id:
+      - tts.google_translate_uk
+  description: ''
+  icon: mdi:human-greeting
+vacuum_go_to_bin:
+  alias: 'Vacuum: Go to Bin'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      params:
+      - 22800
+      - 28300
+      command: app_goto_target
+    target:
+      device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+  description: Sends vacuum cleaner to the location of a bin on a map
+  icon: mdi:delete
+vacuum_go_out_from_garage:
+  alias: 'Vacuum: Access from Garage'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      params:
+      - 18800
+      - 22200
+      command: app_goto_target
+    target:
+      device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+  description: Sends vacuum cleaner to the location in front of its garage
+  icon: mdi:garage-open-variant
+slowly_close_curtains:
+  alias: Open Bedroom Curtains slowly
+  sequence:
+  - repeat:
+      sequence:
+      - action: cover.set_cover_position
+        metadata: {}
+        data:
+          position: '{{ state_attr(''cover.bedroom_curtains'', ''current_position'')
+            + 1 }}'
+        target:
+          entity_id: cover.bedroom_curtains
+      - delay:
+          hours: 0
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
+      while:
+      - condition: numeric_state
+        entity_id: cover.bedroom_curtains
+        below: 100
+        attribute: current_position
+  description: ''
+  mode: restart
+vacuum_clean_bedroom:
+  alias: 'Vacuum: Clean Bedroom'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      entity_id: vacuum.roborock
+      command: app_segment_clean
+      params:
+      - 16
+      - 17
+  description: Run Vacuum in Bedroom and Wardrobe
+vacuum_clean_corridor:
+  alias: 'Vacuum: Clean Corridor'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      command: app_segment_clean
+      params:
+        segments:
+        - 18
+        - 23
+    target:
+      entity_id: vacuum.roborock
+  description: Run Vacuum in Corridor and Laundry
+  icon: mdi:hanger
+vacuum_clean_kitchen:
+  alias: 'Vacuum: Clean Kitchen'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      command: app_segment_clean
+      params:
+        segments:
+        - 19
+    target:
+      entity_id: vacuum.roborock
+  description: Run Vacuum in Kitchen
+  icon: mdi:countertop-outline
+vacuum_clean_living_room:
+  alias: 'Vacuum: Clean Living Room'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      command: app_segment_clean
+      params:
+        segments:
+        - 20
+    target:
+      entity_id: vacuum.roborock
+  description: Run Vacuum in Living Room
+  icon: mdi:sofa-outline
+vacuum_clean_cabinet:
+  alias: 'Vacuum: Clean Cabinet'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      command: app_segment_clean
+      params:
+        segments:
+        - 21
+    target:
+      entity_id: vacuum.roborock
+  description: Run Vacuum in Cabinet
+  icon: mdi:table-chair
+vacuum_clean_bathroom:
+  alias: 'Vacuum: Clean Bathroom'
+  sequence:
+  - action: vacuum.send_command
+    data:
+      command: app_segment_clean
+      params:
+        segments:
+        - 22
+        repeat: 2
+    target:
+      entity_id: vacuum.roborock
+  description: Run Vacuum in Bathroom
+  icon: mdi:bathtub-outline
+low_power_mode:
+  alias: Low Power Mode
   sequence:
   - if:
     - condition: state
-      entity_id: input_boolean.do_not_disturb
+      entity_id: binary_sensor.electricity
       state: 'on'
     then:
-    - alias: Make Speakers to low volume
-      service: media_player.volume_set
-      data:
-        volume_level: 0.2
+    - action: switch.turn_on
       target:
         entity_id:
-        - media_player.living_room_homepod
-        - media_player.bedroom_homepod
-        - media_player.all_speakers
-    - if:
-      - condition: state
-        entity_id: fan.air_purifier
-        state: 'on'
-      then:
-      - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-        domain: select
-        entity_id: 406c298e910de0e503c7713710e9df20
-        type: select_option
-        option: dim
-      - service: fan.set_preset_mode
-        metadata: {}
-        data:
-          preset_mode: Silent
-        target:
-          entity_id: fan.air_purifier
-      alias: Adjust Air Purifier when it's on
+        - switch.water_heater
+      data: {}
+    - action: switch.turn_on
+      target:
+        entity_id:
+        - switch.oven_outlet
+      data: {}
+    - action: switch.turn_on
+      target:
+        entity_id:
+        - switch.fridge_outlet
+      data: {}
     else:
-    - alias: Make Speakers to low volume
-      service: media_player.volume_set
-      data:
-        volume_level: 0.6
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
       target:
-        entity_id:
-        - media_player.living_room_homepod
-        - media_player.bedroom_homepod
-        - media_player.all_speakers
+        entity_id: switch.water_heater
     - if:
-      - condition: state
-        entity_id: fan.air_purifier
-        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.oven_power
+        above: 100
       then:
-      - device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-        domain: select
-        entity_id: 406c298e910de0e503c7713710e9df20
-        type: select_option
-        option: bright
-      - service: fan.set_preset_mode
+      - action: switch.turn_off
         metadata: {}
-        data:
-          preset_mode: Auto
+        data: {}
         target:
           entity_id:
-          - fan.air_purifier
-      alias: Adjust Air Purifier when it's on
-  mode: single
-  icon: mdi:bell-circle
+          - switch.oven_outlet
+      alias: Turn off Oven when it's heating
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.dishwasher_power
+        - switch.dryer
+        - switch.washer
+    - action: climate.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - climate.living_room_ac
+        - climate.cabinet_ac
+      alias: Turn off ACs
+    - action: climate.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - climate.corridor_heated_floor
+        - climate.kitchen_heated_floor
+        - climate.bathroom_heated_floor
+        - climate.bathroom_heated_wall
+      alias: Turn off heated floors
+    - action: fan.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - fan.living_room_recuperator
+        - fan.bedroom_recuperator
+      alias: Turn off recuperators
+  description: Minimise electricity consumption for our home. Turn off powerful appliances.
+    Restore the previous state when Electricity is back.
+  icon: mdi:home-battery
+  fields: {}
 away_mode:
   alias: Away Mode
   description: A flow for switching into Away mode
@@ -74,7 +274,7 @@ away_mode:
       state: 'on'
     then:
     - alias: Notify about Away Mode activation
-      service: script.announcement
+      action: script.announcement
       data:
         speak: false
         title: "Далеко від дому \U0001F3C3"
@@ -89,31 +289,14 @@ away_mode:
         notify_data:
           group: system
           tag: away-mode
-    - alias: Arm Alarm
-      service: alarm_control_panel.alarm_arm_away
-      entity_id: alarm_control_panel.home_alarm
-    - alias: Turn on Presence Simulation
-      service: presence_simulation.start
-      data: {}
     - alias: Turn off Water Heater
-      service: switch.turn_off
       entity_id: switch.water_heater
-    - alias: Set TRV to Away during Heating Season
-      if:
-      - condition: state
-        entity_id: binary_sensor.heating_season
-        state: 'on'
-      then:
-      - alias: Set TRVs to away
-        service: climate.set_preset_mode
-        data:
-          entity_id:
-          - climate.living_room_heater
-          - climate.bedroom_heater
-          preset_mode: away
+      action: switch.turn_off
+    - action: presence_simulation.start
+      metadata: {}
+      data: {}
     else:
     - alias: Notify about Away Mode deactivation
-      service: script.announcement
       data:
         speak: false
         title: "Далеко від дому \U0001F3C3"
@@ -128,11 +311,8 @@ away_mode:
         notify_data:
           group: system
           tag: away-mode
-    - alias: Disarm Alarm
-      service: alarm_control_panel.alarm_disarm
-      entity_id: alarm_control_panel.home_alarm
+      action: script.announcement
     - alias: Suggest cleaning home before arrival
-      service: script.announcement
       data:
         speak: false
         title: "Пилосос \U0001F9F9"
@@ -157,54 +337,51 @@ away_mode:
             title: Почати прибирання
             activationMode: background
             authenticationRequired: true
-    - alias: Turn off Presence Simulation
-      service: presence_simulation.stop
-      data: {}
+      action: script.announcement
     - alias: Turn on Water Heater
-      service: switch.turn_on
       entity_id: switch.water_heater
+      action: switch.turn_on
+    - action: presence_simulation.stop
+      metadata: {}
+      data: {}
     - alias: Heat up Home during Heating Season
       if:
-      - condition: state
-        entity_id: binary_sensor.heating_season
-        state: 'on'
       - condition: numeric_state
         entity_id: sensor.home_temperature
         below: 21
       then:
       - alias: Set TRVs to boost
-        service: climate.set_preset_mode
         data:
           entity_id:
           - climate.living_room_heater
           - climate.bedroom_heater
           preset_mode: boost
+        action: climate.set_preset_mode
       else:
-      - service: climate.set_preset_mode
-        data:
+      - data:
           preset_mode: manual
         target:
           entity_id:
           - climate.bedroom_heater
           - climate.living_room_heater
         alias: Set TRV to manual
+        action: climate.set_preset_mode
+      enabled: false
     - alias: Cool down Home during Summer
       if:
-      - condition: state
-        entity_id: binary_sensor.heating_season
-        state: 'off'
       - condition: numeric_state
         entity_id: sensor.home_temperature
         above: 26
       then:
       - alias: Set ACs to cool down
-        service: climate.set_temperature
         data:
-          entity_id:
-          - climate.living_room_ac
-          - climate.bedroom_ac
           temperature: 18
           hvac_mode: cool
+        action: climate.set_temperature
+        target:
+          entity_id:
+          - climate.living_room_ac
+          - climate.cabinet_ac
       - alias: Wait for home to cool down
         wait_for_trigger:
           platform: numeric_state
@@ -213,12 +390,180 @@ away_mode:
         timeout:
           hours: 1
       - alias: Turn off ACs and set temperature to normal
-        service: climate.set_temperature
         data:
-          entity_id:
-          - climate.living_room_ac
-          - climate.bedroom_ac
           temperature: 23
           hvac_mode: 'off'
+        action: climate.set_temperature
+        target:
+          entity_id:
+          - climate.living_room_ac
+          - climate.cabinet_ac
   mode: single
   icon: mdi:shield-home-outline
+scene_all_light:
+  alias: 'Scene: All Lights'
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.evening_lights
+      - input_boolean.night_lights
+      - input_boolean.sleeping_lights
+  - action: light.turn_on
+    data:
+      brightness_pct: 100
+    target:
+      entity_id:
+      - light.zigbee_lights
+  - action: light.turn_on
+    data:
+      brightness_pct: 100
+    target:
+      entity_id:
+      - all
+  description: Turn on all lights available in Home Assistant
+  icon: mdi:lightbulb-group
+scene_light_out:
+  alias: 'Scene: Light Out'
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.evening_lights
+      - input_boolean.night_lights
+      - input_boolean.sleeping_lights
+  - action: light.turn_off
+    data: {}
+    target:
+      entity_id: light.zigbee_lights
+  - action: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - all
+  description: Turn off all lights available in Home Assistant
+  icon: mdi:lightbulb-group-off
+scene_evening_lights:
+  alias: 'Scene: Evening Lights'
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.night_lights
+      - input_boolean.sleeping_lights
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.living_room_evening_lights
+  - alias: Activate Bedroom lights
+    if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.bedroom_motion_occupancy
+        state: 'on'
+      - condition: state
+        entity_id: light.bedroom_lights
+        state: 'on'
+      alias: When there is presence or lights are on
+    then:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.bedroom_evening_lights
+  - alias: Activate Cabinet lights, if there is presence
+    if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.cabinet_motion_occupancy
+        state: 'on'
+      - condition: state
+        entity_id: light.cabinet_lights
+        state: 'on'
+      alias: When there is presence or lights are on
+    then:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.cabinet_evening_lights
+  description: Activate Evening Lights based on presence in each of the rooms.
+  icon: mdi:weather-sunset
+scene_night_lights:
+  alias: 'Scene: Night Lights'
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.evening_lights
+      - input_boolean.sleeping_lights
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.living_room_night_lights
+  - alias: Activate Bedroom lights
+    if:
+    - alias: When there is presence or lights are on
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.bedroom_motion_occupancy
+        state: 'on'
+      - condition: state
+        entity_id: light.bedroom_lights
+        state: 'on'
+    then:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.bedroom_night_lights
+  - alias: Activate Cabinet lights, if there is presence
+    if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.cabinet_motion_occupancy
+        state: 'on'
+      - condition: state
+        entity_id: light.cabinet_lights
+        state: 'on'
+      alias: When there is presence or lights are on
+    then:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.cabinet_night_lights
+  description: Activate Night Lights based on presence in each of the rooms.
+  icon: mdi:weather-sunset
+scene_sleeping_lights:
+  alias: 'Scene: Sleeping Lights'
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.evening_lights
+      - input_boolean.night_lights
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.bedroom_sleeping_lights
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+      - cabinet
+      - kitchen
+      - living_room
+  description: Activate Sleeping Lights and adjust lights in other rooms
+  icon: mdi:power-sleep
