@@ -7,6 +7,7 @@
 media_player:
   - platform: universal
     name: PlayStation 5
+    unique_id: playstation_5
     attributes:
       state: sensor.playstation_5_activity
       power: sensor.playstation_5_activity|power
