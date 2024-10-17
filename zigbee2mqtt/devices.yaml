@@ -1,50 +1,202 @@
-'0x00158d00036577d2':
-  friendly_name: Bedroom Movement Sensor
-  description: Movement Sensor in a Bedroom
-  occupancy_timeout: 300
-'0x00158d0002c7d522':
-  friendly_name: Living Room Conditions Sensor
-  description: Conditions sensor in a Living Room providing data for Home Temperature
-'0x00158d0002d6f60b':
+'0xa4c138d0942b87b6':
+  friendly_name: Corridor Ceiling Light
+  description: Corridor lights (switch 1gang)
+  optimistic: true
+'0xa4c138c7dcd52cbf':
+  friendly_name: Laundry Switch
+  description: Closet Switch (Cieling Light + Fan) (switch 2gang)
+  optimistic: true
+'0xa4c13805f8d2f64d':
+  friendly_name: Kitchen Ceiling Light
+  description: Lights over Kitchen (switch 1gang)
+  optimistic: true
+'0xa4c138cfc77e0333':
+  friendly_name: Kitchen Bra
+  description: Kitchen bra (switch 1gang)
+  optimistic: true
+'0xa4c13869af12e91a':
+  friendly_name: Kitchen Lightstrip
+  description: Kitchen lightstrip (dimmer 1gang)
+  optimistic: true
+'0xa4c138d6374ca1c8':
+  friendly_name: Cabinet Switch
+  description: Cabinet Switch (LED lightsrtip + Ceiling Light) (dimmer 2gang)
+  optimistic: true
+'0xa4c1388c0d4b8ab8':
+  friendly_name: Bedroom Left Bedside Bra
+  description: Bedside bra (Maria, left) (dimmer 1gang)
+  optimistic: true
+'0xa4c138259d310fe8':
+  friendly_name: Bedroom Ligthstrip
+  description: Bedroom lightstrip (dimmer 1gang)
+  optimistic: true
+'0xa4c13821f42b36d6':
+  friendly_name: Bedroom Right Bedside Bra
+  description: Bedside bra (Denys, right) (dimmer 1gang)
+  optimistic: true
+'0xa4c1380c1cccf2ab':
+  friendly_name: Bedroom Desk Light
+  description: Bedroom desk light (switch 1gang)
+  optimistic: true
+'0xa4c138d601e68de1':
+  friendly_name: Wardrobe Switch
+  description: Wardrobe lights + fan (switch 2gang)
+  optimistic: true
+'0xa4c13844d021d6dc':
+  friendly_name: Bathroom Switch
+  description: Bathroom lights + fan (switch 2gang)
+  optimistic: true
+'0xa4c13836f55b2851':
+  friendly_name: Bathroom Lightstrip
+  description: Bathroom lightstrip (dimmer 1gang)
+  optimistic: true
+'0xa4c1383e55cae873':
+  friendly_name: Balcony Lights
+  description: Balcony lights (dimmer 1gang)
+  optimistic: true
+'0x70b3d52b6006be61':
+  friendly_name: Tablet Wall Socket
+  description: Table Wall USB Socket
+'0xa49e69fffe0546b4':
+  friendly_name: Corridor Sockets Relay
+  description: Corridor sockets
+  debounce: 10
+'0x385b44fffed68fca':
+  friendly_name: Cabinet Sockets Relay
+  description: Cabinet sockets
+  debounce: 10
+'0x385cfbfffe84f83a':
+  friendly_name: Kitchen Sockets Relay
+  description: Kitchen sockets
+  debounce: 10
+'0x385b44fffed69dde':
+  friendly_name: Living Room Sockets Relay
+  description: Living Room sockets
+  debounce: 10
+'0x385b44fffed7edd8':
+  friendly_name: Bedroom Sockets Relay
+  description: Bedroom sockets
+  debounce: 10
+'0xa4c138ed32c573fc':
+  friendly_name: Electricity Meter
+  description: Entry Relay
+'0x54ef441000a3c5d9':
+  friendly_name: Bedroom Right Curtain
+  description: Curtain in Living Room on a window to the Balcony
+  invert_cover: true
+'0x54ef441000a3ca3b':
+  friendly_name: Bedroom Left Curtain
+  description: Bedroom Curtain on a window to the Balcony
+  invert_cover: false
+'0x54ef441000a3c79b':
+  friendly_name: Living Room Window Curtain
+  description: Living Room Curtain on the Window side
+  invert_cover: true
+'0xa4c1385d4cff2ca5':
   friendly_name: Bedroom Ceiling Light
-  description: A ceiling light in a Bedroom
-'0x00158d0002e9f771':
-  friendly_name: Living Room Movement Sensor
-  description: Movement Sensor in a Living Room
-  occupancy_timeout: 300
-'0x00158d000450cca4':
-  friendly_name: Living Room Main Light Bulb 1
-  description: Bulb 1 in a Main Light group
-'0x00158d0002d3c856':
-  friendly_name: Living Room Main Light Bulb 4
-  description: Bulb 4 in a Main Light group
-'0x00158d00045ec07b':
-  friendly_name: Living Room Main Light Bulb 3
-  description: Bulb 3 in a Main Light group
-'0x00158d0002d71dab':
-  friendly_name: Living Room Main Light Bulb 2
-  description: Bulb 2 in a Main Light group
-'0x00158d0003972938':
-  friendly_name: Front Door Sensor
-  description: A contact sensor attached to the front door
-'0x00158d0005343e97':
-  friendly_name: Balcony Conditions Sensor
-  description: Conditions Sensor on the Balcony. Provides data for Balcony Heater
-'0x04cf8cdf3c891af6':
-  friendly_name: Corridor Light
-  description: A relay for toggling a ceiling light in the Corridor
-'0x8cf681fffeb0dbd5':
-  friendly_name: Bedroom Heater
-  description: Smart Heater TRV in Bedroom
-'0x8cf681fffeab0589':
-  friendly_name: Living Room Heater
-  description: Smart Heater TRV in Living Room
+  description: Bedroom Ceiling Light (2 gang, 1 noop)
+  optimistic: true
 '0x54ef441000312e38':
   friendly_name: Water Heater
-  description: A smart plug for water heater
-'0xa4c138a8c73a9d0c':
-  friendly_name: Kitchen Switch
-  description: A 2-gang relay for the lights in the Kitchen
-'0x00158d000421472b':
-  friendly_name: Magic Cube
-  description: Magic Cube for controlling scenes and devices
+  description: Water Heater (Aqara smart plug)
+'0xa4c1380ddf60c1d3':
+  friendly_name: Living Room Ceiling Light
+  description: Living Room Ceiling Light (2gang dimmer, L2 is noop)
+  optimistic: true
+'0xa4c13836db0ddaf4':
+  friendly_name: Water Valve
+  description: Water Entry valve for cutting water supply
+'0xa4c138f2ab61229c':
+  friendly_name: Living Room Table Light
+  description: Living Room Table Light (2gang dimmer, L2 is noop)
+  optimistic: true
+'0x8cf681fffeb0dbd5':
+  friendly_name: Bedroom Heater
+  description: Bedroom Heater TRV
+'0x8cf681fffeab0589':
+  friendly_name: Living Room Heater
+  description: Living Room Heater TRV
+'0xbc33acfffe5b97c5':
+  friendly_name: Cabinet Right Heater
+  description: Cabinet Right Heater TRV (Broken Cap)
+'0x804b50fffeefd958':
+  friendly_name: Cabinet Left Heater
+  description: Cabinet Left Heater TRV
+'0xa4c138bf7e2efe1e':
+  friendly_name: Bathroom Bra
+  description: Bathroom Bra (1gang switch)
+'0x00158d0003972938':
+  friendly_name: Front Door
+  description: Front Door Contact Sensor
+'0xa4c13825cdcf888a':
+  friendly_name: Electricity Input
+  description: Electricity availability sensor (water leak sensor on Reserve Switch)
+'0x00158d0005343e97':
+  friendly_name: Laundry Conditions
+  description: Laundry Conditions sensor (on server shelf)
+'0x00158d0002e9f771':
+  friendly_name: Bedroom Motion
+  description: Bedroom Motion Sensor (near curtain, over heater)
+  occupancy_timeout: 300
+'0x00158d00036577d2':
+  friendly_name: Cabinet Motion
+  description: Cabinet Motion Sensor (near curtain)
+  occupancy_timeout: 300
+'0xa4c138c4618c8c99':
+  friendly_name: Cabinet Conditions
+  description: Cabinet Conditions sensor
+'0x00158d0002c7d522':
+  friendly_name: Bathroom Conditions
+  description: Bathroom Conditions sensor (under sink)
+'0x881a14fffedede21':
+  friendly_name: Cabinet Repeater
+  description: 'Cabinet Repeater '
+'0x881a14fffee5d0c4':
+  friendly_name: Bedroom Repeater
+  description: Bedroom Repeater
+'0xa4c138be0c32c97c':
+  friendly_name: Bathroom Heated Wall
+  description: Bathroom Heated Wall thermostat (right)
+  optimistic: true
+  debounce: 5
+  debounce_ignore:
+    - heat
+    - running_state
+    - system_mode
+    - preset
+    - preset_mode
+'0xa4c1380cc9a54cb1':
+  friendly_name: Bathroom Heated Floor
+  description: Bathroom Heated Floor thermostat (left)
+  optimistic: true
+  debounce: 5
+  debounce_ignore:
+    - heat
+    - running_state
+    - system_mode
+    - preset
+    - preset_mode
+'0xa4c1387473a83f8b':
+  friendly_name: Kitchen Heated Floor
+  description: Kitchen heated floor thermostat
+  optimistic: true
+  debounce: 5
+  debounce_ignore:
+    - heat
+    - running_state
+    - system_mode
+    - preset
+    - preset_mode
+'0xa4c138cdea938fec':
+  friendly_name: Corridor Heated Floor
+  description: Corridor heated floor thermostat
+  optimistic: true
+  debounce: 5
+  debounce_ignore:
+    - heat
+    - running_state
+    - system_mode
+    - preset
+    - preset_mode
+'0xa4c1383413f3fe3a':
+  friendly_name: Bedroom Conditions

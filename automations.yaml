@@ -1,23 +1,88 @@
-- id: air_siren_kyiv
+- id: '1723064000855'
+  alias: 'System: Wake up Wall Tablet'
+  description: When someone walks the corridor, wake up the wall mounted tablet
+  trigger:
+  - type: occupied
+    platform: device
+    device_id: dfcd386fd2e5691c4b0ffa999431e34a
+    entity_id: 9be113192d401c74720384e7df35caa0
+    domain: binary_sensor
+  condition: []
+  action:
+  - alias: Wake up Wall Tablet
+    action: notify.mobile_app_wall_tablet
+    data:
+      title: "Прокинься \U0001F971"
+      message: Сповіщення, щоб планшет прокинувся.
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
+  mode: single
+- id: '1723291053432'
+  alias: 'System: Charging Wall Tablet'
+  description: Handles charging for Wall Tablet, keeping battery level between 20-80%
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.wall_tablet_battery_level
+    above: 80
+    id: charged
+  - platform: numeric_state
+    entity_id:
+    - sensor.wall_tablet_battery_level
+    below: 20
+    id: discharged
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id:
+      - discharged
+    then:
+    - action: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.tablet_wall_socket_usb
+    else:
+    - action: switch.turn_off
+      target:
+        entity_id:
+        - switch.tablet_wall_socket_usb
+      data: {}
+    alias: Toggle USB charging for wall tablet
+  mode: single
+- id: '1723373730592'
   alias: 'Alert: Air Siren in Kyiv'
   description: Air Alert announcement when we are in Kyiv. Sends critical notifications
     and announces on speakers.
   trigger:
   - platform: state
-    entity_id: binary_sensor.alerts_kyiv_air
+    entity_id:
+    - binary_sensor.alerts_kyiv_air
+    - binary_sensor.alerts_kyiv_artillery
+    - binary_sensor.alerts_kyiv_chemical
+    - binary_sensor.alerts_kyiv_nuclear
+    - binary_sensor.alerts_kyiv_urban_fights
     to: 'on'
     from: 'off'
     variables:
       title: Повітряна тривога ⚠️
       messages:
-      - Оголошено повітряну тривогу!
-      - Увага! Повітряна тривога!
+      - Увага! Повітряна тривога у Києві!
       - У Києві повітряна тривога!
       - Повітряна тривога у Києві!
       - У Києві оголошено повітряну тривогу!
     alias: Початок тривоги у Києві
   - platform: state
-    entity_id: binary_sensor.alerts_kyiv_air
+    entity_id:
+    - binary_sensor.alerts_kyiv_air
+    - binary_sensor.alerts_kyiv_artillery
+    - binary_sensor.alerts_kyiv_chemical
+    - binary_sensor.alerts_kyiv_nuclear
+    - binary_sensor.alerts_kyiv_urban_fights
     to: 'off'
     from: 'on'
     variables:
@@ -29,17 +94,21 @@
       - Кінець тривоги!
     alias: Відбій тривоги у Києві
   condition:
-  - alias: Хтось з сімʼї перебуває у Києві
-    condition: numeric_state
-    entity_id: sensor.home_nearest_distance
-    below: 20000
-    enabled: true
+  - type: is_present
+    condition: device
+    device_id: 858b98accd89b76a9e8ecec9bd21c22f
+    entity_id: 77cf94b4b1b0da61a47f0d780871b9e7
+    domain: binary_sensor
   action:
-  - service: script.announcement
-    data:
+  - action: media_player.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.living_room_homepod
+  - data:
       title: '{{ title }}'
       messages: '{{ messages }}'
-      force_speak: true
+      force_to_speak: true
       notify_data:
         group: air-alerts
         push:
@@ -48,51 +117,658 @@
             critical: 1
             volume: 0.75
     alias: Оголосити початок або відбій тривоги
+    action: script.announcement
   mode: single
-- id: alarm_triggering
-  alias: 'Alarm: Triggering Alarm'
-  description: ''
+- id: '1723375129657'
+  alias: 'Alert: Danger in Kyiv'
+  description: Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to
+    hide immediately.
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.home_occupancy
-    - binary_sensor.living_room_movement_sensor_occupancy
-    - binary_sensor.bedroom_movement_sensor_occupancy
-    - binary_sensor.front_door_sensor_contact
+    - binary_sensor.danger_in_war_monitor
+    - binary_sensor.danger_in_operinform
+    from: 'off'
     to: 'on'
-    alias: Коли якийсь з сенсорів помічає рух вдома
   condition:
   - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: armed_away
-    alias: Якщо сигналізація поставлена на охорону
+    entity_id: binary_sensor.alerts_kyiv_air
+    state: 'on'
   action:
-  - service: alarm_control_panel.alarm_trigger
-    target:
-      entity_id: alarm_control_panel.home_alarm
-    data: {}
-    alias: Увімкнути тривогу
-- id: alarm_notification
-  alias: 'Alarm: Notification for Triggered'
-  description: Make an announcement when Alarm is getting triggered
+  - alias: Send a critical notification
+    data:
+      speak: false
+      notify: true
+      title: "Пряма загроза \U0001F4A5"
+      messages:
+      - '{{ trigger.to_state.attributes.latest_message }}'
+      notify_data:
+        group: air-alerts
+        push:
+          sound:
+            name: default
+            critical: 1
+            volume: 1
+    action: script.announcement
+  - variables:
+      messages:
+      - Увага! Пряма загроза для Києва!
+      - Увага! Пряма небезпека для Києва!
+      - Увага! Загроза удару по Києву!
+      - Увага! Негайно перейдіть до сховку!
+      - Увага! Пряма загроза! Негайно сховайтесь!
+      - Увага! Загроза для Києва! Негайно сховайтесь!
+      - Увага! Атака на Київ! Негайно сховайтесь!
+  - alias: Day or Night
+    if:
+    - condition: time
+      after: 02:00:00
+      before: '10:00:00'
+    then:
+    - action: media_player.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: media_player.bedroom_homepod
+    - metadata: {}
+      data:
+        volume_level: 0.7
+      target:
+        entity_id:
+        - media_player.bedroom_homepod
+      action: media_player.volume_set
+    - alias: Speak in Bedroom
+      data:
+        speak: true
+        speaker: media_player.bedroom_homepod
+        notify: false
+        force_to_speak: true
+        messages: '{{ messages }}'
+      action: script.announcement
+    - action: media_player.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: media_player.bedroom_homepod
+    else:
+    - action: media_player.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: media_player.living_room_homepod
+    - metadata: {}
+      data:
+        volume_level: 0.6
+      target:
+        entity_id:
+        - media_player.living_room_homepod
+      action: media_player.volume_set
+    - alias: Speak in Living Room
+      data:
+        speak: true
+        speaker: media_player.living_room_homepod
+        notify: false
+        force_to_speak: true
+        messages: '{{ messages }}'
+      action: script.announcement
+    enabled: true
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1723375913043'
+  alias: 'Alert: Imminent Attack by Strategic Bombers'
+  description: Send a notification when Tu-95 strategic bombers take off from Russian
+    airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
   trigger:
   - platform: state
     entity_id:
-    - alarm_control_panel.home_alarm
-    to: triggered
+    - binary_sensor.imminent_attack_in_war_monitor
+    - binary_sensor.imminent_attack_in_operinform
+    from: 'off'
+    to: 'on'
+  condition: []
   action:
-  - service: script.announcement
-    data:
-      title: "Сигналізація \U0001F6A8"
+  - data:
+      speak: false
+      notify: true
+      title: "Зліт бомбардувальників \U0001F6EB"
       messages:
-      - Вдома спрацювала сигналізація!
-      - Тривога! Вдома виявлено рух!
-      - Увага! Спрацювала сигналізація!
+      - '{{ trigger.to_state.attributes.latest_message }}'
+    alias: Send a notification
+    action: script.announcement
+  mode: single
+- id: '1723376382600'
+  alias: 'Alert: Bad Air Quality'
+  description: Notify when the air quality is bad
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.lun_misto_air_301_air_quality_index
+    above: 50
+    for:
+      minutes: 10
+  condition:
+  - type: is_present
+    condition: device
+    device_id: 858b98accd89b76a9e8ecec9bd21c22f
+    entity_id: 77cf94b4b1b0da61a47f0d780871b9e7
+    domain: binary_sensor
+  action:
+  - data:
+      title: "Шкідливе повітря \U0001F974"
+      messages:
+      - 'Індекс якості повітря завищений: {{ trigger.to_state.state | int(0) }} AQI'
+      - 'Шкідливе повітря надворі: {{ trigger.to_state.state | int(0) }} AQI'
+      - 'Індекс якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
       notify_data:
-        group: alarm
-        entity_id: camera.home_camera
-    alias: Announce Alarm is triggered
-- id: turn_off_tv_with_playstation
+        url: /lovelace/city
+    alias: Announce bad air quality
+    action: script.announcement
+  - alias: Wait for 3 hours before the next announcement
+    delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1723807610308'
+  alias: 'Alert: Denys left the Office'
+  description: Notify when Denys is leaving the office
+  trigger:
+  - platform: state
+    entity_id: person.denys
+    from: Wix
+  condition:
+  - condition: state
+    entity_id: person.maria
+    state: home
+  - condition: time
+    after: '16:00:00'
+    before: '21:00:00'
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - action: script.announcement
+    metadata: {}
+    data:
+      speak: false
+      notify: true
+      messages:
+      - Денис вийшов з роботи.
+      - Денис виїхав з роботи.
+      - Денис пішов з роботи.
+      title: "Денис \U0001F3C3"
+  mode: single
+- id: '1723809472546'
+  alias: 'Alert: Electricity Outage'
+  description: Notify everyone when there is no electricity at home.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.electricity
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.electricity
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - variables:
+      next_connectivity: '{{ states(''sensor.yasno_grupa_4_next_connectivity'') |
+        as_timestamp | timestamp_custom(''%H:%M'') }}'
+      next_outage: '{{ states(''sensor.yasno_grupa_4_next_outage'') | as_timestamp
+        | timestamp_custom(''%H:%M'') }}'
+      next_possible_outage: '{{ states(''sensor.yasno_grupa_4_next_possible_outage'')
+        | as_timestamp | timestamp_custom(''%H:%M'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.electricity
+      state: 'off'
+    then:
+    - alias: Notify electricity is off
+      action: script.announcement
+      metadata: {}
+      data:
+        speak: true
+        title: Електрика ⚡️
+        notify_data:
+          url: /localave/reserve-power
+          group: electricity
+        openings:
+        - Відключення електроенергії.
+        - Вдома зникло світло.
+        - Вдома немає електрики.
+        - Відключення електроенергії вдома.
+        - Вдома вимкнули світло.
+        - Вдома вимкнули електрику.
+        messages:
+        - Сіра зона о {{ next_possible_outage }}. Увімкрення о {{ next_connectivity
+          }}.
+        - Можливе увімкнення о {{ next_possible_outage }}. Гарантовано о {{ next_connectivity
+          }}.
+    else:
+    - alias: Notify electricity if on
+      metadata: {}
+      data:
+        service: notify.all
+        speak: true
+        notify: true
+        title: Електрика ⚡️
+        notify_data:
+          url: /localave/reserve-power
+          group: electricity
+        openings:
+        - Вдома зʼявилось світло.
+        - Вдома зʼявилась електрика.
+        - Вдома знову є світло.
+        - Вдома увімкнули світло.
+        - Вдома увімкнули електрику.
+        messages:
+        - Вимкнення світла за планом о {{ next_outage }}.
+        - Наступне вимкнення о {{ next_outage }}.
+        - Відключення о {{ next_outage }}.
+        - О {{ next_outage }} наступне відключення.
+      action: script.announcement
+  mode: single
+- id: '1723848039024'
+  alias: 'Curtains: Open Curtains in the morning'
+  description: Slowly open Bedroom Curtains. Open all curtains when we get up.
+  triggers:
+  - at: 08:30:00
+    enabled: true
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  actions:
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.slowly_close_curtains
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - if:
+    - condition: state
+      entity_id: script.slowly_close_curtains
+      state: 'on'
+    then:
+    - action: script.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: script.slowly_close_curtains
+    alias: Stop opening curtains, if they are still opening
+  - delay:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - alias: Wait for everyone to wake up
+    wait_for_trigger:
+    - entity_id:
+      - binary_sensor.do_not_disturb_family
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+      trigger: state
+    timeout:
+      hours: 4
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - alias: Wait to leave Bedroom
+    wait_for_trigger:
+    - entity_id:
+      - binary_sensor.living_room_presence_sensor_sofa
+      - binary_sensor.living_room_presence_sensor_table
+      to: 'on'
+      trigger: state
+      for:
+        hours: 0
+        minutes: 10
+        seconds: 0
+    - entity_id:
+      - binary_sensor.bedroom_motion_occupancy
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 10
+        seconds: 0
+      trigger: state
+    timeout:
+      hours: 3
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - alias: Open Curtains, if didn't closed them manually
+    if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: cover.bedroom_curtains
+        state: closed
+      alias: Bedroom Curtains are not closed
+    then:
+    - action: cover.open_cover
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - cover.bedroom_curtains
+        - cover.living_room_window_curtain
+  mode: single
+- id: '1724059607884'
+  alias: 'Mode: Low Power Mode'
+  description: Minimise electricity consumption during the outage, when on reserve
+    power supply.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.electricity
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.electricity
+    from: 'on'
+    to: 'off'
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - action: script.low_power_mode
+    metadata: {}
+    data: {}
+  mode: restart
+- id: '1724060454567'
+  alias: 'Alert: No Electricity Soon'
+  description: Notify 30 minutes in advance before the electricity turns off
+  trigger:
+  - platform: template
+    value_template: '{{ now() >= states(''sensor.yasno_grupa_4_next_outage'') | as_datetime
+      - timedelta(minutes=30) }}'
+    alias: 30 minutes before outage
+  condition:
+  - condition: state
+    entity_id: binary_sensor.electricity_outages_applied
+    state: 'on'
+  action:
+  - metadata: {}
+    data:
+      speak: true
+      notify: true
+      notify_data:
+        url: /localave/reserve-power
+        group: electricity
+      messages:
+      - Планове відключення світла за 30 хвилин.
+      - За 30 хвилин відключення світла.
+      - Через півгодини вимкнуть світло.
+      - Відключення світла за півгодини.
+      title: Електрика ⚡️
+      service: notify.all
+      speaker: media_player.living_room_homepod
+    action: script.announcement
+  mode: single
+- id: '1724060590677'
+  alias: 'Alert: Electricity will turn on soon'
+  description: Notify 1 hours in advance before the electricity turns on
+  trigger:
+  - alias: 60 minutes before connectivity
+    platform: template
+    value_template: '{{ now() >= states(''sensor.yasno_grupa_4_next_connectivity'')
+      | as_datetime - timedelta(minutes=60) }}'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.electricity
+    state: 'off'
+  action:
+  - metadata: {}
+    data:
+      speak: true
+      notify: true
+      notify_data:
+        url: /localave/reserve-power
+        group: electricity
+      messages:
+      - Світло гарантовано увімкнуть за годину.
+      - Одна година до увімкнення світла за графіком.
+      - За графіком через годину увімкнуть світло.
+      - Планове увімкнення світла за годину.
+      title: Електрика ⚡️
+      service: notify.all
+      speaker: media_player.living_room_homepod
+    action: script.announcement
+  mode: single
+- id: '1724063626997'
+  alias: 'Climate: Turn on heaters during heating season'
+  description: Turn on/off heaters when weather is getting cold/warm
+  trigger:
+  - platform: state
+    entity_id:
+    - weather.forecast_fayna_town
+  condition:
+  - condition: numeric_state
+    entity_id: weather.forecast_fayna_town
+    attribute: temperature
+    below: 10
+  action:
+  - action: weather.get_forecasts
+    metadata: {}
+    data:
+      type: daily
+    target:
+      entity_id: weather.forecast_fayna_town
+    response_variable: daily_forecast
+  - variables:
+      heating_season: '{% set days = 3 %} {% set threshold = 30 %} {{ daily_forecast[''weather.forecast_fayna_town''].forecast[:days]
+        | selectattr(''templow'', ''le'', threshold) | list | count }}'
+  - if:
+    - condition: template
+      value_template: '{{ heating_season }}'
+      alias: Heating season began
+    - condition: state
+      entity_id:
+      - climate.living_room_heater
+      - climate.bedroom_heater
+      - climate.cabinet_left_heater
+      - climate.cabinet_right_heater
+      state: 'off'
+    then:
+    - action: climate.set_hvac_mode
+      metadata: {}
+      data:
+        hvac_mode: auto
+      target:
+        entity_id:
+        - climate.living_room_heater
+        - climate.bedroom_heater
+        - climate.cabinet_left_heater
+        - climate.cabinet_right_heater
+    - action: script.announcement
+      metadata: {}
+      data:
+        speak: false
+        notify: true
+        notify_data:
+          url: lovelace/home
+        title: Опалення ♨️
+        messages:
+        - Вмикаємо обігрівачі.
+        - Переводимо обігрівачі у режим обігріву.
+        - Відкриваємо батареї.
+        openings:
+        - Прогнозується похолодання.
+        - Температура опускається.
+        - Найближчими днями буде холодно.
+    else:
+    - action: climate.set_hvac_mode
+      metadata: {}
+      data:
+        hvac_mode: 'off'
+      target:
+        entity_id:
+        - climate.living_room_heater
+        - climate.bedroom_heater
+        - climate.cabinet_left_heater
+        - climate.cabinet_right_heater
+    - action: script.announcement
+      metadata: {}
+      data:
+        speak: false
+        notify: true
+        notify_data:
+          url: lovelace/home
+        title: Опалення ♨️
+        messages:
+        - Вимикаємо обігрівачі.
+        - Закриваємо батареї.
+        openings:
+        - Прогнозується потепління.
+        - Температура піднімається.
+        - Найближчими днями буде тепло.
+  - delay:
+      hours: 12
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1724064426060'
+  alias: 'Climate: Suggest turning on AC when it''s hot'
+  description: When temperature raises over certain level, send an actionable notification
+    for turning on ACs
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.home_temperature
+    above: 30
+  condition:
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  - condition: state
+    entity_id:
+    - climate.cabinet_ac
+    - climate.living_room_ac
+    state: 'off'
+  action:
+  - variables:
+      turn_on_both: '{{ ''TURN_ON_BOTH'' ~ context.id }}'
+      turn_on_living_room: '{{ ''TURN_ON_LIVING_ROOM'' ~ context.id }}'
+      turn_on_cabinet: '{{ ''TURN_ON_HOME_CABINET'' ~ context.id }}'
+    alias: Define action for notification
+  - alias: Suggest turning on AC
+    data:
+      title: "Кондиціонер \U0001F975"
+      speak: false
+      openings:
+      - Вдома занадто жарко.
+      - Температура вдома зростає.
+      - Вдома жарко.
+      messages:
+      - Увімкнути кондиціонери?
+      - Охолодити дім?
+      - Включити кондиціонери?
+      - Натисніть, щоб включити кондиціонери.
+      notify_data:
+        tag: ac
+        actions:
+        - action: '{{ turn_on_both }}'
+          title: Увімкнути обидва
+          activationMode: background
+          authenticationRequired: true
+        - action: '{{ turn_on_living_room }}'
+          title: Увімкнути у вітальні
+          activationMode: background
+          authenticationRequired: true
+        - action: '{{ turn_on_cabinet }}'
+          title: Увімкнути у кабінеті
+          activationMode: background
+          authenticationRequired: true
+        url: /lovelace/living_room
+    action: script.announcement
+  - alias: Wait for click on action
+    wait_for_trigger:
+    - id: both
+      platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ turn_on_both }}'
+      alias: Turn on both AC
+    - id: living_room
+      platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ turn_on_living_room }}'
+      alias: Turn on Living Room AC
+    - id: cabinet
+      platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ turn_on_cabinet }}'
+      alias: Turn on Cabinet AC
+    timeout:
+      hours: 3
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - alias: Turn on Both ACs
+        condition: template
+        value_template: '{{ wait.trigger.id == ''both'' }}'
+      sequence:
+      - data:
+          hvac_mode: cool
+        target:
+          entity_id:
+          - climate.living_room_ac
+          - climate.cabinet_ac
+        action: climate.set_hvac_mode
+    - conditions:
+      - alias: Turn on Living Room AC
+        condition: template
+        value_template: '{{ wait.trigger.id == ''living_room'' }}'
+      sequence:
+      - data:
+          hvac_mode: cool
+        target:
+          entity_id:
+          - climate.living_room_ac
+        action: climate.set_hvac_mode
+    - conditions:
+      - alias: Turn on Cabinet AC
+        condition: template
+        value_template: '{{ wait.trigger.id == ''cabinet'' }}'
+      sequence:
+      - data:
+          hvac_mode: cool
+        target:
+          entity_id:
+          - climate.cabinet_ac
+        action: climate.set_hvac_mode
+  - data:
+      message: clear_notification
+      data:
+        tag: ac
+    alias: Clear AC notifications
+    action: notify.notify
+  mode: single
+- id: '1724065136245'
   alias: 'Media: Turn off Samsung TV when PlayStation turns off'
   description: Turn off Samsung TV when PS5 goes to sleep mode
   trigger:
@@ -105,234 +781,173 @@
   condition:
   - condition: state
     entity_id: media_player.apple_tv
-    state: standby
-    enabled: true
+    state:
+    - standby
+    - 'off'
+  - condition: state
+    entity_id: sensor.playstation_5_activity
+    state: none
+  action:
+  - data: {}
+    action: media_player.turn_off
+    target:
+      device_id: ac80d0753177b7ae89f9707e113d3f9d
+- id: '1724068550553'
+  alias: 'Media: Turn on Apple TV when Samsung TV turns on'
+  description: Turn on Apple TV when Samsung TV turns on and PS5 is off
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.samsung_tv
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  condition:
+  - condition: state
+    entity_id: sensor.playstation_5_activity
+    state: none
     for:
       hours: 0
       minutes: 1
       seconds: 0
   - condition: state
-    entity_id: media_player.playstation_5
-    state: none
+    entity_id: media_player.apple_tv
+    state: standby
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   action:
-  - service: media_player.turn_off
-    data: {}
+  - data: {}
     target:
-      entity_id: media_player.samsung_tv
-- id: magic_cube_actions
-  alias: 'System: Magic Cube Actions'
-  description: ''
-  trigger:
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: flip90
-    discovery_id: 0x00158d000421472b action_flip90
-    id: flip90
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: flip180
-    discovery_id: 0x00158d000421472b action_flip180
-    id: flip180
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: rotate_right
-    discovery_id: 0x00158d000421472b action_rotate_right
-    id: rotate_right
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: rotate_left
-    discovery_id: 0x00158d000421472b action_rotate_left
-    id: rotate_left
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: shake
-    discovery_id: 0x00158d000421472b action_shake
-    id: shake
-  - platform: device
-    domain: mqtt
-    device_id: 34146f7d251656d2b98875571e46a12c
-    type: action
-    subtype: tap
-    discovery_id: 0x00158d000421472b action_tap
-    id: tap
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: flip90
-        alias: flip90
-      sequence:
-      - service: scene.turn_on
-        data:
-          entity_id: scene.night_lights
-          transition: 1
-    - conditions:
-      - condition: trigger
-        id: flip180
-        alias: '"flip180" action'
-      sequence:
-      - service: scene.turn_on
-        data:
-          transition: 1
-        target:
-          entity_id: scene.evening_lights
-    - conditions:
-      - condition: trigger
-        id: rotate_right
-        alias: '"rotate_right" action'
-      sequence:
-      - service: light.turn_on
-        data:
-          transition: 1
-        target:
-          entity_id:
-          - light.living_room_main_light
-    - conditions:
-      - condition: trigger
-        id: rotate_left
-        alias: '"rotate_left" action'
-      sequence:
-      - service: light.turn_off
-        data:
-          transition: 1
-        target:
-          entity_id:
-          - light.living_room_main_light
-    - conditions:
-      - condition: trigger
-        id: shake
-        alias: '"shake" action'
-      sequence:
-      - service: scene.turn_on
-        data:
-          transition: 1
-        target:
-          entity_id: scene.lights_out
-    - conditions:
-      - condition: trigger
-        id: tap
-        alias: '"tap" action'
-      sequence:
-      - service: input_boolean.toggle
-        data: {}
-        target:
-          entity_id: input_boolean.do_not_disturb
-      - service: script.announcement
-        data:
-          speak: false
-          title: "Не турбувати \U0001F4A4"
-          messages:
-          - Режим «Не турбувати» {{ is_state('input_boolean.do_not_disturb', 'on')
-            | iif('увімкнено', 'вимкнено') }}.
-          - Режим тиші {{ is_state('input_boolean.do_not_disturb', 'on') | iif('увімкнено',
-            'вимкнено') }}.
-          - '{{ is_state(''input_boolean.do_not_disturb'', ''on'') | iif(''Увімкнено'',
-            ''Вимкнено'') }} режим тиші.'
-          notify_data:
-            group: system
-    alias: Perform an action
-- id: home_assistant_release_alert
-  alias: 'System: Home Assistant Release'
-  description: Notify Denys about new Home Assistant releases
-  trigger:
-  - platform: device
-    type: turned_on
-    device_id: ef182182c3abe81e0d29b52dc5f4c649
-    entity_id: 0bd7f8b9585566e058244c17ca00aeca
-    domain: update
-  action:
-  - alias: Notify Denys about new HA release
-    service: script.announcement
-    data:
-      service: notify.denys
-      title: "Оновлення Home Assistant \U0001F389"
-      speak: false
-      messages:
-      - 'Доступна нова версія Home Assistant: {{ state_attr(''update.home_assistant_core_update'',
-        ''latest_version'') }}.'
-      - 'Реліз нової версії Home Assistant: {{ state_attr(''update.home_assistant_core_update'',
-        ''latest_version'') }}.'
-      - Версія Home Assistant {{ state_attr('update.home_assistant_core_update', 'latest_version')
-        }} вже доступна!
-      notify_data:
-        url: /config/dashboard
-        group: system
-        actions:
-        - action: RELEASE_NOTES
-          title: Переглянути зміни
-          uri: '{{ state_attr(''update.home_assistant_core_update'', ''release_url'')
-            }}'
-- id: hacs_releases_alert
-  alias: 'System: Notify about HACS updates'
-  description: Notify when new HACS components are released
-  trigger:
-  - platform: time
-    at: '21:00:00'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.hacs
-    above: 0
-    alias: There are any updates for hacs
-  action:
-  - variables:
-      hacs_updates: '{% for repo in state_attr(''sensor.hacs'', ''repositories'')
-        -%} • {{ repo.display_name }}: {{ repo.installed_version }} → {{ repo.available_version
-        }} {% endfor %}'
-  - alias: Announce HACS updates for Denys
-    service: script.announcement
-    data:
-      service: notify.denys
-      title: "Оновлення HACS \U0001F389"
-      speak: false
-      messages:
-      - '{{ hacs_updates }}'
-      notify_data:
-        url: /hacs/entry
-        group: system
-        tag: hacs-updates
-      openings:
-      - 'Доступні оновлення для {{ states(''sensor.hacs'') }} пакетів в HACS:
-
-        '
-      - 'HACS має {{ states(''sensor.hacs'') }} оновлень:
-
-        '
-      - 'Достуно {{ states(''sensor.hacs'') }} оновлень в HACS:
-
-        '
-- id: home_assistant_start
+      entity_id: media_player.apple_tv
+    action: media_player.turn_on
+  mode: single
+- id: '1724068930188'
   alias: 'System: Home Assistant Start'
   description: Notify Denys when Home Assistant starts
   trigger:
   - platform: homeassistant
     event: start
   action:
-  - service: script.announcement
+  - action: script.announcement
+    metadata: {}
     data:
-      service: notify.denys
-      title: "Запуск Home Assistant \U0001F3E1"
       speak: false
+      notify: true
+      title: "Запуск Home Assistant \U0001F3E1"
       messages:
       - Home Assistant повністю запущено!
+      - Home Assistant запущено!
       - Home Assistant стартував!
       - Home Assistant готовий до роботи!
       notify_data:
         group: system
         tag: ha-start
-    alias: Notify Denys about HA starts
-- id: system_peaks
+      custom_service: notify.denys
+- id: '1724069071134'
+  alias: 'System: Notify when System disk is full'
+  description: Send a notification when system disk is 90% full.
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.system_monitor_disk_usage
+    above: 90
+    for:
+      hours: 1
+  condition: []
+  action:
+  - data:
+      title: "Системний пік \U0001F525"
+      messages:
+      - Системний диск заповнений на {{ trigger.to_state.state }}%.
+      - Заповнення системного диску {{ trigger.to_state.state }}%.
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+      openings: {}
+    action: script.announcement
+  - alias: Don't send notification too often
+    delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1724069169148'
+  alias: 'System: Notify about high RAM usage'
+  description: Notify when RAM usage is high for some time.
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.system_monitor_memory_usage
+    above: 75
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    variables:
+      openings:
+      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
+      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
+      - 'RAM: {{ trigger.to_state.state }}%.'
+      messages:
+      - Складнощі з виконанням поточного завдання.
+      - Аномально велике навантаження на процесор.
+  condition: []
+  action:
+  - data:
+      title: "Системний пік \U0001F525"
+      messages:
+      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
+      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
+      - 'RAM: {{ trigger.to_state.state }}%.'
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+    action: script.announcement
+  - delay:
+      minutes: 10
+    alias: Don't send notification too often
+  mode: single
+- id: '1724069193706'
+  alias: 'System: Notify about high CPU usage'
+  description: Send alert when HA has a high CPU usage
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.system_monitor_processor_use
+    above: 75
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition: []
+  action:
+  - data:
+      title: "Системний пік \U0001F525"
+      speak: false
+      notify_data:
+        url: /lovelace/system
+        group: system
+      messages:
+      - Процесор навантажений на {{ trigger.to_state.state }}%.
+      - Навантаження на процесор {{ trigger.to_state.state }}%.
+    action: script.announcement
+  - alias: Don't send notification too often
+    delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1724069235867'
   alias: 'System: Notify when Media disk is full'
-  description: Notify when Media drive is 90% full for some time.
+  description: Notify when Media drive is 95% full for some time.
   trigger:
   - platform: numeric_state
     id: media_disk
@@ -340,10 +955,11 @@
     - sensor.system_monitor_disk_usage_media_media
     above: 90
     for:
-      hours: 1
+      hours: 2
+      minutes: 0
+      seconds: 0
   action:
-  - service: script.announcement
-    data:
+  - data:
       title: "Диск медіа \U0001F4BF"
       messages:
       - Диск медіа заповнений на {{ trigger.to_state.state }}%.
@@ -353,1028 +969,24 @@
         url: /lovelace/system
         group: system
       openings: {}
+    action: script.announcement
   - delay:
       minutes: 10
     alias: Don't send notification too often
-- id: aqi_alert
-  alias: 'Alert: Bad Air Quality'
-  description: Notify when the air quality is bad
+- id: '1724069840727'
+  alias: 'System: Run chores in config folder'
+  description: Run scripts for generating README, commiting regular updated, etc
   trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.outdoor_aqi
-    above: 150
-    for:
-      minutes: 10
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.home_nearest_distance
-    below: 20
-    alias: Someone is in Kyiv
+  - platform: time_pattern
+    hours: /12
+  condition: []
   action:
-  - service: script.announcement
-    data:
-      title: "Шкідливе повітря \U0001F974"
-      openings:
-      - 'Рівень якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Шкідливе повітря надворі: {{ trigger.to_state.state | int(0) }} AQI'
-      - 'Індекс якості повітря: {{ trigger.to_state.state | int(0) }} AQI'
-      messages: '{{ messages }}'
-      notify_data:
-        url: /lovelace/city
-    alias: Announce bad air quality
-  - delay:
-      hours: 3
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-    alias: Wait for 3 hours before the next announcement
+  - metadata: {}
+    data: {}
+    action: shell_command.chores
   mode: single
-- id: humidifier_no_water
-  alias: 'Alert: Humidifier No Water'
-  description: Notify when humidifier's water tank is empty
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.air_humidifier_water_tank_empty
-    to: 'on'
-    not_from:
-    - unknown
-    - unavailable
-  action:
-  - service: script.announcement
-    data:
-      title: "Зволожувач \U0001F4A6"
-      messages:
-      - Наповніть бак зволожувача водою!
-      - У зволожувачі закінчилась вода — наберіть нову!
-      - Наберіть нової води у зволожувач!
-      - Потрібно набрати воду у зволожувач!
-      - Зволожувач порожній. Наберіть нової води.
-      - Потрібно наповнити бак зволожувача.
-      - Бак зволожувача спорожнів.
-      notify_data:
-        url: /lovelace/bedroom
-    alias: Announce Humidifier tank is empty
-- id: car_washing_alert
-  alias: 'Alert: Car Washing'
-  description: Notify when it’s okay or not okay to wash a car
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.car_wash
-    to: 'on'
-    for:
-      hours: 12
-    variables:
-      title: "Миття авто \U0001F698☀️"
-      openings:
-      - Найближчими днями очікується хороша погода.
-      - Хороша погода найближчі 7 днів.
-      - Прогнозується хороша погода!
-      - Попереду гарна погода!
-      messages:
-      - Доречно помити машину.
-      - Можна помити авто.
-      - Варто поїхати на автомийку.
-      - Вдалий час, щоб помити авто.
-    alias: When car wash sensor turns on
-  - platform: state
-    entity_id: binary_sensor.car_wash
-    to: 'off'
-    for:
-      hours: 12
-    variables:
-      title: "Миття авто \U0001F698\U0001F327"
-      openings:
-      - Найближчими днями очікується погана погода.
-      - Погана погода найближчі 7 днів.
-      - Прогнозується погана погода!
-      - Попереду дощова погода!
-      messages:
-      - Утримайтесь від миття авто.
-      - Не варто мити авто цими днями.
-      - Краще залишити авто брудним.
-    alias: When car wash sensor turns off
-  action:
-  - service: script.announcement
-    data:
-      speak: false
-      title: '{{ title }}'
-      openings: '{{ openings }}'
-      messages: '{{ messages }}'
-      notify_data:
-        url: /lovelace/car
-        group: car
-    alias: 'Announce car washing recommendations '
-- id: snow_tire_alert
-  alias: 'Alert: Snow/Winter Tires'
-  description: Notify when it's time to change car tires
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.snowtire
-    to: 'on'
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
-  - platform: state
-    entity_id:
-    - binary_sensor.snowtire
-    to: 'off'
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.snowtire
-        state: 'on'
-      - alias: Only in the fall
-        condition: template
-        value_template: '{{ now().month in [9, 10, 11] }}'
-      sequence:
-      - service: script.announcement
-        data:
-          speak: false
-          title: "Зимові шини \U0001F6DE❄️"
-          openings:
-          - Найближчими днями погіршення погоди.
-          - Скоро настане зима.
-          - Зима близько!
-          - Попереду погіршення погоди!
-          messages:
-          - Час перевзути машину на зимові шини.
-          - Доречно змінити шини на зимові.
-          - Варто поїхати на шиномонтаж для заміни шин.
-          notify_data:
-            url: /lovelace/car
-            group: car
-        alias: Announce winter tires
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.snowtire
-        state: 'off'
-      - alias: Only in the spring
-        condition: template
-        value_template: '{{ now().month in [3, 4, 5] }}'
-      sequence:
-      - service: script.announcement
-        data:
-          speak: false
-          title: "Літні шини \U0001F6DE\U0001F324"
-          openings:
-          - Найближчими днями стрімке покращення погоди.
-          - Літо на носі!
-          - Нарешті весна!
-          - Попереду покращення погоди!
-          messages:
-          - Час перевзути машину на літні шини.
-          - Доречно змінити шини на літні.
-          - Варто поїхати на шиномонтаж для заміни шин.
-          notify_data:
-            url: /lovelace/car
-            group: car
-        alias: Announce summer tires
-    alias: Announce winter or summer tires
-- id: sync_living_room_trv_temperature
-  alias: 'Climate: Sync Living Room TRV temperature'
-  description: ''
-  use_blueprint:
-    path: denysdovhan/sync_trv_with_external_sensor.yaml
-    input:
-      valve: climate.living_room_heater
-      temp_sensor: sensor.living_room_temperature
-      ieee_address: '0x8cf681fffeab0589'
-- id: sync_bedroom_trv_temperature
-  alias: 'Climate: Sync Bedroom TRV temperature'
-  description: ''
-  use_blueprint:
-    path: denysdovhan/sync_trv_with_external_sensor.yaml
-    input:
-      valve: climate.bedroom_heater
-      temp_sensor: sensor.bedroom_temperature
-      ieee_address: '0x8cf681fffeb0dbd5'
-- id: switch_heaters_during_heating_season
-  alias: 'Climate: Switch Heaters during Heating Season'
-  description: Turn on/off heaters when Heating Season in on
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.heating_season
-    not_from:
-    - unknown
-    - unavailable
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
-  action:
-  - if:
-    - alias: Start of the Heating Season
-      condition: state
-      entity_id: binary_sensor.heating_season
-      state: 'on'
-    - alias: And heaters are still off
-      condition: state
-      entity_id:
-      - climate.living_room_heater
-      - climate.bedroom_heater
-      state: 'off'
-    then:
-    - service: climate.set_hvac_mode
-      data:
-        entity_id:
-        - climate.living_room_heater
-        - climate.bedroom_heater
-        hvac_mode: auto
-      alias: Turn Heaters to Auto
-    else:
-    - alias: Turn Heaters to Off
-      service: climate.set_hvac_mode
-      data:
-        hvac_mode: 'off'
-      target:
-        entity_id:
-        - climate.living_room_heater
-        - climate.bedroom_heater
-  - alias: Notify about the action
-    service: script.announcement
-    data:
-      title: "Опалення \U0001F525"
-      speak: false
-      openings:
-      - Прогнозується {{ iif(is_state('binary_sensor.heating_season', 'on'), 'похолодання',
-        'потепління') }}.
-      - Наближається {{ iif(is_state('binary_sensor.heating_season', 'on'), 'холодна',
-        'тепла') }} погода.
-      - Найближчі 3 дні очікується температура {{ iif(is_state('binary_sensor.heating_season',
-        'on'), 'нижче', 'вище') }} 8°C.
-      - Температура {{ iif(is_state('binary_sensor.heating_season', 'on'), 'опуститься
-        нижче', 'підніметься вище') }} 8°C.
-      messages:
-      - '{{ iif(is_state(''binary_sensor.heating_season'', ''on''), ''Починаємо'',
-        ''Закінчуємо'') }} опалювальний період.'
-      - '{{ iif(is_state(''binary_sensor.heating_season'', ''on''), ''Початок'', ''Кінець'')
-        }} опалювального сезону.'
-      - '{{ iif(is_state(''binary_sensor.heating_season'', ''on''), ''Розпочинаємо'',
-        ''Закінчуємо'') }} опалювальний сезон.'
-      - '{{ iif(is_state(''binary_sensor.heating_season'', ''on''), ''Вмикаємо'',
-        ''Вимикаємо'') }} опалювання вдома.'
-      - '{{ iif(is_state(''binary_sensor.heating_season'', ''on''), ''Увімкнено'',
-        ''Вимкнено'') }} опалення.'
-      notify_data:
-        actions:
-        - action: '{{ heat_action }}'
-          title: Нагріти балкон
-        url: /lovelace/balcony
-- id: turn_on_balcony_heater
-  alias: 'Climate: Turn on Balcony Heater'
-  description: Turn on Balcony Heater when it's cold and Desk Lamp or Working Display
-    are turned on
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.working_display_connected
-    to: 'on'
-  - platform: state
-    entity_id: light.desk_lamp
-    to: 'on'
-  - platform: state
-    entity_id:
-    - binary_sensor.balcony_comfort_temperature
-    to: 'off'
-  condition:
-  - alias: Turn on only when someone is home
-    condition: state
-    entity_id: group.family
-    state: home
-  - condition: state
-    entity_id: binary_sensor.balcony_comfort_temperature
-    state: 'off'
-  - condition: state
-    entity_id: climate.balcony_heater
-    state: 'off'
-  - alias: Either Display or Desk Lamp should be on when the temperature is low
-    condition: or
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.working_display_connected
-      state: 'on'
-    - condition: state
-      entity_id: light.desk_lamp
-      state: 'on'
-  action:
-  - service: climate.turn_on
-    data: {}
-    target:
-      entity_id: climate.balcony_heater
-- id: turn_off_balcony_heater
-  alias: 'Climate: Turn off Balcony Heater'
-  description: Turn off Balcony Heater when the working display or desk lamp are off
-    for some time
-  trigger:
-  - platform: state
-    entity_id:
-    - light.desk_lamp
-    to: 'off'
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    from: 'on'
-  - platform: state
-    entity_id:
-    - binary_sensor.working_display_connected
-    to: 'off'
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    from: 'on'
-  - platform: state
-    entity_id:
-    - binary_sensor.balcony_comfort_temperature
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-  condition:
-  - condition: state
-    entity_id: climate.balcony_heater
-    state: heat
-  - condition: state
-    entity_id: binary_sensor.balcony_comfort_temperature
-    state: 'on'
-    enabled: false
-  - condition: state
-    entity_id: binary_sensor.working_display_connected
-    state: 'off'
-  action:
-  - service: climate.turn_off
-    entity_id: climate.balcony_heater
-  - if:
-    - condition: state
-      entity_id: light.desk_lamp
-      state: 'on'
-    then:
-    - service: light.turn_off
-      entity_id: light.desk_lamp
-- id: preheat_balcony
-  alias: 'Climate: Preheat Balcony for a Workday'
-  description: When Denys wakes up, ask if he is going to work on balcony, start heating
-    and notify when temperature is comfortable.
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.denys_iphone_focus
-    to: 'off'
-  condition:
-  - condition: state
-    entity_id: binary_sensor.balcony_comfort_temperature
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: person.denys
-    state: home
-  - condition: time
-    after: 08:00
-    before: '15:00'
-  action:
-  - alias: Prepare an action variables
-    variables:
-      heat_action: '{{ ''HEAT_'' ~ context.id }}'
-      delay_minutes: '{{ range(1, 30) | random }}'
-  - alias: Wait for some time after wake up
-    delay:
-      minutes: '{{ delay_minutes }}'
-  - alias: Send an actionable notification
-    service: script.announcement
-    data:
-      service: notify.denys
-      title: "Робоче місце \U0001F5A5"
-      speak: false
-      openings:
-      - На балконі {{ states('sensor.balcony_conditions_sensor_temperature') | round(1)
-        }}°C.
-      - Температура на балконі {{ states('sensor.balcony_conditions_sensor_temperature')
-        | round(1) }}°C.
-      - Зараз на балконі {{ states('sensor.balcony_conditions_sensor_temperature')
-        | round(1) }}°C.
-      messages:
-      - Хочете увімкнути обігрів?
-      - Нагріти балкон для роботи?
-      - Увімкнути обігрівач?
-      - Нагріти до комфортної температури?
-      - Підігріти комфортної температури?
-      notify_data:
-        actions:
-        - action: '{{ heat_action }}'
-          title: Нагріти балкон
-        url: /lovelace/balcony
-  - alias: Wait for notification to be pressed
-    wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ heat_action }}'
-      alias: When heat button is pressed in notification
-    timeout: '12:00:00'
-    continue_on_timeout: false
-  - alias: Start heating the balcony
-    service: climate.turn_on
-    entity_id: climate.balcony_heater
-  - alias: Wait to heat up
-    wait_for_trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.balcony_comfort_temperature
-      to: 'on'
-    timeout: '6:00:00'
-    continue_on_timeout: false
-  - alias: Notify about comfort temperature
-    service: script.announcement
-    data:
-      service: notify.denys
-      title: "Робоче місце \U0001F5A5"
-      speak: false
-      openings:
-      - Можна йти працювати.
-      - Балкон готовий до роботи.
-      - Робоче місце нагріте до комфортної темпертарури.
-      - Робоче місце готове.
-      messages:
-      - На балконі {{ states('sensor.balcony_conditions_sensor_temperature') | round(1)
-        }}°C.
-      - 'Температура: {{ states(''sensor.balcony_conditions_sensor_temperature'')
-        | round(1) }}°C.'
-      - Зараз на балконі {{ states('sensor.balcony_conditions_sensor_temperature')
-        | round(1) }}°C.
-      notify_data:
-        url: /lovelace/balcony
-- id: turn_on_lights_on_sunset
-  alias: 'Light: Turn on lights on Sunset'
-  description: Turn on lights when sun goes below the horizon
-  trigger:
-  - platform: state
-    entity_id:
-    - sun.sun
-    to: below_horizon
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  - condition: state
-    entity_id: light.living_room_lights
-    state: 'off'
-  - condition: state
-    entity_id: light.bedroom_lights
-    state: 'off'
-  action:
-  - service: scene.turn_on
-    data:
-      transition: 5
-    target:
-      entity_id: scene.evening_lights
-  - service: script.announcement
-    data:
-      notify: false
-      openings:
-      - Вечоріє.
-      - Вечір надворі.
-      - Скоро стемніє.
-      - Сонечко зайшло за обрій.
-      - Скоро вдома стане темно.
-      - Сонце опустилось за обрій.
-      messages:
-      - Зробимо вдома світліше.
-      - Нехай буде світло.
-      - Доречно увімкнути світло.
-      - Вмикаємо світло.
-      - Вмикаю світло.
-      - Час увімкнути світло.
-      - Вмикаю для вас світло.
-      - Вмикаю вечірнє світло.
-      service: notify.all
-      speak: true
-      force_speak: false
-      notify_data:
-        url: /localave/home
-    alias: Announce lights
-- id: turn_on_lights_on_low_illuminance
-  alias: 'Light: Turn on lights on low illuminance'
-  description: Turn on lights on low illuminance
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.living_room_movement_sensor_illuminance_lux
-    below: 10
-  - platform: numeric_state
-    entity_id: sensor.bedroom_movement_sensor_illuminance_lux
-    below: 5
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  - condition: state
-    entity_id: sun.sun
-    state: above_horizon
-  - condition: state
-    entity_id: light.living_room_lights
-    state: 'off'
-  - condition: state
-    entity_id: light.bedroom_lights
-    state: 'off'
-  - condition: time
-    after: '15:00:00'
-    before: '22:00:00'
-    alias: Activate only after noon till night
-  action:
-  - service: scene.turn_on
-    data:
-      transition: 5
-    target:
-      entity_id:
-      - scene.evening_lights
-  - service: script.announcement
-    data:
-      notify: false
-      openings:
-      - Здається вдома надто темно.
-      - Вдома занадто темно.
-      - Стемніло.
-      - Сонце сховалось за хмарами.
-      - Надто темно.
-      - Вдома за темно.
-      messages:
-      - Доречно увімкнути світло.
-      - Увімкну для вас світло.
-      - Краще увімкнути світло.
-      - Не будемо псувати очі.
-      - Вмикаю для вас світло.
-      - Вмикаємо світло.
-      - Вмикаю світло.
-      - Час увімкнути світло.
-      service: notify.all
-      speak: true
-      force_speak: false
-      notify_data:
-        url: /localave/home
-    alias: Announce low illuminance on speakers
-- id: turn_on_corridor_light_when_door_is_open
-  alias: 'Light: Turn on Corridor Light when Door is open'
-  description: Turn on Corridor Light when Front Door opens and then turn it off after
-    a few minutes
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.front_door_sensor_contact
-    to: 'on'
-  action:
-  - alias: Turn on Corridor Light
-    service: light.turn_on
-    entity_id: light.corridor_light
-  - alias: Wait for some time
-    delay:
-      hours: 0
-      minutes: 7
-      seconds: 0
-      milliseconds: 0
-  - alias: Turn off Corridor Light
-    service: light.turn_off
-    entity_id: light.corridor_light
-  mode: restart
-- id: turn_off_corridor_light_when_door_is_closed
-  alias: 'Light: Turn off Corridor Light When Door is Closed'
-  description: Turn off Corridor Light when Front Door closes. If the light is still
-    on, then send a notification with an action to turn off the light.
-  trigger:
-  - platform: state
-    entity_id:
-    - light.corridor_light
-    to: 'on'
-  action:
-  - wait_for_trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door_sensor_contact
-      from: 'on'
-      to: 'off'
-    timeout:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger is not none }}'
-        alias: When Front Door was closed
-      sequence:
-      - delay:
-          hours: 0
-          minutes: 1
-          seconds: 0
-          milliseconds: 0
-      - service: light.turn_off
-        data: {}
-        target:
-          entity_id: light.corridor_light
-    default:
-    - condition: state
-      entity_id: light.corridor_light
-      state: 'on'
-    - variables:
-        turn_off_corridor_light: '{{ ''TURN_OFF_CORRIDOR_LIGHT'' ~ context.id }}'
-      alias: Define action for notification
-    - service: script.announcement
-      data:
-        title: "Світло у коридорі \U0001F4A1"
-        speak: false
-        openings:
-        - Світло у коридорі горить вже 15 хвилин.
-        - Світло у коридорі досі горить.
-        - Досі горить світло у коридорі.
-        messages:
-        - Вимкнути?
-        - Натисніть і потримайте на сповіщення, щоб вимкнути.
-        - Глибоке натискання на сповіщення, щоб вимкнути.
-        - Натисніть, щоб вимкнути.
-        notify_data:
-          actions:
-          - action: '{{ turn_off_corridor_light }}'
-            title: Вимкнути світло
-          url: /lovelace/living_room
-      alias: Announce Corridor light is still on
-    - wait_for_trigger:
-      - platform: event
-        event_type: mobile_app_notification_action
-        event_data:
-          action: '{{ turn_off_corridor_light }}'
-        alias: Turn off Corridor Light action
-      timeout:
-        hours: 1
-      continue_on_timeout: false
-    - service: light.turn_off
-      data: {}
-      target:
-        entity_id: light.corridor_light
-    alias: Turn off Corridor Light immediately, or notify it's still on
-  mode: restart
-- id: toggle_desk_lamp_with_external_display
-  alias: 'Light: Toggle Desk Lamp with Working Display'
-  description: Sync Desk lamp with Working Display
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.working_display_connected
-    not_from:
-    - unknown
-    - unavailable
-    to:
-    - 'on'
-    - 'off'
-  action:
-  - alias: Toggle Desk Lamp
-    service: light.turn_{{ trigger.to_state.state }}
-    entity_id: light.desk_lamp
-- id: do_not_disturb
-  alias: 'Mode: Do Not Disturb Activation'
-  description: Adjust devices to Do Not Disturb mode
-  trigger:
-  - platform: homeassistant
-    event: start
-  - platform: state
-    entity_id:
-    - input_boolean.do_not_disturb
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  action:
-  - service: script.do_not_disturb_mode
-    data: {}
-  mode: queued
-- id: do_not_disturb_on_focus
-  alias: 'Mode: Do Not Disturb on Focus'
-  description: Switch Do Not Disturb while camera, mic or focus are on
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.do_not_disturb_family
-    for:
-      seconds: 30
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  action:
-  - service: input_boolean.turn_{{ trigger.to_state.state }}
-    entity_id: input_boolean.do_not_disturb
-    alias: Toggle Do Not Disturb input boolean
-  mode: queued
-- id: away
-  alias: 'Mode: Away Flow'
-  description: Toggle Away mode depending on the Away input boolean
-  trigger:
-  - platform: state
-    entity_id:
-    - input_boolean.away
-  action:
-  - service: script.away_mode
-    data: {}
-- id: away_on_leaving_city
-  alias: 'Mode: Away on Leaving City'
-  description: Toggle Away mode depending on proximity to the Kyiv city
-  trigger:
-  - alias: Everyone leaves Kyiv
-    platform: numeric_state
-    entity_id:
-    - sensor.home_nearest_distance
-    above: 20000
-    variables:
-      service: input_boolean.turn_on
-    enabled: true
-  - alias: Everyone arrives to Kyiv
-    platform: numeric_state
-    entity_id:
-    - sensor.home_nearest_distance
-    below: 20000
-    variables:
-      service: input_boolean.turn_off
-    enabled: true
-  action:
-  - alias: Switch Away mode depending on the travel direction
-    service: '{{ service }}'
-    entity_id: input_boolean.away
-- id: away_presence_simulation
-  alias: 'Light: Presence Simulation in Away Mode'
-  description: Toggle Presence Simulation during Night in Away Mode
-  trigger:
-  - platform: state
-    entity_id:
-    - sun.sun
-    enabled: true
-  condition:
-  - condition: state
-    entity_id: input_boolean.away
-    state: 'on'
-  action:
-  - choose:
-    - conditions:
-      - alias: Only when Sun is below the horizon
-        condition: state
-        entity_id: sun.sun
-        state: below_horizon
-      sequence:
-      - alias: Start Presence Simulation
-        service: presence_simulation.start
-        data: {}
-    default:
-    - alias: Stop Presence Simulation
-      service: presence_simulation.stop
-      data: {}
-    alias: Toggle presence simulation
-- id: everyone_is_arriving
-  alias: 'Presence: Everyone is Arriving'
-  description: Turn on things when people are arriving
-  trigger:
-  - platform: state
-    entity_id: group.family
-    from: not_home
-    to: home
-  condition:
-  - alias: No motion detected home
-    condition: state
-    entity_id: binary_sensor.home_occupancy
-    state: 'off'
-  action:
-  - alias: Wait for someone to come
-    wait_for_trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door_sensor_contact
-      to: 'on'
-    - platform: state
-      entity_id:
-      - binary_sensor.home_occupancy
-      to: 'on'
-    timeout:
-      hours: 2
-    continue_on_timeout: false
-  - if:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: below_horizon
-      - condition: numeric_state
-        entity_id: sensor.living_room_movement_sensor_illuminance_lux
-        below: 30
-      - condition: numeric_state
-        entity_id: sensor.bedroom_movement_sensor_illuminance_lux
-        below: 10
-    then:
-    - service: scene.turn_on
-      data:
-        entity_id: scene.evening_lights
-        transition: 5
-    alias: Turn on Lights when its dark
-  - alias: Turn on Purifier when it's on
-    if:
-    - condition: state
-      entity_id: fan.air_purifier
-      state: 'off'
-    then:
-    - alias: Turn on Air Purifier
-      service: fan.turn_on
-      data: {}
-      target:
-        entity_id: fan.air_purifier
-  - if:
-    - condition: state
-      entity_id: binary_sensor.sleeping_time
-      state: 'on'
-    then:
-    - alias: Turn on Air Humidifier
-      service: humidifier.turn_on
-      entity_id: humidifier.air_humidifier
-    alias: Turn on Humidifier at night
-  - alias: Wait a second for everyone to come in
-    delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-    enabled: true
-  - alias: Greet people
-    service: script.greeting
-    data: {}
-  - alias: Wait for a phrase to be said
-    delay:
-      minutes: 1
-  - alias: Set device to correct state of DND
-    service: script.do_not_disturb_mode
-    data: {}
-  mode: restart
-- id: everyone_is_leaving
-  alias: 'Presence: Everyone is Leaving'
-  description: Turn off things when people are leaving
-  trigger:
-  - platform: state
-    entity_id: group.family
-    from: home
-    to: not_home
-    for:
-      minutes: 10
-  condition:
-  - alias: Do not trigger when movement at home is detected
-    condition: state
-    entity_id: binary_sensor.home_occupancy
-    state: 'off'
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
-  action:
-  - if:
-    - condition: state
-      entity_id: fan.air_purifier
-      state: 'on'
-    then:
-    - alias: Turn off Air Pufirier
-      service: fan.turn_off
-      entity_id: fan.air_purifier
-    alias: Turn off Purifier when it's on
-  - alias: Turn off Air Humidifier
-    service: humidifier.turn_off
-    entity_id: humidifier.air_humidifier
-  - alias: Turn off all the lights
-    service: light.turn_off
-    entity_id: all
-  - alias: Turn off ACs and Balcony heater
-    service: climate.turn_off
-    entity_id:
-    - climate.living_room_ac
-    - climate.bedroom_ac
-    - climate.balcony_heater
-  - alias: Turn off all Media Players
-    service: media_player.turn_off
-    entity_id: all
-  - alias: Ask for cleaning when appropriate
-    choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.time_to_clean
-        state: 'on'
-      - condition: state
-        entity_id: vacuum.roborock
-        state: docked
-      sequence:
-      - service: script.announcement
-        data:
-          speak: false
-          title: "Пилосос \U0001F9F9"
-          messages:
-          - Пора почати регулярне прибирання.
-          - Час прибирати вдома.
-          - Бажаєте прибрати вдома?
-          - Почати прибирання?
-          - '{{ state_attr(''vacuum.roborock'', ''friendly_name'') }} пропонує домашнє
-            прибирання.'
-          - '{{ state_attr(''vacuum.roborock'', ''friendly_name'') }} хоче прибирати
-            квартиру.'
-          - '{{ state_attr(''vacuum.roborock'', ''friendly_name'') }} давно не прибирав.
-            Почати?'
-          notify_data:
-            url: /lovelace/vacuum
-            group: vacuum
-            tag: vacuum-cleaning
-            actions:
-            - action: VACUUM_START
-              title: Почати прибирання
-              activationMode: background
-              authenticationRequired: true
-- id: vacuum_regular_cleaning
-  alias: 'Vacuum: Ask Regular Cleaning'
-  description: Regular vacuum cleaning every two days
-  trigger:
-  - alias: Every 4 hours
-    platform: time_pattern
-    hours: /6
-    minutes: 0
-    seconds: 0
-  condition:
-  - alias: Robot is docked
-    condition: state
-    entity_id: vacuum.roborock
-    state: docked
-  - alias: It's working day
-    condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - alias: Only during activity time
-    condition: state
-    entity_id: binary_sensor.activity_time
-    state: 'on'
-  - alias: Do Not Disturb mode is off
-    condition: state
-    entity_id: input_boolean.do_not_disturb
-    state: 'off'
-  - alias: Time for cleaning or last cleaning was short
-    condition: state
-    entity_id: binary_sensor.time_to_clean
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.away
-    state: 'off'
-  action:
-  - service: script.announcement
-    data:
-      speak: false
-      title: "Пилосос \U0001F9F9"
-      messages:
-      - Пора почати регулярне прибирання.
-      - Час прибирати вдома.
-      - Бажаєте прибрати вдома?
-      - Вдома давно не прибирали. Почати прибирання?
-      - Пилосос пропонує домашнє прибирання.
-      - Робот хоче прибирати квартиру.
-      - Пилосос давно не прибирав. Почати?
-      notify_data:
-        url: /lovelace/vacuum
-        group: vacuum
-        tag: vacuum-cleaning
-        actions:
-        - action: VACUUM_START
-          title: Почати прибирання
-          activationMode: background
-          authenticationRequired: true
-        - action: VACUUM_START_GENTLE
-          title: Почати тихе прибирання
-          activationMode: background
-          authenticationRequired: true
-    alias: Ask for cleaning
-- id: vacuum_finish_cleaning
-  alias: 'Vacuum: Stop cleaning when we return home'
-  description: Send vacuum home when somebody comes home
-  trigger:
-  - platform: state
-    entity_id: group.family
-    from: not_home
-    to: home
-  condition:
-  - alias: Send vacuum home only when it's cleaning
-    condition: state
-    entity_id: vacuum.roborock
-    state: cleaning
-  action:
-  - device_id: 88ae8bfa1cb56b3d6462805180f8af6f
-    domain: vacuum
-    entity_id: a57807c72667f32589b274e79f83b6a3
-    type: dock
-- id: vacuum_finish_notification
-  alias: 'Vacuum: Finish Alert'
+- id: '1724070020302'
+  alias: 'Vacuum: Notify when finished cleaning'
   description: Notify when vacuum finished cleaning and we are not home.
   trigger:
   - platform: state
@@ -1383,11 +995,10 @@
     to: returning
   condition:
   - condition: state
-    entity_id: group.family
-    state: not_home
+    entity_id: binary_sensor.someone_is_home
+    state: 'off'
   action:
-  - service: script.announcement
-    data:
+  - data:
       speak: false
       title: "Пилосос \U0001F9F9"
       openings:
@@ -1406,8 +1017,9 @@
         group: vacuum
         url: /lovelace/vacuum
     alias: Notify about finished cleaning
-- id: vacuum_error_notification
-  alias: 'Vacuum: Error Alert'
+    action: script.announcement
+- id: '1724070083919'
+  alias: 'Vacuum: Notify about errors'
   description: Notify when error with vacuum occured
   trigger:
   - platform: state
@@ -1416,12 +1028,13 @@
     not_to:
     - unavailable
     - unknown
+    - none
     not_from:
     - unknown
     - unavailable
+    - none
   action:
-  - service: script.announcement
-    data:
+  - data:
       speak: false
       title: "Пилосос \U0001F9F9"
       openings:
@@ -1434,75 +1047,283 @@
         url: /lovelace/vacuum
       messages:
       - Помилка: '{{ states(''sensor.roborock_vacuum_error'') }}'
-- id: vacuum_ask_maintenance
-  alias: 'Vacuum: Ask for Maintenance'
-  description: Send vacuum near trash bin and ask for maintenance
+    action: script.announcement
+- id: '1724070388749'
+  alias: 'Climate: Turn on fan when someone is on the toilet'
+  description: When someone sits in the toilet, then turn on the fan. Turn off fan
+    when person leaves.
+  triggers:
+  - entity_id:
+    - binary_sensor.bathroom_presence_sensor_toilet
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    trigger: state
+  conditions:
+  - condition: time
+    after: 09:00:00
+    before: 02:00:00
+  actions:
+  - action: fan.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: fan.bathroom_fan
+  - wait_for_trigger:
+    - entity_id:
+      - binary_sensor.bathroom_presence_sensor
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+      trigger: state
+    timeout:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - if:
+    - condition: numeric_state
+      entity_id: humidifier.bathroom_dehumidifier
+      attribute: humidity
+      above: sensor.bathroom_conditions_humidity
+    then:
+    - action: fan.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: fan.bathroom_fan
+    alias: Turn off fan when humidity is normal
+  mode: single
+- id: '1724070592751'
+  alias: 'Vacuum: Stop cleaning when we return home'
+  description: Send vacuum home when somebody comes home
   trigger:
   - platform: state
     entity_id:
-    - vacuum.roborock
-    to: returning
-    enabled: true
+    - binary_sensor.someone_is_home
+    from: 'off'
+    to: 'on'
   condition:
-  - alias: After every 5th cleaning
-    condition: numeric_state
-    entity_id: counter.vacuum_clean_count
-    above: 5
-  - alias: And there was at least one cleaning after previous maintenance
-    condition: template
-    value_template: '{% set last_maintenance = as_timestamp(state_attr(''automation.vacuum_maintenance'',
-      ''last_triggered''), 0) %}
-
-      {% set last_cleaning = as_timestamp(states(''sensor.roborock_last_clean_begin''),
-      0) %}
-
-      {{ last_cleaning > last_maintenance }}
-
-      '
+  - alias: Send vacuum home only when it's cleaning
+    condition: state
+    entity_id: vacuum.roborock
+    state: cleaning
   action:
-  - service: script.announcement
+  - device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+    domain: vacuum
+    entity_id: ae093eb8d79b78192577c245dfde9950
+    type: dock
+- id: '1724101602010'
+  alias: 'Presence: Everyone is Leaving'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.someone_is_home
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: binary_sensor.home_occupancy
+    state: 'off'
+  action:
+  - alias: Take a snapshot of the all lights
+    action: scene.create
     data:
-      title: "Пилосос \U0001F9F9"
-      openings:
-      - Потрібно обслужити пилосос.
-      - Час обслуговування пилососа.
-      - Робот трудився для вас, а тепер потребує вашої уваги.
-      - Пилосос потребує піклування про себе.
-      - Пилосос просить про обслуговування.
-      messages:
-      - Почистіть ганчірку та наберати свіжої води.
-      - Викиньте сміття та наберіть нової води.
-      - Викиньте сміття, наберіть води і почистіть ганчірку.
-      - Почистіть його та наберіть нової води у бак!
-      - Наберіть води та почистіть його!
-      notify_data:
-        url: /lovelace/vacuum
-        group: vacuum
-        actions:
-        - identifier: VACUUM_PAUSE
-          title: Пауза
-          activationMode: background
-        - identifier: VACUUM_RETURN_TO_BASE
-          title: На базу
-          activationMode: background
-          destructive: true
-      speak: false
-    alias: Announce vacuum maintenance
-  - service: vacuum.stop
+      snapshot_entities:
+      - light.corridor_ceiling_light
+      - light.laundry_ceiling_light
+      - light.cabinet_ceiling_light
+      - light.cabinet_lightstrip
+      - light.kitchen_bra
+      - light.kitchen_lightstrip
+      - light.kitchen_ceiling_light
+      - light.living_room_ceiling_light
+      - light.living_room_table_light
+      - light.balcony_lights
+      - light.bedroom_ceiling_light
+      - light.bedroom_ligthstrip
+      - light.bedroom_left_bedside_bra
+      - light.bedroom_right_bedside_bra
+      - light.wardrobe_light
+      - light.bathroom_bra
+      - light.bathroom_ceiling_light
+      - light.bathroom_lightstrip
+      - light.bedroom_desk_light
+      scene_id: lights_snapshot_on_leave
+  - action: light.turn_off
+    data:
+      entity_id: all
+    alias: Turn off all the lights
+  - action: fan.turn_off
+    metadata: {}
+    data:
+      entity_id: all
+    alias: Turn off all the fans
+  - action: climate.turn_off
     metadata: {}
     data: {}
     target:
-      device_id: 88ae8bfa1cb56b3d6462805180f8af6f
-  - delay:
-      seconds: 5
-  - service: script.vacuum_maintenance
-    data: {}
-  - service: counter.reset
+      device_id:
+      - c08c565007c2371879435d5e922b4207
+      - 7631804b9ad7193027d863cbabedf363
+      - 5c2fc4cd5a6fb81a212396671498fb61
+      - 40d89bb9201eee3b95e3721622bfe9bb
+    alias: Turn off heated floors
+  - action: climate.turn_off
     metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 895e7f7f7e250e8bdca9cc7cb34f075f
+      - e2696d6965e3ef62d342cebe5b8970c6
+    alias: Turn off ACs
+  - alias: Turn off media players
+    action: media_player.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - ac80d0753177b7ae89f9707e113d3f9d
+      - e1c54fa94cabfaeaafd1a73a8e2f6a6f
+      - 6992c3d568dc2d433100ff4a402b3957
+      - 990d2be68f28b3d933ab770a87d05f6e
+  - if:
+    - condition: state
+      entity_id: binary_sensor.time_to_clean
+      state: 'on'
+    - condition: device
+      device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+      domain: vacuum
+      entity_id: ae093eb8d79b78192577c245dfde9950
+      type: is_docked
+    then:
+    - data:
+        speak: false
+        title: "Пилосос \U0001F9F9"
+        messages:
+        - Пора почати регулярне прибирання.
+        - Час прибирати вдома.
+        - Бажаєте прибрати вдома?
+        - Почати прибирання?
+        - Пилосос пропонує домашнє прибирання.
+        - Пилосос хоче прибирати квартиру.
+        - Пилосос давно не прибирав. Почати?
+        notify_data:
+          url: /lovelace/vacuum
+          group: vacuum
+          tag: vacuum-cleaning
+          actions:
+          - action: VACUUM_START
+            title: Почати прибирання
+            activationMode: background
+            authenticationRequired: true
+      action: script.announcement
+    alias: Ask start vacuum when appropriate
+  mode: restart
+- id: '1724250345849'
+  alias: 'Vacuum: Clean Counting'
+  description: Count cleanings with counter. Needed for maintaining the robot and
+    making request to clean home.
+  trigger:
+  - platform: state
+    entity_id: vacuum.roborock
+    from: cleaning
+    to: returning
+  condition: []
+  action:
+  - action: counter.increment
     data: {}
     target:
       entity_id: counter.vacuum_clean_count
-- id: vacuum_replacements
+  mode: single
+- id: '1724251498951'
+  alias: 'Vacuum: iOS Actions'
+  description: Handle iOS actions for vacuum cleaner
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: VACUUM_START
+    id: start
+    alias: '"start" button pressed'
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: VACUUM_START_GENTLE
+    id: start_gentle
+    alias: '"start_gentle" button pressed'
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: VACUUM_PAUSE
+    id: pause
+    alias: '"pause" button pressed'
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: VACUUM_RETURN_TO_BASE
+    id: return_to_base
+    alias: '"return_to_base" button pressed'
+  - alias: '"go_to_bin" button pressed'
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: VACUUM_GO_TO_BIN
+    id: go_to_bin
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start
+      sequence:
+      - action: vacuum.start
+        target:
+          device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: start_gentle
+      sequence:
+      - action: vacuum.set_fan_speed
+        metadata: {}
+        data:
+          fan_speed: Gentle
+        target:
+          device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+      - action: vacuum.start
+        metadata: {}
+        data: {}
+        target:
+          device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+    - conditions:
+      - condition: trigger
+        id: pause
+      sequence:
+      - entity_id: vacuum.roborock
+        action: vacuum.pause
+    - conditions:
+      - condition: trigger
+        id: return_to_base
+      sequence:
+      - entity_id: vacuum.roborock
+        action: vacuum.return_to_base
+    - conditions:
+      - condition: trigger
+        id:
+        - go_to_bin
+      sequence:
+      - action: script.vacuum_go_to_bin
+        data: {}
+- id: '1724251564845'
   alias: 'Vacuum: Replacements Alert'
   description: Notify when vacuum parts need to be replaced
   trigger:
@@ -1563,8 +1384,7 @@
       }}'
     alias: Not from unknown or unavailable
   action:
-  - service: script.announcement
-    data:
+  - data:
       title: "Пилосос \U0001F9F9"
       openings: '{{ openings }}'
       messages: '{{ messages }}'
@@ -1582,1048 +1402,1200 @@
           destructive: true
       speak: false
     alias: Notify about replacements
-- id: vacuum_ios_actions_handling
-  alias: 'Vacuum: iOS Actions'
-  description: Handle iOS actions for vacuum cleaner
-  trigger:
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: VACUUM_START
-    id: start
-    alias: '"start" button pressed'
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: VACUUM_START_GENTLE
-    id: start_gentle
-    alias: '"start_gentle" button pressed'
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: VACUUM_PAUSE
-    id: pause
-    alias: '"pause" button pressed'
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: VACUUM_RETURN_TO_BASE
-    id: return_to_base
-    alias: '"return_to_base" button pressed'
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: VACUUM_GO_TO_MAINTENANCE
-    id: go_to_maintenance
-    alias: '"go_to_maintenance" button pressed'
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: start
-        alias: '"start" button pressed'
-      sequence:
-      - service: script.vacuum_regular_cleaning
-        data: {}
-    - conditions:
-      - condition: trigger
-        id: start_gentle
-        alias: '"start_gentle" button pressed'
-      sequence:
-      - service: script.vacuum_gentle_cleaning
-        data: {}
-    - conditions:
-      - condition: trigger
-        id: pause
-        alias: '"pause" button pressed'
-      sequence:
-      - service: vacuum.pause
-        entity_id: vacuum.roborock
-    - conditions:
-      - condition: trigger
-        id: return_to_base
-        alias: '"return_to_base" button pressed'
-      sequence:
-      - service: vacuum.return_to_base
-        entity_id: vacuum.roborock
-    - conditions:
-      - condition: trigger
-        id: go_to_maintenance
-        alias: '"go_to_maintenance" button pressed'
-      sequence:
-      - service: script.vacuum_maintenance
-        data: {}
-- id: '1664661503248'
-  alias: 'Water: Notify when water is heated'
-  description: When we ask to let us know when the boiler has done heating, it should
-    notify about that.
-  trigger:
-  - platform: state
-    entity_id:
-    - input_button.notify_water_heated
-  condition: []
-  action:
-  - if:
-    - condition: state
-      entity_id: binary_sensor.heating_water
-      state: 'off'
-    - condition: state
-      entity_id: switch.water_heater
-      state: 'on'
-    then:
-    - service: script.announcement
-      data:
-        title: "Бойлер \U0001F6C1"
-        messages:
-        - Бойлер уже нагрітий.
-        - Бойлер нагрітий.
-        - Вода у бойлері вже тепла.
-        notify_data:
-          url: /localave/bathroom
-    else:
-    - service: switch.turn_on
-      data: {}
-      target:
-        entity_id:
-        - switch.water_heater
-    - service: script.announcement
-      data:
-        title: "Бойлер \U0001F6C1"
-        messages:
-        - Вам прийде сповіщення, коли вода буде нагріта.
-        - Ви отримаєте сповіщення, коли бойлер нагріє воду.
-        notify_data:
-          url: /localave/bathroom
-        openings: {}
-    - wait_for_trigger:
-      - platform: state
-        entity_id:
-        - binary_sensor.heating_water
-        from: 'on'
-        to: 'off'
-      continue_on_timeout: false
-      timeout:
-        hours: 4
-        minutes: 0
-        seconds: 0
-        milliseconds: 0
-    - service: script.announcement
-      data:
-        title: "Бойлер \U0001F6C1"
-        messages:
-        - Можна йти митись.
-        - Можна йти у ванну.
-        openings:
-        - Воду нагріто.
-        - Вола нагрілась.
-        - Бойлер закінчив нагрівати воду.
-        - Бойлер нагрів воду.
-        notify_data:
-          url: /localave/bathroom
-  mode: restart
-- id: '1668428030391'
-  alias: 'System: Power Outage Recovery'
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.electricity
-    to: 'on'
-    from: 'off'
-  condition: []
-  action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 10
-      milliseconds: 0
-    enabled: true
-  - alias: Turn off lights at night or when away
-    if:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: group.family
-        state: not_home
-      - condition: state
-        entity_id: binary_sensor.sleeping_time
-        state: 'on'
-    then:
-    - service: scene.turn_on
-      target:
-        entity_id: scene.lights_out
-      metadata: {}
-    else: []
-    enabled: true
-  - alias: Turn on Air Humidifier when needed
-    sequence:
-    - wait_for_trigger:
-      - platform: device
-        type: changed_states
-        device_id: 0166e2ff4273cd202346ea34f12cb10c
-        entity_id: 497c964ada69bb35eec1b18d0c001130
-        domain: humidifier
-      timeout:
-        hours: 0
-        minutes: 5
-        seconds: 0
-        milliseconds: 0
-      alias: Wait for Air Humidifier to come online
-      enabled: true
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 30
-        milliseconds: 0
-    - alias: Turn off Humidifier's buzzer and light
-      service: switch.turn_off
-      metadata: {}
-      data: {}
-      target:
-        entity_id:
-        - switch.air_humidifier_buzzer
-        - switch.air_humidifier_led
-    - if:
-      - condition: state
-        entity_id: binary_sensor.sleeping_time
-        state: 'on'
-      then:
-      - service: humidifier.turn_on
-        metadata: {}
-        data: {}
-        target:
-          entity_id: humidifier.air_humidifier
-      alias: Turn on Humidifier during the Sleeping Time
-  - sequence:
-    - wait_for_trigger:
-      - platform: device
-        type: changed_states
-        device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-        entity_id: 068282794a42c142ea2b6ec9efe1b368
-        domain: switch
-        for:
-          hours: 0
-          minutes: 2
-          seconds: 0
-      alias: Wait for Air Purifier to become online
-    - service: fan.turn_on
-      metadata: {}
-      data: {}
-      target:
-        device_id: 184d3eb0ce6565e4dbecc4403f4b9adf
-    alias: Turn on Air Purifier when needed
-  - alias: Turn on HomePods
-    service: remote.turn_on
-    target:
-      device_id:
-      - 4a9dd68b66671255057452cd1ce81ffe
-      - 05af1b6a4c1338aa1857801f3d2b27a4
-    data: {}
-  mode: single
-- id: '1686063093337'
-  alias: 'Climate: Turn on Humidifier only during sleep time'
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.sleeping_time
-  - platform: state
-    entity_id:
-    - binary_sensor.air_humidifier_water_tank
-    from: 'off'
-    to: 'on'
-  condition: []
-  action:
-  - if:
-    - condition: state
-      entity_id: binary_sensor.sleeping_time
-      state: 'on'
-    - condition: state
-      entity_id: group.family
-      state: home
-    then:
-    - alias: Turn on Air Humidifier
-      service: humidifier.turn_on
-      data: {}
-      target:
-        device_id: 0166e2ff4273cd202346ea34f12cb10c
-    - service: switch.turn_off
-      data: {}
-      target:
-        entity_id:
-        - switch.air_humidifier_buzzer
-        - switch.air_humidifier_led
-    else:
-    - service: humidifier.turn_off
-      data: {}
-      target:
-        device_id: 0166e2ff4273cd202346ea34f12cb10c
-  mode: single
-- id: '1689770347035'
-  alias: 'Climate: Suggest turning on AC when it''s hot'
-  description: When temperature raises over certain level, send an actionable notification
-    for turning on ACs
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.home_temperature
-    above: 27
-  - platform: numeric_state
-    entity_id:
-    - climate.living_room_ac
-    above: 27
-  - platform: numeric_state
-    entity_id:
-    - climate.bedroom_ac
-    above: 27
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  - condition: state
-    entity_id:
-    - climate.bedroom_ac
-    - climate.living_room_ac
-    state: 'off'
-  action:
-  - variables:
-      turn_on_both: '{{ ''TURN_ON_BOTH'' ~ context.id }}'
-      turn_on_living_room: '{{ ''TURN_ON_LIVING_ROOM'' ~ context.id }}'
-      turn_on_bedroom: '{{ ''TURN_ON_HOME_BEDROOM'' ~ context.id }}'
-    alias: Define action for notification
-  - service: script.announcement
-    data:
-      title: "Кондиціонер \U0001F975"
-      speak: false
-      openings:
-      - Вдома занадто жарко.
-      - Температура вдома зростає.
-      - Вдома жарко.
-      messages:
-      - Увімкнути кондиціонери?
-      - Охолодити дім?
-      - Включити кондиціонери?
-      - Натисніть, щоб включити кондиціонери.
-      notify_data:
-        tag: ac
-        actions:
-        - action: '{{ turn_on_home }}'
-          title: Увімкнути обидва
-          activationMode: background
-          authenticationRequired: true
-        - action: '{{ turn_on_living_room }}'
-          title: Увімкнути у вітальні
-          activationMode: background
-          authenticationRequired: true
-        - action: '{{ turn_on_bedroom }}'
-          title: Увімкнути у спальні
-          activationMode: background
-          authenticationRequired: true
-        url: /lovelace/living_room
-    alias: Suggest turning on AC
-  - wait_for_trigger:
-    - id: both
-      platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ turn_on_both }}'
-      alias: Turn on both AC
-    - id: living_room
-      platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ turn_on_living_room }}'
-      alias: Turn on Living Room AC
-    - id: bedroom
-      platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ turn_on_bedroom }}'
-      alias: Turn on Bedroom AC
-    timeout:
-      hours: 2
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-    alias: Wait for click on action
-  - choose:
-    - conditions:
-      - alias: Turn on Both ACs
-        condition: template
-        value_template: '{{ wait.trigger.id == ''both'' }}'
-      sequence:
-      - service: climate.set_hvac_mode
-        data:
-          hvac_mode: heat_cool
-        target:
-          entity_id:
-          - climate.living_room_ac
-          - climate.bedroom_ac
-        alias: Turn on Both AC to Auto
-    - conditions:
-      - alias: Turn on Living Room AC
-        condition: template
-        value_template: '{{ wait.trigger.id == ''living_room'' }}'
-      sequence:
-      - service: climate.set_hvac_mode
-        data:
-          hvac_mode: heat_cool
-        target:
-          entity_id:
-          - climate.living_room_ac
-        alias: Turn on Living Room AC to Auto
-    - conditions:
-      - alias: Turn on Bedroom AC
-        condition: template
-        value_template: '{{ wait.trigger.id == ''bedroom'' }}'
-      sequence:
-      - service: climate.set_hvac_mode
-        data:
-          hvac_mode: heat_cool
-        target:
-          entity_id:
-          - climate.bedroom_ac
-        alias: Turn on Living Room AC to Auto
-  - service: notify.all
-    data:
-      message: clear_notification
-      data:
-        tag: ac
-    alias: Clear AC notifications
-  mode: single
-- &id001
-  id: '1690033816305'
-  alias: 'Media: Turn on Apple TV when Samsung TV turns on'
-  description: Turn on Apple TV when Samsung TV turns on and PS5 is off
-  trigger:
-  - platform: state
-    entity_id:
-    - media_player.samsung_tv
-    from: 'off'
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
-  condition:
-  - condition: state
-    entity_id: media_player.playstation_5
-    state: none
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-  - condition: state
-    entity_id: media_player.apple_tv
-    state: standby
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-  action:
-  - service: media_player.turn_on
-    data: {}
-    target:
-      entity_id: media_player.apple_tv
-  mode: single
-- *id001
-- id: '1697924263869'
-  alias: 'Water: Keep Water Heater turned On'
-  description: When Water Heater was accidentally turned off, automatically turn in
-    on
-  trigger:
-  - type: turned_off
-    platform: device
-    device_id: 48afd1fe27fd6821024137edf3db83b8
-    entity_id: 3a9e2dac0e131e9ba4188d262e983051
-    domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-  condition:
-  - condition: state
-    entity_id: group.family
-    state: home
-  - condition: state
-    entity_id: input_boolean.away
-    state: 'off'
-  action:
-  - type: turn_on
-    device_id: 48afd1fe27fd6821024137edf3db83b8
-    entity_id: be5073a0736345a2cc65a9aa9f6b53ba
-    domain: switch
-  mode: single
-- id: '1709041564532'
-  alias: 'Vacuum: Clean Counting'
-  description: Count cleanings via counter
+    action: script.announcement
+- id: '1724255258391'
+  alias: 'Vacuum: Ask for Maintenance'
+  description: Send vacuum near trash bin and ask for maintenance
   trigger:
   - platform: state
     entity_id:
     - vacuum.roborock
-    from: cleaning
     to: returning
-  condition: []
+    enabled: true
+  condition:
+  - alias: After every 5th cleaning
+    condition: numeric_state
+    entity_id: counter.vacuum_clean_count
+    above: 5
+  - alias: And there was at least one cleaning after previous maintenance
+    condition: template
+    value_template: '{% set last_maintenance = as_timestamp(state_attr(''automation.vacuum_ask_for_maintenance'',
+      ''last_triggered''), 0) %}
+
+      {% set last_cleaning = as_timestamp(states(''sensor.roborock_last_clean_begin''),
+      0) %}
+
+      {{ last_cleaning > last_maintenance }}
+
+      '
   action:
-  - service: counter.increment
-    metadata: {}
+  - data:
+      title: "Пилосос \U0001F9F9"
+      openings:
+      - Потрібно обслужити пилосос.
+      - Час обслуговування пилососа.
+      - Робот трудився для вас, а тепер потребує вашої уваги.
+      - Пилосос потребує піклування про себе.
+      - Пилосос просить про обслуговування.
+      messages:
+      - Почистіть ганчірку та наберати свіжої води.
+      - Викиньте сміття та наберіть нової води.
+      - Викиньте сміття, наберіть води і почистіть ганчірку.
+      - Почистіть його та наберіть нової води у бак!
+      - Наберіть води та почистіть його!
+      notify_data:
+        url: /lovelace/vacuum
+        group: vacuum
+        actions:
+        - identifier: VACUUM_PAUSE
+          title: Пауза
+          activationMode: background
+        - identifier: VACUUM_RETURN_TO_BASE
+          title: На базу
+          activationMode: background
+          destructive: true
+      speak: false
+    alias: Announce vacuum maintenance
+    action: script.announcement
+  - metadata: {}
+    data: {}
+    action: vacuum.stop
+    target:
+      device_id: 2dfb7e90db81c6927aa5e8c11eccc4d5
+  - delay:
+      seconds: 5
+  - action: script.vacuum_go_to_bin
+    data: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.vacuum_clean_count
-  mode: single
-- id: '1713206119052'
-  alias: 'System: Run chores in config folder'
-  description: Run scripts for generating README, commiting regular updated, etc
+    action: counter.reset
+- id: '1724256567345'
+  alias: 'Vacuum: Ask Regular Cleaning'
+  description: Regular vacuum cleaning every two days
   trigger:
   - platform: time_pattern
-    hours: /12
-  condition: []
-  action:
-  - service: shell_command.chores
-    metadata: {}
-    data: {}
-  mode: single
-- id: '1713211565263'
-  alias: 'Alert: Denys left the Office'
-  description: Notify when Denys is leaving the office
-  trigger:
-  - platform: state
-    entity_id:
-    - person.denys
-    from: Wix
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
+    hours: /6
+    minutes: 0
+    seconds: 0
   condition:
-  - condition: state
-    entity_id: person.marry
-    state: home
-  - condition: time
-    after: '17:00:00'
-    before: '21:00:00'
-  - condition: state
+  - alias: Robot is docked
+    condition: state
+    entity_id: vacuum.roborock
+    state: docked
+  - alias: It's a working day
+    condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.do_not_disturb
+    state: 'off'
+  - alias: Time for cleaning or last cleaning was short
+    condition: state
+    entity_id: binary_sensor.time_to_clean
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.away
+    state: 'off'
+  - condition: time
+    after: '12:00:00'
+    before: '22:00:00'
   action:
-  - service: script.announcement
-    data:
-      service: notify.all
+  - data:
       speak: false
-      notify: true
-      title: "Денис \U0001F3C3"
+      title: "Пилосос \U0001F9F9"
       messages:
-      - Денис вийшов з роботи.
-      - Денис виїхав з роботи.
-  mode: single
-- id: '1713463091070'
-  alias: 'System: Notify about high CPU usage'
-  description: Send alert when HA has a high CPU usage
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_processor_use
-    above: 75
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-  condition: []
-  action:
-  - service: script.announcement
-    data:
-      title: "Системний пік \U0001F525"
-      speak: false
+      - Пора почати регулярне прибирання.
+      - Час прибирати вдома.
+      - Бажаєте прибрати вдома?
+      - Вдома давно не прибирали. Почати прибирання?
+      - Пилосос пропонує домашнє прибирання.
+      - Робот хоче прибирати квартиру.
+      - Пилосос давно не прибирав. Почати?
       notify_data:
-        url: /lovelace/system
-        group: system
-      messages:
-      - Процесор навантажений на {{ trigger.to_state.state }}%.
-      - Навантаження на процесор {{ trigger.to_state.state }}%.
-  - alias: Don't send notification too often
-    delay:
-      hours: 1
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  mode: single
-- id: '1713463417722'
-  alias: 'System: Notify about high RAM usage'
-  description: Notify when RAM usage is high for some time.
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_memory_usage
-    above: 75
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    variables:
-      openings:
-      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
-      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
-      - 'RAM: {{ trigger.to_state.state }}%.'
-      messages:
-      - Складнощі з виконанням поточного завдання.
-      - Аномально велике навантаження на процесор.
-  condition: []
-  action:
-  - service: script.announcement
-    data:
-      title: "Системний пік \U0001F525"
-      messages:
-      - Оперативна пам’ять заповнена на {{ trigger.to_state.state }}%.
-      - Навантаження на оперативну пам’ять {{ trigger.to_state.state }}%.
-      - 'RAM: {{ trigger.to_state.state }}%.'
-      speak: false
-      notify_data:
-        url: /lovelace/system
-        group: system
-  - delay:
-      minutes: 10
-    alias: Don't send notification too often
-  mode: single
-- id: '1713463662581'
-  alias: 'System: Notify when System disk is full'
-  description: Send a notification when system disk is 90% full.
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.system_monitor_disk_usage
-    above: 90
-    for:
-      hours: 1
-  condition: []
-  action:
-  - service: script.announcement
-    data:
-      title: "Системний пік \U0001F525"
-      messages:
-      - Системний диск заповнений на {{ trigger.to_state.state }}%.
-      - Заповнення системного диску {{ trigger.to_state.state }}%.
-      speak: false
-      notify_data:
-        url: /lovelace/system
-        group: system
-      openings: {}
-  - alias: Don't send notification too often
-    delay:
-      hours: 1
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  mode: single
-- id: '1713536348962'
-  alias: 'Alert: Danger in Kyiv'
-  description: Danger of missile/drone strike in Kyiv RIGHT NOW. Critical alert to
-    hide immediately.
+        url: /lovelace/vacuum
+        group: vacuum
+        tag: vacuum-cleaning
+        actions:
+        - action: VACUUM_START
+          title: Почати прибирання
+          activationMode: background
+          authenticationRequired: true
+        - action: VACUUM_START_GENTLE
+          title: Почати тихе прибирання
+          activationMode: background
+          authenticationRequired: true
+    alias: Ask for cleaning
+    action: script.announcement
+- id: '1724257734960'
+  alias: 'Mode: Do Not Disturb on Focus'
+  description: Switch Do Not Disturb while camera, mic or focus are on
   trigger:
   - platform: state
-    entity_id:
-    - binary_sensor.danger_in_war_monitor
-    - binary_sensor.danger_in_operinform
-    from: 'off'
-    to: 'on'
+    entity_id: binary_sensor.do_not_disturb_family
+    for:
+      seconds: 15
   condition:
   - condition: state
-    entity_id: binary_sensor.alerts_kyiv_air
+    entity_id: binary_sensor.someone_is_home
     state: 'on'
   action:
-  - alias: Send a critical notification
-    service: script.announcement
-    metadata: {}
-    data:
-      service: notify.all
-      speak: false
-      notify: true
-      title: "Пряма загроза \U0001F4A5"
-      messages:
-      - '{{ trigger.to_state.attributes.latest_message }}'
-      notify_data:
-        group: air-alerts
-        push:
-          sound:
-            name: default
-            critical: 1
-            volume: 1
-  - variables:
-      messages:
-      - Увага! Пряма загроза удару!
-      - Увага загроза удару по Києву!
-      - Увага! Негайно перейдіть до сховку!
-      - Увага! Негайно сховайтесь!
-      - Увага! Пряма загроза!
-      - Увага! Негайно сховайтесь!
-      - Увага! Атака на Київ!
-  - alias: Day or Night
-    if:
-    - condition: state
-      entity_id: binary_sensor.sleeping_time
-      state: 'on'
-    then:
-    - service: media_player.volume_set
-      metadata: {}
-      data:
-        volume_level: 0.6
-      target:
-        entity_id:
-        - media_player.bedroom_homepod
-    - alias: Speak in Bedroom
-      service: script.announcement
-      data:
-        speak: true
-        speaker: media_player.bedroom_homepod
-        notify: false
-        force_speak: true
-        messages: '{{ messages }}'
-    else:
-    - service: media_player.volume_set
-      metadata: {}
-      data:
-        volume_level: 0.6
-      target:
-        entity_id:
-        - media_player.living_room_homepod
-    - alias: Speak in Living Room
-      service: script.announcement
-      data:
-        speak: true
-        speaker: media_player.living_room_homepod
-        notify: false
-        force_speak: true
-        messages: '{{ messages }}'
-    enabled: false
-  - service: media_player.volume_set
-    metadata: {}
-    data:
-      volume_level: 0.8
-    target:
-      entity_id:
-      - media_player.living_room_homepod
-  - alias: Speak in Living Room
-    service: script.announcement
-    data:
-      speak: true
-      speaker: media_player.living_room_homepod
-      notify: false
-      force_speak: true
-      messages: '{{ messages }}'
-  - delay:
-      hours: 1
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  mode: single
-- id: '1713537519721'
-  alias: 'Alert: Imminent Attack by Strategic Bombers'
-  description: Send a notification when Tu-95 strategic bombers take off from Russian
-    airfields. This means attack by cruise missiles is imminent. Prepare a hideout.
+  - entity_id: input_boolean.do_not_disturb
+    alias: Toggle Do Not Disturb input boolean
+    action: input_boolean.turn_{{ trigger.to_state.state }}
+  mode: queued
+- id: '1724453773402'
+  alias: 'Climate: Calibrate Living Room TRV temperature'
+  description: Calibrate TRV temperature with external sensor.
+  use_blueprint:
+    path: denysdovhan/sync_trv_with_external_sensor.yaml
+    input:
+      valve: climate.living_room_heater
+      ieee_address: '0x8cf681fffeab0589'
+      temp_sensor: sensor.living_room_temperature
+- id: '1724455604644'
+  alias: 'Climate: Calibrate Bedroom TRV temperature'
+  description: Calibrate TRV temperature with external sensor.
+  use_blueprint:
+    path: denysdovhan/sync_trv_with_external_sensor.yaml
+    input:
+      valve: climate.bedroom_heater
+      ieee_address: '0x8cf681fffeb0dbd5'
+      temp_sensor: sensor.bedroom_temperature
+- id: '1724455708395'
+  alias: 'Climate: Calibrate Cabinet Left TRV temperature'
+  description: Calibrate TRV temperature with external sensor.
+  use_blueprint:
+    path: denysdovhan/sync_trv_with_external_sensor.yaml
+    input:
+      valve: climate.cabinet_left_heater
+      ieee_address: '0xbc33acfffe5b97c5'
+      temp_sensor: sensor.cabinet_temperature
+- id: '1724455781384'
+  alias: 'Climate: Calibrate Cabinet Right TRV temperature'
+  description: Calibrate TRV temperature with external sensor.
+  use_blueprint:
+    path: denysdovhan/sync_trv_with_external_sensor.yaml
+    input:
+      valve: climate.cabinet_right_heater
+      ieee_address: '0x804b50fffeefd958'
+      temp_sensor: sensor.cabinet_temperature
+- id: '1724617767500'
+  alias: 'Curtains: Tighten Curtains hooks'
+  description: Sometimes hooks on curtains are getting loose. This automation unlock
+    and locks hooks on curtain robots
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.imminent_attack_in_war_monitor
-    - binary_sensor.imminent_attack_in_operinform
-    from: 'off'
-    to: 'on'
-  condition: []
-  action:
-  - service: script.announcement
-    data:
-      service: notify.all
-      speak: false
-      notify: true
-      title: "Зліт бомбардувальників \U0001F6EB"
-      messages:
-      - '{{ trigger.to_state.attributes.latest_message }}'
-    alias: Send a notification
-  mode: single
-- id: '1716236885504'
-  alias: 'Alert: Electricity Outage'
-  description: Notify everyone when there is no electricity at home.
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.electricity
-    from: 'off'
-    to: 'on'
-  - platform: state
-    entity_id:
-    - binary_sensor.electricity
+    - binary_sensor.someone_is_home
     from: 'on'
     to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition:
+  - alias: Every few days
+    condition: template
+    value_template: '"{{ (now() - as_datetime(0)).days % 2 == 0 }}"'
+  action:
+  - action: select.select_option
+    metadata: {}
+    data:
+      option: UNLOCK
+    target:
+      entity_id:
+      - select.bedroom_left_curtain_hooks_lock
+      - select.bedroom_right_curtain_hooks_lock
+      - select.living_room_window_curtain_hooks_lock
+    alias: Unlock all hooks on curtains
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - alias: Lock all hooks on curtains
+    action: select.select_option
+    metadata: {}
+    data:
+      option: LOCK
+    target:
+      entity_id:
+      - select.bedroom_left_curtain_hooks_lock
+      - select.bedroom_right_curtain_hooks_lock
+      - select.living_room_window_curtain_hooks_lock
+  mode: single
+- id: '1724707031926'
+  alias: 'Alert: Notify about EcoFlow discharge level'
+  description: Send notification when EcoFlow is draining battery.
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.ecoflow_battery_level
+    below: 50
+    id: Level Below 50
+  - platform: numeric_state
+    entity_id:
+    - sensor.ecoflow_battery_level
+    below: 25
+    id: Level Below 25
+  - platform: numeric_state
+    entity_id:
+    - sensor.ecoflow_battery_level
+    below: 10
+    id: Critical Level
   condition: []
   action:
   - variables:
-      next_connectivity: '{{ states(''sensor.yasno_grupa_5_next_connectivity'') |
-        as_timestamp | timestamp_custom(''%H:%M'') }}'
-      next_outage: '{{ states(''sensor.yasno_grupa_5_next_outage'') | as_timestamp
-        | timestamp_custom(''%H:%M'') }}'
-      next_possible_outage: '{{ states(''sensor.yasno_grupa_5_next_possible_outage'')
-        | as_timestamp | timestamp_custom(''%H:%M'') }}'
-  - if:
-    - condition: state
-      entity_id: binary_sensor.electricity
-      state: 'on'
-    then:
-    - alias: Notify electricity if on
-      service: script.announcement
-      metadata: {}
-      data:
-        service: notify.all
-        speak: false
-        notify: true
-        title: Електрика ⚡️
-        notify_data:
-          url: /localave/electricity
-          group: electricity
-        openings:
-        - Вдома зʼявилось світло.
-        - Вдома зʼявилась електрика.
-        - Вдома знову є світло.
-        - Вдома увімкнули світло.
-        - Вдома увімкнули електрику.
-        messages:
-        - Вимкнення світла за планом о {{ next_outage }}.
-        - Наступне вимкнення о {{ next_outage }}.
-        - Відключення о {{ next_outage }}.
-        - О {{ next_outage }} наступне відключення.
-    else:
-    - alias: Notify electricity is off
-      service: script.announcement
-      metadata: {}
-      data:
-        service: notify.all
-        speak: false
-        notify: true
-        title: Електрика ⚡️
-        notify_data:
-          url: /localave/electricity
-          group: electricity
-        openings:
-        - Відключення електроенергії.
-        - Вдома зникло світло.
-        - Вдома немає електрики.
-        - Відключення електроенергії вдома.
-        - Вдома вимкнули світло.
-        - Вдома вимкнули електрику.
-        messages:
-        - Сіра зона о {{ next_possible_outage }}. Увімкрення о {{ next_connectivity
-          }}.
-        - Можливе увімкнення о {{ next_possible_outage }}. Гарантовано о {{ next_connectivity
-          }}.
+      remaining_time: '{% set minutes = states(''sensor.ecoflow_discharge_remaining_time'')
+        | int %} {% set seconds = minutes * 60 %} {{ seconds | timestamp_custom(''%H:%M'',
+        false) }}
+
+        '
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Level Below 50
+      sequence:
+      - action: script.announcement
+        metadata: {}
+        data:
+          speak: false
+          notify: true
+          notify_data:
+            url: lovelace/reserve-power
+          title: "EcoFlow \U0001F50B"
+          messages:
+          - Залишилось часу {{ remaining_time }}.
+          - Час до розряду {{ remaining_time }}.
+          - Час до повного розряду {{ remaining_time }}.
+          openings:
+          - EcoFlow розряджений на половину.
+          - EcoFlow розряджений на 50%.
+          - Залишилось половина батареї EcoFlow.
+    - conditions:
+      - condition: trigger
+        id:
+        - Level Below 25
+      sequence:
+      - action: script.announcement
+        metadata: {}
+        data:
+          speak: false
+          notify: true
+          notify_data:
+            url: lovelace/reserve-power
+          title: "EcoFlow \U0001FAAB"
+          messages:
+          - Залишилось часу {{ remaining_time }}.
+          - Час до розряду {{ remaining_time }}.
+          - Час до повного розряду {{ remaining_time }}.
+          openings:
+          - Залишилось 25% від заряду EcoFlow.
+          - Залишилось 25% батареї EcoFlow.
+    - conditions:
+      - condition: trigger
+        id:
+        - Critical Level
+      sequence:
+      - action: script.announcement
+        metadata: {}
+        data:
+          speak: false
+          notify: true
+          notify_data:
+            url: lovelace/reserve-power
+          title: "EcoFlow \U0001FAAB"
+          messages:
+          - Залишилось часу {{ remaining_time }}.
+          - Час до розряду {{ remaining_time }}.
+          - Час до повного розряду {{ remaining_time }}.
+          openings:
+          - EcoFlow розряджено. Залишається лише 10%.
+          - Залишилось 10% від заряду EcoFlow.
+          - Залишилось 10% батареї EcoFlow.
   mode: single
-- id: '1716315229743'
-  alias: 'Alert: Low Battery Notification'
-  description: Notify when battery is low on devices, so we could buy a replacements.
-  use_blueprint:
-    path: Blackshome/low-battery-notifications-and-actions.yaml
-    input:
-      include_time: time_enabled
-      time: '12:00:00'
-      weekday_options:
-      - mon
-      - wed
-      - fri
-      - sat
-      - sun
-      exclude_sensors:
+- id: '1725569349589'
+  alias: 'Light: Turn on Corridor Light when Door is open'
+  description: Turn on Corridor Light when Front Door opens and then turn it off after
+    a few minutes
+  triggers:
+  - entity_id:
+    - binary_sensor.front_door_contact
+    to: 'on'
+    trigger: state
+  actions:
+  - alias: Turn on Corridor Light
+    entity_id: light.corridor_ceiling_light
+    action: light.turn_on
+  - alias: Wait for some time
+    delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+    enabled: true
+  - alias: Turn off Corridor Light
+    action: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.corridor_ceiling_light
+    enabled: true
+  mode: restart
+- id: '1725569528920'
+  alias: 'Light: Turn off Corridor Light When Door is Closed'
+  description: Turn off Corridor Light when Front Door closes. If the light is still
+    on, then send a notification with an action to turn off the light.
+  triggers:
+  - entity_id:
+    - light.corridor_ceiling_light
+    to: 'on'
+    trigger: state
+  actions:
+  - wait_for_trigger:
+    - entity_id:
+      - binary_sensor.front_door_contact
+      from: 'on'
+      to: 'off'
+      trigger: state
+    timeout:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - alias: Turn off Corridor Light immediately, or notify it's still on
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger is not none }}'
+        alias: When Front Door was closed
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
+      - data: {}
+        target:
+          entity_id: light.corridor_ceiling_light
+        action: light.turn_off
+    default:
+    - condition: state
+      entity_id: light.corridor_ceiling_light
+      state: 'on'
+    - variables:
+        turn_off_corridor_light: '{{ ''TURN_OFF_CORRIDOR_LIGHT'' ~ context.id }}'
+      alias: Define action for notification
+    - data:
+        title: "Світло у коридорі \U0001F4A1"
+        speak: false
+        openings:
+        - Світло у коридорі горить вже 15 хвилин.
+        - Світло у коридорі досі горить.
+        - Досі горить світло у коридорі.
+        messages:
+        - Вимкнути?
+        - Натисніть і потримайте на сповіщення, щоб вимкнути.
+        - Глибоке натискання на сповіщення, щоб вимкнути.
+        - Натисніть, щоб вимкнути.
+        notify_data:
+          actions:
+          - action: '{{ turn_off_corridor_light }}'
+            title: Вимкнути світло
+          url: /lovelace/living_room
+      alias: Announce Corridor light is still on
+      action: script.announcement
+    - wait_for_trigger:
+      - event_type: mobile_app_notification_action
+        event_data:
+          action: '{{ turn_off_corridor_light }}'
+        alias: Turn off Corridor Light action
+        trigger: event
+      timeout:
+        hours: 1
+      continue_on_timeout: false
+    - data: {}
+      target:
         entity_id:
-        - sensor.denyss_ipad_battery_level
-        - sensor.iphone_maria_battery_level
-        - sensor.denyss_iphone_battery_level
-        - sensor.marry_macbook_pro_internal_battery_level
-        - sensor.wix_macbook_pro_internal_battery_level
-        - sensor.denyss_iphone_battery
-        - sensor.icloud_maria_iphone_battery
-        - sensor.mariias_ipad_battery
-        - sensor.denyss_ipad_battery
-      custom_actions:
-      - alias: Check if there are low batteries
-        if:
-        - condition: template
-          value_template: '{{ sensor_names.length > 0 }}'
-          enabled: true
-          alias: There are more that 0 sensors
-        then:
-        - service: script.announcement
-          metadata: {}
-          data:
-            service: notify.denys
-            speak: false
-            notify: true
-            notify_data: {}
-            title: "Батарейки \U0001FAAB"
-            messages:
-            - '{{ sensors_names }}'
-            openings:
-            - 'Низький заряд батарейки: '
-            - 'Пристрої розряджаються: '
-            - 'Потрібно замінити батарейки у: '
-          alias: Send notification to Denys
-      include_custom_actions: enable_custom_actions
-      battery_level: 10
-- id: '1718745814577'
-  alias: 'Media: Plex Disk Optimization'
-  description: Optimise disk operations by enabling Turtle mode on Transmission when
-    someone is watching Plex.
+        - light.corridor_ceiling_light
+      action: light.turn_off
+  mode: restart
+- id: '1725572095202'
+  alias: 'Mode: Away Flow'
+  description: Toggle Away mode depending on the Away input boolean
   trigger:
   - platform: state
     entity_id:
-    - sensor.plex
-  condition: []
+    - input_boolean.away
+  action:
+  - data: {}
+    action: script.away_mode
+- id: '1725572619161'
+  alias: 'Mode: Away on Leaving City'
+  description: Toggle Away mode depending on proximity to the Kyiv city
+  trigger:
+  - alias: Everyone leaves Kyiv
+    platform: numeric_state
+    entity_id:
+    - sensor.home_nearest_distance
+    above: 20000
+  - alias: Everyone arrives to Kyiv
+    platform: numeric_state
+    entity_id:
+    - sensor.home_nearest_distance
+    below: 20000
+    variables:
+      service: input_boolean.turn_off
+    enabled: true
+  - platform: state
+    entity_id:
+    - binary_sensor.someone_in_kyiv
   action:
   - if:
-    - condition: numeric_state
-      entity_id: sensor.plex
-      above: 0
-      alias: When someone is watching
+    - condition: state
+      entity_id: binary_sensor.someone_in_kyiv
+      state: 'off'
     then:
-    - service: switch.turn_on
+    - action: input_boolean.turn_on
       metadata: {}
       data: {}
       target:
-        entity_id: switch.transmission_turtle_mode
+        entity_id: input_boolean.away
     else:
-    - delay:
-        hours: 0
-        minutes: 1
-        seconds: 0
-        milliseconds: 0
-    - service: switch.turn_off
-      metadata: {}
-      data: {}
+    - action: input_boolean.turn_off
       target:
-        entity_id: switch.transmission_turtle_mode
-  mode: restart
-- id: '1720730698977'
-  alias: 'Alert: No Electricity Soon'
-  description: Notify 30 minutes in advance before the electricity turns off
+        entity_id:
+        - input_boolean.away
+      data: {}
+    alias: Toggle Away depending on the location
+- id: '1725913248228'
+  alias: 'Light: Turn off Bathroom lights'
+  description: When no one is in Bathroom, but the lights are still on, then turn
+    them off.
   trigger:
-  - platform: template
-    value_template: '{{ now() >= states(''sensor.yasno_grupa_5_next_outage'') | as_datetime
-      - timedelta(minutes=30) }}'
-    alias: 30 minutes before outage
+  - platform: state
+    entity_id:
+    - binary_sensor.bathroom_presence_sensor
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
   condition: []
   action:
-  - service: script.announcement
+  - action: light.turn_off
     metadata: {}
-    data:
-      speak: true
-      notify: true
-      notify_data:
-        url: /localave/electricity
-        group: electricity
-      messages:
-      - Планове відключення світла за 30 хвилин.
-      - За 30 хвилин відключення світла.
-      - Через півгодини вимкнуть світло.
-      - Відключення світла за півгодини.
-      title: Електрика ⚡️
-      service: notify.all
-      speaker: media_player.living_room_homepod
-  mode: single
-- id: '1720793735241'
-  alias: 'Alert: Electricity will turn on soon'
-  description: Notify 1 hours in advance before the electricity turns on
+    data: {}
+    target:
+      area_id: bathroom
+  mode: restart
+- id: '1726141054126'
+  alias: 'System: Turn off fridge when EcoFlow is below 50%'
+  description: Turn off fridge when EcoFlow is discharged below 50%, but there still
+    no electricity. Save electricity additional ~100Wh.
   trigger:
-  - alias: 60 minutes before outage
-    platform: template
-    value_template: '{{ now() >= states(''sensor.yasno_grupa_5_next_connectivity'')
-      | as_datetime - timedelta(minutes=60) }}'
+  - platform: numeric_state
+    entity_id:
+    - sensor.ecoflow_battery_level
+    below: 50
   condition:
   - condition: state
     entity_id: binary_sensor.electricity
     state: 'off'
   action:
-  - service: script.announcement
+  - action: switch.turn_off
     metadata: {}
-    data:
-      speak: true
-      notify: true
-      notify_data:
-        url: /localave/electricity
-        group: electricity
-      messages:
-      - Світло гарантовано увімкнуть за годину.
-      - Одна година до увімкнення світла за графіком.
-      - За графіком через годину увімкнуть світло.
-      - Планове увімкнення світла за годину.
-      title: Електрика ⚡️
-      service: notify.all
-      speaker: media_player.living_room_homepod
+    data: {}
+    target:
+      device_id: c40eb21b457d3fc821a483d20533441f
   mode: single
-- id: '1721218137430'
-  alias: 'Alert: Electricity Outage at Fayna Town'
-  description: Notify everyone when there is no electricity at Fayna Town.
+- id: '1726147504626'
+  alias: 'Presence: Someone is Arriving'
+  description: 'Adjust home when someone arrives home:
+
+
+    * Close curtains when it''s dark
+
+    * Greet people with unique phrase played on speakers'
+  triggers:
+  - entity_id:
+    - binary_sensor.someone_is_home
+    from: 'off'
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.home_occupancy
+    state: 'off'
+  actions:
+  - alias: Wait for someone to come
+    wait_for_trigger:
+    - entity_id:
+      - binary_sensor.front_door_contact
+      to: 'on'
+      trigger: state
+    - entity_id:
+      - binary_sensor.home_occupancy
+      to: 'on'
+      trigger: state
+    timeout:
+      hours: 4
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    continue_on_timeout: false
+  - alias: Close curtains and turn on lights when it's dark outside
+    if:
+    - condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: state
+        entity_id: binary_sensor.daylight
+        state: 'off'
+    then:
+    - action: cover.close_cover
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - cover.bedroom_curtains
+        - cover.living_room_window_curtain
+    - action: input_boolean.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.evening_lights
+  - alias: Turn on speakers
+    action: media_player.turn_on
+    data: {}
+    target:
+      device_id:
+      - 6992c3d568dc2d433100ff4a402b3957
+      - 990d2be68f28b3d933ab770a87d05f6e
+  - wait_for_trigger:
+    - entity_id:
+      - binary_sensor.living_room_presence_sensor
+      to: 'on'
+      trigger: state
+    timeout:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+    alias: Wait for someone to enter Living Room
+  - action: script.greeting
+    metadata: {}
+    data: {}
+  mode: restart
+- id: '1726148008458'
+  alias: 'Light: Presence Simulation in Away Mode'
+  description: Toggle Presence Simulation during Night in Away Mode
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.away
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - alias: Only when Sun is below the horizon
+        condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      sequence:
+      - alias: Start Presence Simulation
+        data: {}
+        action: presence_simulation.start
+    default:
+    - alias: Stop Presence Simulation
+      data: {}
+      action: presence_simulation.stop
+    alias: Toggle presence simulation
+- id: '1726157089320'
+  alias: 'Light: Turn on Bathroom Lightstrip'
+  description: Turn on Bathroom Lightstrip when someone walk in.
+  triggers:
+  - entity_id:
+    - binary_sensor.bathroom_presence_sensor
+    to: 'on'
+    trigger: state
+  conditions: []
+  actions:
+  - alias: Turn on Bathroom Lightstrip
+    if:
+    - condition: numeric_state
+      entity_id: sensor.living_room_presence_sensor_light_sensor_light_level
+      below: 5
+      enabled: true
+    - condition: time
+      after: 02:00:00
+      before: 08:00:00
+      enabled: true
+    then:
+    - action: light.turn_on
+      metadata: {}
+      data:
+        brightness_pct: 1
+      target:
+        entity_id: light.bathroom_lightstrip
+      alias: Turn on dimmed Bathroom Lightstrip
+    else:
+    - action: light.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: light.bathroom_lightstrip
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - alias: Adjust Bathroom Lightstrip brightness in the morning
+    if:
+    - condition: time
+      after: 09:00:00
+      before: '17:00:00'
+    - condition: numeric_state
+      entity_id: sensor.living_room_presence_sensor_light_sensor_light_level
+      above: 5
+    - condition: numeric_state
+      entity_id: light.bathroom_lightstrip
+      attribute: brightness
+      below: 5
+    then:
+    - action: light.turn_on
+      metadata: {}
+      data:
+        brightness_pct: 100
+        transition: 2
+      target:
+        entity_id: light.bathroom_lightstrip
+  mode: restart
+- id: '1726835581399'
+  alias: 'Light: Turn on Bathroom Ceiling Light'
+  description: When it's bright in the living room, turn on Bathroom Ceiling Light
+    to match brightness in Living Room.
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.fayna_electricity
-    from: 'off'
+    - binary_sensor.bathroom_presence_sensor
     to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.living_room_presence_sensor_light_sensor_light_level
+    above: 300
+  - condition: time
+    after: '10:00:00'
+  - condition: state
+    entity_id: cover.living_room_window_curtain
+    state: open
+  action:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.bathroom_ceiling_light
+  mode: single
+- id: '1727129720344'
+  alias: 'System: Fetch reports from Ukrenergo'
+  description: Parse data from [Ukrenergo](https://t.me/s/Ukrenergo) chanel with AI.
+    Send notification about electricity outages updates. Update variables for other
+    automations.
+  trigger:
   - platform: state
     entity_id:
-    - binary_sensor.fayna_electricity
-    from: 'on'
-    to: 'off'
+    - sensor.ukrenergo_telegram
+    attribute: latest_message
+  - platform: time
+    at: 00:00:00
   condition: []
   action:
+  - action: conversation.process
+    metadata: {}
+    data:
+      agent_id: conversation.ai_ukrenergo_parser
+      text: '{{ state_attr(''sensor.ukrenergo_telegram'', ''latest_message'') }}
+
+
+        {{ states(''sensor.ukrenergo_telegram'') }}
+
+        '
+    response_variable: parsing_result
   - variables:
-      next_connectivity: '{{ states(''sensor.yasno_grupa_4_next_connectivity'') |
-        as_timestamp | timestamp_custom(''%H:%M'') }}'
-      next_outage: '{{ states(''sensor.yasno_grupa_4_next_outage'') | as_timestamp
-        | timestamp_custom(''%H:%M'') }}'
-      next_possible_outage: '{{ states(''sensor.yasno_grupa_4_next_possible_outage'')
-        | as_timestamp | timestamp_custom(''%H:%M'') }}'
+      raw_json: '{{ parsing_result.response.speech.plain.speech }}'
+      response: '{{ raw_json | from_json }}'
+      date: '{{ response.date }}'
+      start_datetime: '{{ response.start_datetime }}'
+      end_datetime: '{{ response.end_datetime }}'
+      summary: '{{ response.summary }}'
+  - action: script.announcement
+    metadata: {}
+    data:
+      speak: false
+      notify: true
+      notify_data:
+        url: /localave/reserve-power
+        group: electricity
+      title: Електрика ⚡️
+      messages:
+      - '{{ summary }}'
+  - if:
+    - condition: template
+      value_template: '{{ now().strftime(''%Y-%m-%d'') == date }}'
+      alias: The report is related for today
+    then:
+    - action: input_text.set_value
+      data:
+        value: '{{ raw_json }}'
+      target:
+        entity_id: input_text.ukrenergo_response_json
+    - action: input_datetime.set_datetime
+      metadata: {}
+      data:
+        datetime: '{{ iif(start_datetime is not none, start_datetime, ''1970-01-01T00:00:00'')
+          }}'
+      target:
+        entity_id: input_datetime.electricity_outages_start
+    - action: input_datetime.set_datetime
+      metadata: {}
+      data:
+        datetime: '{{ iif(end_datetime is not none, end_datetime, ''1970-01-01T00:00:00'')
+          }}'
+      target:
+        entity_id: input_datetime.electricity_outages_end
+    alias: Update variables only for a new day
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1727199828259'
+  alias: 'Mode: Adjust Lights and Curtains in the evening'
+  description: When it's getting dark, or sun sets, or indoor illuminance is too low,
+    then activate Evening Lights and close curtains
+  triggers:
+  - event: sunset
+    offset: 0
+    trigger: sun
+  - entity_id:
+    - binary_sensor.daylight
+    to: 'off'
+    from: 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    trigger: state
+  - entity_id:
+    - sensor.indoor_illuminance
+    below: 10
+    trigger: numeric_state
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  - condition: time
+    after: '15:00:00'
+    before: '22:00:00'
+  - condition: state
+    entity_id: light.living_room_lights
+    state: 'off'
+  actions:
+  - action: script.announcement
+    metadata: {}
+    data:
+      speak: true
+      notify: false
+      messages:
+      - Доречно увімкнути світло.
+      - Увімкну для вас світло.
+      - Краще увімкнути світло.
+      - Не будемо псувати очі.
+      - Вмикаю для вас світло.
+      - Вмикаємо світло.
+      - Вмикаю світло.
+      - Час увімкнути світло.
+      openings:
+      - Здається вдома надто темно.
+      - Вдома занадто темно.
+      - Стемніло.
+      - Сонце сховалось.
+      - Надто темно.
+      - Вдома стало темно.
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.evening_lights
+  - action: cover.close_cover
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+      - living_room
+      - bedroom
+  mode: single
+- id: '1727807795305'
+  alias: 'Mode: Evening Lights Activation'
+  description: The activation flow for a Evening Lights mode. Enables turns on corresponding
+    lights and motion-activated lights.
+  triggers:
+  - entity_id:
+    - input_boolean.evening_lights
+    to: 'on'
+    from: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - action: script.scene_evening_lights
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1727808761281'
+  alias: 'Mode: Night Lights Activation'
+  description: The activation flow for a Evening Lights mode. Enables turns on corresponding
+    lights and motion-activated lights.
+  triggers:
+  - entity_id:
+    - input_boolean.night_lights
+    to: 'on'
+    from: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - action: script.scene_night_lights
+    data: {}
+  mode: single
+- id: '1727808982967'
+  alias: 'Light: Motion-activated lights in Cabinet'
+  description: Turn on Lights in Cabinet based on presence and current activated light
+    mode.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.cabinet_motion_occupancy
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.cabinet_lights
+    state: 'off'
+  action:
+  - alias: Turn on corresponding scene
+    choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.evening_lights
+        state: 'on'
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.cabinet_evening_lights
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.night_lights
+        state: 'on'
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.cabinet_night_lights
+  mode: restart
+- id: '1727885771977'
+  alias: 'Light: Turn off Cabinet lights'
+  description: Turn off lights in Cabinet when motion sensor doesn't detect any motion
+    for long period of time.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.cabinet_motion_occupancy
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: light.cabinet_lights
+    state: 'on'
+  action:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: cabinet
+  mode: single
+- id: '1727892217873'
+  alias: 'Light: Motion-activated lights in Bedroom'
+  description: Turn on Lights in Bedroom based on presence and current activated light
+    mode.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_motion_occupancy
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.bedroom_lights
+    state: 'off'
+  action:
+  - alias: Turn on corresponding scene
+    choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.evening_lights
+        state: 'on'
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.bedroom_evening_lights
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.night_lights
+        state: 'on'
+      sequence:
+      - action: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.bedroom_night_lights
+  mode: restart
+- id: '1727892433296'
+  alias: 'Light: Turn off Bedroom lights'
+  description: Turn off lights in Bedroom when motion sensor doesn't detect any motion
+    for long period of time.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_motion_occupancy
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: light.bedroom_lights
+    state: 'on'
+  action:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
+  mode: single
+- id: '1727894955130'
+  alias: 'Light: Suggest activating Night Lights'
+  description: At the deep evening, send a notification suggesting to activate Night
+    Lights mode.
+  triggers:
+  - at: '22:00:00'
+    trigger: time
+  - entity_id:
+    - input_boolean.evening_lights
+    to: 'on'
+    for:
+      hours: 6
+      minutes: 0
+      seconds: 0
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.night_lights
+    state: 'off'
+  actions:
+  - variables:
+      turn_on_night_lights: '{{ ''TURN_ON_NIGHT_LIGHTS'' ~ context.id }}'
+    alias: Define action for notification
+  - action: script.announcement
+    metadata: {}
+    data:
+      speak: false
+      notify: true
+      title: "Нічне світло \U0001F303"
+      openings:
+      - Вже пізно.
+      - Час заспокоїтись.
+      - Час відпочинку.
+      messages:
+      - Натисніть, щоб увімкнути нічне світло.
+      - Натисніть, щоб активувати нічне світло.
+      - Час увімкнути нічне світло.ʼ
+      - Пора перевести дім у режим нічного світла.
+      notify_data:
+        actions:
+        - action: '{{ turn_on_night_lights }}'
+          title: Нічне світло
+        url: /lovelace/living_room
+        tag: night-ligts
+  - wait_for_trigger:
+    - event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ turn_on_night_lights }}'
+      alias: Turn on Night Lights action
+      trigger: event
+    timeout:
+      hours: 5
+    continue_on_timeout: false
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.night_lights
+  - action: notify.notify
+    data:
+      message: clear_notification
+      data:
+        tag: night-lights
+    alias: Clear notification
+  mode: single
+- id: '1727895491320'
+  alias: 'WIP: Open Living Room Curtains in the morning.'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.living_room_presence_sensor_sofa
+    - binary_sensor.living_room_presence_sensor_table
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: cover.living_room_window_curtain
+    state: closed
+  - condition: time
+    after: '10:00:00'
+    before: '14:00:00'
+  - condition: state
+    entity_id: binary_sensor.do_not_disturb_family
+    state: 'off'
+  action:
+  - action: script.announcement
+    metadata: {}
+    data:
+      speak: false
+      notify: true
+      notify_data:
+        url: lovelace/home
+      title: 'Тест: Відкриваємо штори у вітальні'
+      messages:
+      - Імітуємо, що ми відриваємо штори у вітальні.
+      custom_service: notify.denys
+  mode: single
+- id: '1728768672105'
+  alias: 'Curtains: Stop opening Bedroom Curtains when we don''t want to'
+  description: Sometimes we want to prevent Bedroom Curtains from opening. Just close
+    them when they are opening.
+  triggers:
+  - trigger: state
+    entity_id:
+    - cover.bedroom_curtains
+    to: closed
+  conditions:
+  - condition: state
+    entity_id: script.slowly_close_curtains
+    state: 'on'
+  actions:
+  - action: script.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.slowly_close_curtains
+  mode: single
+- id: '1728769275919'
+  alias: 'Mode: Sleeping Lights Activation'
+  description: The activation flow for a Sleeping Lights mode. Enables turns on corresponding
+    lights.
+  triggers:
+  - entity_id:
+    - input_boolean.sleeping_lights
+    to: 'on'
+    from: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - action: script.scene_sleeping_lights
+    data: {}
+  mode: single
+- id: '1728920342998'
+  alias: 'Climate: Toggle Bathroom and Laundry fans when we sleep'
+  description: Turn off Bathroom and Laundry fans when we sleep and turn them on in
+    the morning.
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.sleep_time
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  actions:
   - if:
     - condition: state
-      entity_id: binary_sensor.fayna_electricity
+      entity_id: binary_sensor.sleep_time
       state: 'on'
     then:
-    - alias: Notify electricity if on
-      service: script.announcement
+    - action: homeassistant.turn_off
       metadata: {}
-      data:
-        service: notify.all
-        speak: false
-        notify: true
-        title: Електрика (Файна Таун) ⚡️
-        notify_data:
-          url: /localave/electricity
-          group: electricity
-        openings:
-        - На Файні зʼявилось світло.
-        - На Файні зʼявилась електрика.
-        - На Файні знову є світло.
-        - Файна зі світлом.
-        - На Файні увімкнули електрику.
-        messages:
-        - Вимкнення світла за планом о {{ next_outage }}.
-        - Наступне вимкнення о {{ next_outage }}.
-        - Відключення о {{ next_outage }}.
-        - О {{ next_outage }} наступне відключення.
+      data: {}
+      target:
+        entity_id:
+        - climate.laundry_cooler
+        - humidifier.bathroom_dehumidifier
+        - humidifier.laundry_dehumidifier
     else:
-    - alias: Notify electricity is off
-      service: script.announcement
-      metadata: {}
-      data:
-        service: notify.all
-        speak: false
-        notify: true
-        title: Електрика (Файна Таун) ⚡️
-        notify_data:
-          url: /localave/electricity
-          group: electricity
-        openings:
-        - Відключення електроенергії на Файні.
-        - На Файні зникло світло.
-        - На Файні немає електрики.
-        - Відключення електроенергії на Файні.
-        - На Файні вимкнули світло.
-        - На Файні вимкнули електрику.
-        messages:
-        - Сіра зона о {{ next_possible_outage }}. Увімкрення о {{ next_connectivity
-          }}.
-        - Можливе увімкнення о {{ next_possible_outage }}. Гарантовано о {{ next_connectivity
-          }}.
+    - action: homeassistant.turn_on
+      target:
+        entity_id:
+        - climate.laundry_cooler
+        - humidifier.bathroom_dehumidifier
+        - humidifier.laundry_dehumidifier
+      data: {}
+  mode: single
+- id: '1729097322604'
+  alias: 'Mode: Turn off light modes when all lights turn off'
+  description: Turn off all light modes when all lights are off in the night, meaning
+    we are set to sleep.
+  triggers:
+  - trigger: state
+    entity_id:
+    - light.all_lights
+    from: 'on'
+    to: 'off'
+  - trigger: state
+    entity_id:
+    - script.scene_light_out
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: time
+    after: 00:00:00
+    before: 06:00:00
+  - condition: state
+    entity_id: binary_sensor.someone_is_home
+    state: 'on'
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.evening_lights
+      - input_boolean.night_lights
+      - input_boolean.sleeping_lights
   mode: single

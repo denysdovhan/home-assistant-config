@@ -8,6 +8,10 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+# Loading frontend themes
+frontend:
+  themes: !include_dir_merge_named ../themes
+
 # Load Home Assistant integrations as packages
 homeassistant:
   # Load customizations
@@ -15,3 +19,8 @@ homeassistant:
   customize: !include customize.yaml
   # Load packages
   packages: !include_dir_named integrations
+
+# Root-level staff
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

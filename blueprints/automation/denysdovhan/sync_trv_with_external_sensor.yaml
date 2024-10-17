@@ -58,4 +58,4 @@ action:
   - service: mqtt.publish
     data_template:
       topic: 'zigbee2mqtt/{{ device_addr }}/set/local_temperature_calibration'
-      payload_template: '{{ external_temp - (current_temp - local_calibration) }}'
+      payload: '{{ external_temp - (current_temp - local_calibration) }}'

@@ -1,0 +1,224 @@
+blueprint:
+  name: Announcement
+  author: denysdovhan
+  description: >
+    This is a generic announcement with randomly generated phrases.
+  domain: script
+  input:
+    default_tts:
+      name: TTS Service
+      description: Target TTS service to generate announcement audio
+      selector:
+        entity: 
+          domain: tts
+    default_tts_options:
+      name: TTS Options
+      description: Options provided to TTS service
+      default: {}
+      selector:
+        object:
+    default_notifier:
+      name: Notifier
+      description: Specify who should be notified
+      selector:
+        select:
+          custom_value: true
+          options:
+            - notify.notify
+    default_speaker:
+      name: Speaker
+      description: Target speaker to play an announcement
+      selector:
+        entity:
+          multiple: true
+          domain: media_player
+    notifier_conditions:
+      name: Notifier conditions
+      description: Conditions to be checked before sending a notification
+      selector:
+        condition:
+      default: []
+    speaker_conditions:
+      name: Speaker conditions
+      description: Conditions to be checked before playing an announcement
+      selector:
+        condition:
+      default: []
+    force_to_speak_conditions:
+      name: Force to speak conditions
+      description: Conditions to be checked before forcing the announcement to speak
+      selector:
+        condition:
+      default: []
+
+fields:
+  title:
+    name: Title
+    description: A title for a push-notification
+    selector:
+      text:
+  messages:
+    name: Messages
+    description: One of these messages will be randomly picked for an announcement
+    selector:
+      object:
+  openings:
+    name: Opening messages
+    description: One of these greetings will be randomly picked for an announcement and prefixed to a randomly picked message
+    selector:
+      object:
+  speak:
+    name: Speak
+    description: Play announcement on the specified speakers (true by default)
+    default: true
+    selector:
+      boolean:
+  notify:
+    name: Send notification
+    description: Send notification to specified devices (true by default)
+    default: true
+    selector:
+      boolean:
+  notify_data:
+    name: Notification data
+    description: Optionally pass additional data for a notification
+    default:
+      url: lovelace/home
+    selector:
+      object:
+  force_to_speak:
+    name: Force to speak
+    description: Bypass all conditions and force speaking on speakers (false by default)
+    default: false
+    selector:
+      boolean:
+  custom_tts:
+    name: TTS Service
+    description: Override TTS service to generate announcement audio
+    selector:
+      entity: 
+        domain: tts
+  custom_tts_options:
+      name: TTS Options
+      description: Options provided to TTS service
+      selector:
+        object: 
+  custom_service:
+    name: Custom Notifier
+    description: Override notifier to send a notification
+    selector:
+      select:
+        custom_value: true
+        options:
+          - notify.notify
+  custom_speaker:
+    name: Custom Speaker
+    description: Override speaker to play the announcement
+    selector:
+      entity:
+        multiple: true
+        domain: media_player
+
+variables:
+  default_tts: !input default_tts
+  default_tts_options: !input default_tts_options
+  tts: >
+    {% if custom_tts | default("") %}
+      {{ custom_tts }}
+    {% elif default_tts | default("") %}
+      {{ default_tts }}
+    {% else %}
+      unknown: No TTS entity provided.
+    {% endif %}
+  tts_options: >
+    {% if custom_tts_options | default("") %}
+      {{ custom_tts_options }}
+    {% elif default_tts_options | default("") %}
+      {{ default_tts_options }}
+    {% else %}
+      {}
+    {% endif %}
+  default_notifier: !input default_notifier
+  notifier: >
+    {% if custom_service | default("") %}
+      {{ custom_service }}
+    {% elif default_notifier | default("") %}
+      {{ default_notifier }}
+    {% else %}
+      notify.notify
+    {% endif %}
+  default_speaker: !input default_speaker
+  speaker: >
+    {% if custom_speaker | default("") %}
+      {{ custom_speaker }}
+    {% elif default_speaker | default("") %}
+      {{ default_speaker }}
+    {% else %}
+      unknown: No speaker entity provided.
+    {% endif %}
+  notifier_conditions: !input notifier_conditions
+  speaker_conditions: !input speaker_conditions
+  force_to_speak_conditions: !input force_to_speak_conditions
+  openings: []
+  message: >
+    {% if openings and messages %}
+      {{ (openings | random) ~ ' ' ~ (messages | random) }}
+    {% else %}
+      {{ (messages | random) }}
+    {% endif %}
+  speak: true
+  notify: true
+  force_to_speak: false
+  notify_data:
+    url: /lovelace/home
+
+sequence:
+  - alias: Play announcement on speakers
+    choose:
+      - alias: Enforced audio announcement
+        conditions:
+          - condition: template
+            value_template: "{{ speak is true }}"
+          - condition: template
+            value_template: "{{ force_to_speak is true }}"
+          - condition: and
+            conditions: !input force_to_speak_conditions
+        sequence:
+          - action: tts.speak
+            target:
+              entity_id: '{{ tts }}'
+            data:
+              media_player_entity_id: '{{ speaker }}'
+              message: '{{ message }}'
+              options: '{{ tts_options }}'
+      - alias: Announcement on speakers
+        conditions:
+          - condition: template
+            value_template: "{{ speak is true }}"
+          - condition: and
+            conditions: !input speaker_conditions
+        sequence:
+          - action: tts.speak
+            target:
+              entity_id: '{{ tts }}'
+            data:
+              media_player_entity_id: '{{ speaker }}'
+              message: '{{ message }}'
+              options: '{{ tts_options }}'
+  - alias: Send a notification
+    choose:
+      - alias: Send notification without notifier conditions
+        conditions:
+          - condition: template
+            value_template: "{{ notify is true }}"
+          - condition: and
+            conditions: !input notifier_conditions
+        sequence:
+          - action: '{{ notifier }}'
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+              data: '{{ notify_data }}'
+
+mode: parallel
+icon: mdi:bell-badge

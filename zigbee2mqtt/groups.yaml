@@ -1,8 +1,21 @@
 '1':
-  friendly_name: Living Room Main Light
-  optimistic: true
+  friendly_name: Zigbee Lights
   devices:
-    - 0x00158d0002d3c856/1
-    - 0x00158d000450cca4/1
-    - 0x00158d00045ec07b/1
-    - 0x00158d0002d71dab/1
+    - 0xa4c138bf7e2efe1e/1
+    - 0xa4c1383e55cae873/1
+    - 0xa4c13836f55b2851/1
+    - 0xa4c1385d4cff2ca5/1
+    - 0xa4c1380c1cccf2ab/1
+    - 0xa4c1388c0d4b8ab8/1
+    - 0xa4c138259d310fe8/1
+    - 0xa4c13821f42b36d6/1
+    - 0xa4c138d6374ca1c8/1
+    - 0xa4c138d0942b87b6/1
+    - 0xa4c138cfc77e0333/1
+    - 0xa4c13805f8d2f64d/1
+    - 0xa4c13869af12e91a/1
+    - 0xa4c138c7dcd52cbf/1
+    - 0xa4c1380ddf60c1d3/1
+    - 0xa4c138f2ab61229c/1
+    - 0xa4c138d601e68de1/1
+    - 0xa4c13844d021d6dc/1

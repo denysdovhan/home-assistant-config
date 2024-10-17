@@ -1,25 +1,20 @@
+#
+# Logger
+#
+# https://www.home-assistant.io/integrations/notify/
+#
+
 notify:
-  - platform: html5
-    name: web
-    vapid_pub_key: !secret html5_notify_pub_key
-    vapid_prv_key: !secret html5_notify_prv_key
-    vapid_email: !secret html5_notify_email
   # Groups
   - name: denys
     platform: group
     services:
       - service: mobile_app_denyss_iphone
-      - service: mobile_app_denyss_ipad
-      - service: mobile_app_wix_macbook_pro
-  - name: marry
+      # - service: mobile_app_denyss_ipad
+      - service: mobile_app_ua_jg9hyqw3q0
+  - name: maria
     platform: group
     services:
       - service: mobile_app_iphone_maria
-      - service: mobile_app_home_macbook_pro
-      - service: mobile_app_marry_macbook_pro
-  - name: all
-    platform: group
-    services:
-      - service: web
-      - service: denys
-      - service: marry
+      # - service: mobile_app_home_macbook_pro
+      # - service: mobile_app_marry_macbook_pro

@@ -14,6 +14,21 @@ CUSTOM_COMPONENTS = "custom_components"
 MANIFEST = "manifest.json"
 URL = "https://github.com/denysdovhan/home-assistant-config/blob/{commit_hash}/{fname}"
 
+GROUPS_EMOJIS = {
+    "Alarm": "🚨",
+    "Alert": "🔔",
+    "Climate": "🌡️",
+    "Curtains": "🌆",
+    "Energy": "⚡️",
+    "Presence": "🔘",
+    "Light": "💡",
+    "Media": "🎵",
+    "Mode": "🚦",
+    "System": "🖥️",
+    "Vacuum": "🧹",
+    "Water": "💦",
+}
+
 def git_latest_edit_hash(filename):
     """Get the git hash to save with data to ensure reproducibility."""
     git_output = subprocess.check_output(
@@ -28,20 +43,7 @@ def to_file(lines):
   return "".join(lines)
 
 def get_emoji(group):
-  emojis = {
-      "Alarm": "🚨",
-      "Alert": "🔔",
-      "Climate": "🌡️",
-      "Energy": "⚡️",
-      "Presence": "🔘",
-      "Light": "💡",
-      "Media": "🎵",
-      "Mode": "🚦",
-      "System": "🖥️",
-      "Vacuum": "🧹",
-      "Water": "💦",
-  }
-  return emojis.get(group, "⚙️")
+  return GROUPS_EMOJIS.get(group, "⚙️")
 
 def read_file(fname):
   with open(fname) as file:
