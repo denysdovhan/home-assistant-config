@@ -73,7 +73,7 @@ Total number of automations: **63**️
 - [Calibrate Cabinet Right TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1575) – Calibrate TRV temperature with external sensor.
 - [Calibrate Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1548) – Calibrate TRV temperature with external sensor.
 - [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
-- [Toggle Bathroom and Laundry fans when we sleep](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2535) – Turn off Bathroom and Laundry fans when we sleep and turn them on in the morning.
+- [Toggle Bathroom and Laundry dehumidifiers when we asleep](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2535) – Turn off Bathroom and Laundry dehumidifiers when we sleep and turn them on in the morning.
 - [Turn on fan when someone is on the toilet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1051) – When someone sits in the toilet, then turn on the fan. Turn off fan when person leaves.
 - [Turn on heaters during heating season](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L556) – Turn on/off heaters when weather is getting cold/warm
 
@@ -112,7 +112,7 @@ Total number of automations: **63**️
 - [Low Power Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L474) – Minimise electricity consumption during the outage, when on reserve power supply.
 - [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2265) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 - [Sleeping Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2520) – The activation flow for a Sleeping Lights mode. Enables turns on corresponding lights.
-- [Turn off light modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2570) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
+- [Turn off light modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2567) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
 
 ### 🔘 Presence
 
