@@ -40,7 +40,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔔 Alert](#-alert) (9 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [🌆 Curtains](#-curtains) (3 automation)
-1. [💡 Light](#-light) (11 automation)
+1. [💡 Light](#-light) (12 automation)
 1. [🎵 Media](#-media) (2 automation)
 1. [🚦 Mode](#-mode) (9 automation)
 1. [🔘 Presence](#-presence) (2 automation)
@@ -48,7 +48,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🧹 Vacuum](#-vacuum) (8 automation)
 1. [⚙️ WIP](#-wip) (1 automation)
 
-Total number of automations: **63**️
+Total number of automations: **64**️
 
 ### 🔔 Alert
 
@@ -85,6 +85,7 @@ Total number of automations: **63**️
 - [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2280) – Turn on Lights in Cabinet based on presence and current activated light mode.
 - [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1994) – Toggle Presence Simulation during Night in Away Mode
 - [Suggest activating Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2400) – At the deep evening, send a notification suggesting to activate Night Lights mode.
+- [Toggle virtual Master Switch when Master Light Button is pressed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2599) – Toggle state of Master Switch input boolean when the Master Light button is pressed
 - [Turn off Bathroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1874) – When no one is in Bathroom, but the lights are still on, then turn them off.
 - [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2376) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2316) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
