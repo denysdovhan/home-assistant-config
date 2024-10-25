@@ -89,7 +89,7 @@ Total number of automations: **63**️
 - [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2271) – Turn on Lights in Cabinet based on presence and current activated light mode.
 - [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1986) – Toggle Presence Simulation during Night in Away Mode
 - [Suggest activating Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2396) – At the deep evening, send a notification suggesting to activate Night Lights mode.
-- [Toggle virtual Master Switch when Master Light Button is pressed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2589) – Toggle state of Master Switch input boolean when the Master Light button is pressed
+- [Toggle virtual Master Switch when Master Light Button is pressed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2598) – Toggle state of Master Switch input boolean when the Master Light button is pressed
 - [Turn off Bathroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1855) – When no one is in Bathroom, but the lights are still on, then turn them off.
 - [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2372) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2312) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
@@ -113,7 +113,7 @@ Total number of automations: **63**️
 - [Low Power Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L474) – Minimise electricity consumption during the outage, when on reserve power supply.
 - [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2256) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 - [Sleeping Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2516) – The activation flow for a Sleeping Lights mode. Enables turns on corresponding lights.
-- [Turn off modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2563) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
+- [Turn off modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2572) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
 
 ### 🔘 Presence
 
