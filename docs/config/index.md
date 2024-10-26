@@ -40,11 +40,11 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔔 Alert](#-alert) (9 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [🌆 Curtains](#-curtains) (3 automation)
-1. [💡 Light](#-light) (12 automation)
+1. [💡 Light](#-light) (11 automation)
 1. [🎵 Media](#-media) (2 automation)
 1. [🚦 Mode](#-mode) (9 automation)
 1. [🔘 Presence](#-presence) (2 automation)
-1. [🖥️ System](#-system) (10 automation)
+1. [🖥️ System](#-system) (11 automation)
 1. [🧹 Vacuum](#-vacuum) (7 automation)
 1. [⚙️ WIP](#-wip) (1 automation)
 
@@ -69,26 +69,25 @@ Total number of automations: **63**️
 - [Calibrate Cabinet Right TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1556) – Calibrate TRV temperature with external sensor.
 - [Calibrate Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1529) – Calibrate TRV temperature with external sensor.
 - [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
-- [Toggle Bathroom and Laundry dehumidifiers when we asleep](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2531) – Turn off Bathroom and Laundry dehumidifiers when we sleep and turn them on in the morning.
+- [Toggle dehumidifiers when we sleep](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2534) – Turn off Bathroom and Laundry dehumidifiers when we sleep and turn them on in the morning.
 - [Turn on fan when someone is on the toilet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1051) – When someone sits in the toilet, then turn on the fan. Turn off fan when person leaves.
 - [Turn on heaters during heating season](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L556) – Turn on/off heaters when weather is getting cold/warm
 
 ### 🌆 Curtains
 
-- [Open Curtains in the morning](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L378) – Slowly open Bedroom Curtains. Open all curtains when we get up.
+- [Open Bedroom Curtains in the morning](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L378) – Slowly open Bedroom Curtains.
 - [Stop opening Bedroom Curtains when we don't want to](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#LNone) – Sometimes we want to prevent Bedroom Curtains from opening. Just close them when they are opening.
 - [Tighten Curtains hooks](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1565) – Sometimes hooks on curtains are getting loose. This automation unlock and locks hooks on curtain robots
 
 ### 💡 Light
 
-- [Motion-activated lights in Bedroom](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2336) – Turn on Lights in Bedroom based on presence and current activated light mode.
-- [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2271) – Turn on Lights in Cabinet based on presence and current activated light mode.
+- [Motion-activated lights in Bedroom](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2339) – Turn on Lights in Bedroom based on presence and current activated light mode.
+- [Motion-activated lights in Cabinet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2274) – Turn on Lights in Cabinet based on presence and current activated light mode.
 - [Presence Simulation in Away Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1986) – Toggle Presence Simulation during Night in Away Mode
-- [Suggest activating Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2396) – At the deep evening, send a notification suggesting to activate Night Lights mode.
-- [Toggle virtual Master Switch when Master Light Button is pressed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2598) – Toggle state of Master Switch input boolean when the Master Light button is pressed
+- [Suggest activating Night Lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2399) – At the deep evening, send a notification suggesting to activate Night Lights mode.
 - [Turn off Bathroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1855) – When no one is in Bathroom, but the lights are still on, then turn them off.
-- [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2372) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
-- [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2312) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
+- [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2375) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
+- [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2315) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1729) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
 - [Turn on Bathroom Ceiling Light](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2076) – When it's bright in the living room, turn on Bathroom Ceiling Light to match brightness in Living Room.
 - [Turn on Bathroom Lightstrip](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2016) – Turn on Bathroom Lightstrip when someone walk in.
@@ -101,15 +100,15 @@ Total number of automations: **63**️
 
 ### 🚦 Mode
 
-- [Adjust Lights and Curtains in the evening](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2175) – When it's getting dark, or sun sets, or indoor illuminance is too low, then activate Evening Lights and close curtains
+- [Adjust Lights and Curtains in the evening](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2178) – When it's getting dark, or sun sets, or indoor illuminance is too low, then activate Evening Lights and close curtains
 - [Away Flow](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1807) – Toggle Away mode depending on the Away input boolean
 - [Away on Leaving City](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1817) – Toggle Away mode depending on proximity to the Kyiv city
 - [Do Not Disturb on Focus](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1512) – Switch Do Not Disturb while camera, mic or focus are on
-- [Evening Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2241) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
+- [Evening Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2244) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
 - [Low Power Mode](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L474) – Minimise electricity consumption during the outage, when on reserve power supply.
-- [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2256) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
-- [Sleeping Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2516) – The activation flow for a Sleeping Lights mode. Enables turns on corresponding lights.
-- [Turn off modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2572) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
+- [Night Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2259) – The activation flow for a Evening Lights mode. Enables turns on corresponding lights and motion-activated lights.
+- [Sleeping Lights Activation](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2519) – The activation flow for a Sleeping Lights mode. Enables turns on corresponding lights.
+- [Turn off modes when all lights turn off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2571) – Turn off all light modes when all lights are off in the night, meaning we are set to sleep.
 
 ### 🔘 Presence
 
@@ -129,6 +128,7 @@ Total number of automations: **63**️
 - [Notify when Media disk is full](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L948) – Notify when Media drive is 95% full for some time.
 - [Notify when System disk is full](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L851) – Send a notification when system disk is 90% full.
 - [Run chores in config folder](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L976) – Run scripts for generating README, commiting regular updated, etc
+- [Toggle virtual Master Switch when Master Light Button is pressed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2597) – Toggle state of Master Switch input boolean when the Master Light button is pressed
 - [Turn off fridge when EcoFlow is below 50%](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1876) – Turn off fridge when EcoFlow is discharged below 50%, but there still no electricity. Save electricity additional ~100Wh.
 - [Wake up Wall Tablet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1) – When someone walks the corridor, wake up the wall mounted tablet
 
@@ -144,7 +144,7 @@ Total number of automations: **63**️
 
 ### ⚙️ WIP
 
-- [Open Living Room Curtains in the morning.](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2464)
+- [Open Living Room Curtains in the morning.](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2467)
 <!-- end-automations -->
 
 ## Addons
