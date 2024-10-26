@@ -6,7 +6,6 @@ Here is a list of all custom components I use:
 
 <!-- start-custom-components -->
 
-- [Better Thermostat](https://github.com/KartoffelToby/better_thermostat) `v1.6.0`
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
 - [Chime TTS](https://nimroddolev.github.io/chime_tts) `vv1.1.5`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
@@ -20,6 +19,7 @@ Here is a list of all custom components I use:
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.1`
+- [WebRTC Camera](https://github.com/AlexxIT/WebRTC) `vv3.6.0`
 - [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.6`
 <!-- end-custom-components -->
 
