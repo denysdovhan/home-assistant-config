@@ -46,8 +46,9 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔘 Presence](#-presence) (2 automation)
 1. [🖥️ System](#-system) (10 automation)
 1. [🧹 Vacuum](#-vacuum) (7 automation)
+1. [💦 Water](#-water) (1 automation)
 
-Total number of automations: **63**️
+Total number of automations: **64**️
 
 ### 🔔 Alert
 
@@ -141,6 +142,10 @@ Total number of automations: **63**️
 - [Notify when finished cleaning](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L995) – Notify when vacuum finished cleaning and we are not home.
 - [Replacements Alert](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1260) – Notify when vacuum parts need to be replaced
 - [iOS Actions](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1182) – Handle iOS actions for vacuum cleaner
+
+### 💦 Water
+
+- [Close Water Valve when leak is detected](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2575) – When water leak is detected, close the Water Valve and make a critical announcement.
 <!-- end-automations -->
 
 ## Addons
