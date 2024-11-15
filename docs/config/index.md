@@ -40,7 +40,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔔 Alert](#-alert) (10 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [🌆 Curtains](#-curtains) (3 automation)
-1. [💡 Light](#-light) (12 automation)
+1. [💡 Light](#-light) (13 automation)
 1. [🎵 Media](#-media) (2 automation)
 1. [🚦 Mode](#-mode) (10 automation)
 1. [🔘 Presence](#-presence) (2 automation)
@@ -48,7 +48,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🧹 Vacuum](#-vacuum) (7 automation)
 1. [💦 Water](#-water) (1 automation)
 
-Total number of automations: **66**️
+Total number of automations: **67**️
 
 ### 🔔 Alert
 
@@ -90,6 +90,7 @@ Total number of automations: **66**️
 - [Turn off Bedroom lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2266) – Turn off lights in Bedroom when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Cabinet lights](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2206) – Turn off lights in Cabinet when motion sensor doesn't detect any motion for long period of time.
 - [Turn off Corridor Light When Door is Closed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1698) – Turn off Corridor Light when Front Door closes. If the light is still on, then send a notification with an action to turn off the light.
+- [Turn off Laundry light when door is closed](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2686) – Turn off Laundry light when Laundry Door is closed and the light is still on. Useful when the light was turned on manually, when door was opened.
 - [Turn on Bathroom Ceiling Light](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2035) – When it's bright in the living room, turn on Bathroom Ceiling Light to match brightness in Living Room.
 - [Turn on Bathroom Lightstrip](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1975) – Turn on Bathroom Lightstrip when someone walk in.
 - [Turn on Corridor Light when Door is open](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1669) – Turn on Corridor Light when Front Door opens and then turn it off after a few minutes
