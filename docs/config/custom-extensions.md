@@ -42,11 +42,11 @@ Here's a list of extensions developed by other developers.
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v2.0.1`
 - [Hik-Connect](https://github.com/tomasbedrich/home-assistant-hikconnect) `v2.4.0`
-- [Home Connect Alt](https://github.com/ekutner/home-connect-hass) `v1.1.9`
+- [Home Connect Alt](https://github.com/ekutner/home-connect-hass) `v1.1.10`
 - [Inverse 👻](https://spook.boo) `v3.1.0`
 - [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
-- [Powercalc](https://docs.powercalc.nl) `vv1.15.4`
+- [Powercalc](https://docs.powercalc.nl) `vv1.15.5`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.1`
