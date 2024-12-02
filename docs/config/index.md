@@ -40,7 +40,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔔 Alert](#-alert) (10 automation)
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [🌆 Curtains](#-curtains) (3 automation)
-1. [💡 Light](#-light) (13 automation)
+1. [💡 Light](#-light) (14 automation)
 1. [🎵 Media](#-media) (2 automation)
 1. [🚦 Mode](#-mode) (10 automation)
 1. [🔘 Presence](#-presence) (2 automation)
@@ -48,7 +48,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🧹 Vacuum](#-vacuum) (7 automation)
 1. [💦 Water](#-water) (1 automation)
 
-Total number of automations: **67**️
+Total number of automations: **68**️
 
 ### 🔔 Alert
 
@@ -94,6 +94,7 @@ Total number of automations: **67**️
 - [Turn on Bathroom Ceiling Light](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2032) – When it's bright in the living room, turn on Bathroom Ceiling Light to match brightness in Living Room.
 - [Turn on Bathroom Lightstrip](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1972) – Turn on Bathroom Lightstrip when someone walk in.
 - [Turn on Corridor Light when Door is open](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1666) – Turn on Corridor Light when Front Door opens and then turn it off after a few minutes
+- [Turn on Front Door Lamp when Electricity is off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2700) – Front Door Lamp is a good guiding light in the dark. This automation turns on this lamp when Electricity is off and turns it off, when Electricity is on.
 - [Turn on Laundry Light](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2472) – Turn on lights in Laundry when door is opened. Wait for door to close and turn off the light.
 
 ### 🎵 Media
