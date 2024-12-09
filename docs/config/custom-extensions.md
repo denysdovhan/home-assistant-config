@@ -46,7 +46,7 @@ Here's a list of extensions developed by other developers.
 - [Inverse 👻](https://spook.boo) `v3.1.0`
 - [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
-- [Powercalc](https://docs.powercalc.nl) `vv1.16.2`
+- [Powercalc](https://docs.powercalc.nl) `vv1.16.4`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.1`
