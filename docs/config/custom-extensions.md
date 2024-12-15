@@ -38,7 +38,6 @@ Here's a list of extensions developed by other developers.
 <!-- start-custom-components -->
 
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
-- [Chime TTS](https://nimroddolev.github.io/chime_tts) `vv1.1.5`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
 - [HACS](https://hacs.xyz/docs/configuration/start) `v2.0.1`
 - [Hik-Connect](https://github.com/tomasbedrich/home-assistant-hikconnect) `v2.4.0`
