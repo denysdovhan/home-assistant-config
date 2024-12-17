@@ -17,7 +17,7 @@ Here is a list of all custom components I use:
 - [Powercalc](https://docs.powercalc.nl) `vv1.16.5`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
 - [Spook](https://spook.boo) `v3.1.0`
-- [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.1`
+- [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.2`
 - [WebRTC Camera](https://github.com/AlexxIT/WebRTC) `vv3.6.0`
 - [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.6`
 <!-- end-custom-components -->
