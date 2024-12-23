@@ -50,9 +50,9 @@ My home is awakened by these automations. The list is automatically and regularl
 1. [🔘 Presence](#-presence) (2 automation)
 1. [🖥️ System](#-system) (11 automation)
 1. [🧹 Vacuum](#-vacuum) (7 automation)
-1. [💦 Water](#-water) (1 automation)
+1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **68**️
+Total number of automations: **69**️
 
 ### 🔔 Alert
 
@@ -151,6 +151,7 @@ Total number of automations: **68**️
 ### 💦 Water
 
 - [Close Water Valve when leak is detected](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2514) – When water leak is detected, close the Water Valve and make a critical announcement.
+- [Keep Water Boiler on](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2740) – Turn on boiler when it's off, when it should be on
 <!-- end-automations -->
 
 ## Custom Components
@@ -167,7 +168,7 @@ Here is a list of all custom components I use:
 - [Inverse 👻](https://spook.boo) `v3.1.0`
 - [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
-- [Powercalc](https://docs.powercalc.nl) `vv1.16.5`
+- [Powercalc](https://docs.powercalc.nl) `vv1.16.7`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.2`
