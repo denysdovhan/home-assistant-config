@@ -46,9 +46,9 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🔘 Presence](#-presence) (2 automation)
 1. [🖥️ System](#-system) (11 automation)
 1. [🧹 Vacuum](#-vacuum) (7 automation)
-1. [💦 Water](#-water) (1 automation)
+1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **68**️
+Total number of automations: **69**️
 
 ### 🔔 Alert
 
@@ -147,6 +147,7 @@ Total number of automations: **68**️
 ### 💦 Water
 
 - [Close Water Valve when leak is detected](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2514) – When water leak is detected, close the Water Valve and make a critical announcement.
+- [Keep Water Boiler on](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2740) – Turn on boiler when it's off, when it should be on
 <!-- end-automations -->
 
 ## Addons
