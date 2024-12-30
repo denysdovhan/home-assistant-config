@@ -41,14 +41,14 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🌡️ Climate](#-climate) (8 automation)
 1. [🌆 Curtains](#-curtains) (3 automation)
 1. [💡 Light](#-light) (14 automation)
-1. [🎵 Media](#-media) (2 automation)
+1. [🎵 Media](#-media) (3 automation)
 1. [🚦 Mode](#-mode) (10 automation)
 1. [🔘 Presence](#-presence) (2 automation)
 1. [🖥️ System](#-system) (11 automation)
 1. [🧹 Vacuum](#-vacuum) (7 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **69**️
+Total number of automations: **70**️
 
 ### 🔔 Alert
 
@@ -99,6 +99,7 @@ Total number of automations: **69**️
 
 ### 🎵 Media
 
+- [Enable Transmission Turtle Mode when some watches Plex](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2767) – Limit download speed, when someone watches Plex to avoid HDD saturation and playback interruptions.
 - [Turn off Samsung TV when PlayStation turns off](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L789) – Turn off Samsung TV when PS5 goes to sleep mode
 - [Turn on Apple TV when Samsung TV turns on](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L813) – Turn on Apple TV when Samsung TV turns on and PS5 is off
 
