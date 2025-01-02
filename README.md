@@ -171,7 +171,7 @@ Here is a list of all custom components I use:
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
 - [Places](https://github.com/custom-components/places) `vv2.7.1`
 - [Powercalc](https://docs.powercalc.nl) `vv1.16.7`
-- [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.10`
+- [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.11`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.2`
 - [WebRTC Camera](https://github.com/AlexxIT/WebRTC) `vv3.6.0`
