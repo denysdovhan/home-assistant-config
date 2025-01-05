@@ -39,7 +39,7 @@ Here's a list of extensions developed by other developers.
 
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
-- [HACS](https://hacs.xyz/docs/configuration/start) `v2.0.1`
+- [HACS](https://hacs.xyz/docs/use/) `v2.0.2`
 - [Hik-Connect](https://github.com/tomasbedrich/home-assistant-hikconnect) `v2.4.0`
 - [Home Connect Alt](https://github.com/ekutner/home-connect-hass) `v1.1.12`
 - [Inverse 👻](https://spook.boo) `v3.1.0`
