@@ -171,7 +171,7 @@ Here is a list of all custom components I use:
 - [Inverse 👻](https://spook.boo) `v3.1.0`
 - [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
-- [Places](https://github.com/custom-components/places) `vv2.8.2`
+- [Places](https://github.com/custom-components/places) `vv2.8.3`
 - [Powercalc](https://docs.powercalc.nl) `vv1.17.6`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.12`
 - [Spook](https://spook.boo) `v3.1.0`
