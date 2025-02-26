@@ -37,7 +37,7 @@ Here's a list of extensions developed by other developers.
 
 <!-- start-custom-components -->
 
-- [Battery Notes](https://andrew-codechimp.github.io/HA-Battery-Notes/) `v2.8.3`
+- [Battery Notes](https://andrew-codechimp.github.io/HA-Battery-Notes/) `v2.9.2`
 - [Check Weather](https://github.com/denysdovhan/ha-check-weather) `v1.3.0`
 - [Ecoflow-Cloud](https://github.com/tolwi/hassio-ecoflow-cloud) `v1.2.0`
 - [HACS](https://hacs.xyz/docs/use/) `v2.0.5`
@@ -47,7 +47,7 @@ Here's a list of extensions developed by other developers.
 - [LUN Misto Air](https://github.com/denysdovhan/ha-lun-misto-air) `v0.2.1`
 - [Multiscrape](https://github.com/danieldotnl/ha-multiscrape) `v8.0.2`
 - [Places](https://github.com/custom-components/places) `vv2.8.3`
-- [Powercalc](https://docs.powercalc.nl) `vv1.17.7`
+- [Powercalc](https://docs.powercalc.nl) `vv1.17.8`
 - [Presence Simulation](https://github.com/slashback100/presence_simulation) `v4.12`
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.9`
