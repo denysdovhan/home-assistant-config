@@ -52,6 +52,6 @@ Here's a list of extensions developed by other developers.
 - [Spook](https://spook.boo) `v3.1.0`
 - [Vento Eco Vent v 2.0](https://www.home-assistant.io/integrations/ecovent_v2) `v1.0.9`
 - [WebRTC Camera](https://github.com/AlexxIT/WebRTC) `vv3.6.0`
-- [Xiaomi Home](https://github.com/XiaoMi/ha_xiaomi_home/blob/main/README.md) `vv0.1.4`
+- [Xiaomi Home](https://github.com/XiaoMi/ha_xiaomi_home/blob/main/README.md) `vv0.2.0`
 - [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) `v0.3.6`
 <!-- end-custom-components -->
