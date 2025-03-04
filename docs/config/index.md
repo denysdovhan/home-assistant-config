@@ -38,7 +38,7 @@ Here you can discover all of the automations powering my home. The list is autom
 <!-- start-automations -->
 
 1. [🔔 Alert](#-alert) (10 automation)
-1. [🌡️ Climate](#-climate) (8 automation)
+1. [🌡️ Climate](#-climate) (9 automation)
 1. [🌆 Curtains](#-curtains) (2 automation)
 1. [💡 Light](#-light) (16 automation)
 1. [🎵 Media](#-media) (3 automation)
@@ -48,7 +48,7 @@ Here you can discover all of the automations powering my home. The list is autom
 1. [🧹 Vacuum](#-vacuum) (7 automation)
 1. [💦 Water](#-water) (2 automation)
 
-Total number of automations: **74**️
+Total number of automations: **75**️
 
 ### 🔔 Alert
 
@@ -71,7 +71,8 @@ Total number of automations: **74**️
 - [Calibrate Living Room TRV temperature](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L1368) – Calibrate TRV temperature with external sensor.
 - [Suggest turning on AC when it's hot](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#LNone) – When temperature raises over certain level, send an actionable notification for turning on ACs
 - [Turn off fans at night](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2107) – Bathroom and Laundry fans are noisy, so we turn them off at night and turn them on in the morning.
-- [Turn on fan when someone is on the toilet](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L955) – When someone sits in the toilet, then turn on the fan. Turn off fan when person leaves.
+- [Turn on Bathroom Fan when showering](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L2794) – When someone is in the shower, turn on the fan. Keep it on as long as the shower is occupied.
+- [Turn on Bathroom Fan when toilet is occupied](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L955) – When someone sits in the toilet, then turn on the fan. Keep it on while it's occupied
 - [Turn on heaters during heating season](https://github.com/denysdovhan/home-assistant-config/blob/9ff2a365ae41e27ddb5c0d6074cc071df4f6adf8/automations.yaml#L479) – Turn on/off heaters when weather is getting cold/warm
 
 ### 🌆 Curtains
