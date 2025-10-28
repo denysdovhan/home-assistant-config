@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['stable', 'beta', 'dev']
+        version: ['stable', 'beta']
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
