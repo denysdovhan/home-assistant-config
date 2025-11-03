@@ -29,9 +29,9 @@ jobs:
           git clone https://github.com/danieldotnl/ha-multiscrape.git
           mv -v ha-multiscrape/custom_components/* custom_components
 
-      - run: >
+      - run: |
           pwd
-          ls
+          ls -la
 
       - name: Home Assistant Check
         uses: frenck/action-home-assistant@v1
