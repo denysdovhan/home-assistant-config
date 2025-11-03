@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['stable', 'beta']
+        version: [stable, beta]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -24,15 +24,14 @@ jobs:
           git clone https://github.com/bramstroker/homeassistant-powercalc.git
           mv -v homeassistant-powercalc/custom_components/* custom_components
 
-      - name: 📥 Clone custom component - Car Wash
+      - name: 📥 Clone custom component - Multiscrape
         run: |
-          git clone https://github.com/Limych/ha-car_wash.git
-          mv -v ha-car_wash/custom_components/* custom_components
+          git clone https://github.com/danieldotnl/ha-multiscrape.git
+          mv -v ha-multiscrape/custom_components/* custom_components
 
-      - name: 📥 Clone custom component - Snowtire
-        run: |
-          git clone https://github.com/Limych/ha-snowtire.git
-          mv -v ha-snowtire/custom_components/* custom_components
+      - run: >
+          pwd
+          ls
 
       - name: Home Assistant Check
         uses: frenck/action-home-assistant@v1
